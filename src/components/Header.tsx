@@ -38,6 +38,12 @@ export const Header = () => {
               Colecciones
             </button>
             <button
+              onClick={() => scrollToSection('galeria')}
+              className="text-foreground hover:text-primary transition-colors duration-300"
+            >
+              Galería
+            </button>
+            <button
               onClick={() => scrollToSection('proceso')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
@@ -94,6 +100,12 @@ export const Header = () => {
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
                 Colecciones
+              </button>
+              <button
+                onClick={() => scrollToSection('galeria')}
+                className="text-left text-foreground hover:text-primary transition-colors duration-300"
+              >
+                Galería
               </button>
               <button
                 onClick={() => scrollToSection('proceso')}

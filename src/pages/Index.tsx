@@ -1,5 +1,6 @@
 import { HeroSection } from '@/components/HeroSection';
 import { ProductsSection } from '@/components/ProductsSection';
+import { GallerySection } from '@/components/GallerySection';
 import { ProcessSection } from '@/components/ProcessSection';
 import { AboutSection } from '@/components/AboutSection';
 import { TestimonialsSection } from '@/components/TestimonialsSection';
@@ -12,6 +13,7 @@ const Index = () => {
     <main className="pt-20"> {/* Account for fixed header */}
       <HeroSection />
       <ProductsSection />
+      <GallerySection />
       <ProcessSection />
       <AboutSection />
       <TestimonialsSection />
