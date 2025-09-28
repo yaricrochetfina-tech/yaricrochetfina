@@ -17,7 +17,7 @@ import giletMandalaConMangas from '@/assets/gilet-mandala-con-mangas.png';
 import giletMandalaVerdeCitron from '@/assets/gilet-mandala-verde-citron.png';
 import giletGrannyCafe from '@/assets/gilet-granny-franjas-cafe.png';
 import giletMandalaRosa from '@/assets/gilet-mandala-rosa.png';
-import giletMandalaVerdeCitronB from '@/assets/gilet-mandala-verde-citron-b.png';
+import giletMulticolorEspecial from '@/assets/gilet-multicolor-especial.png';
 import giletGrannyNegroB from '@/assets/gilet-granny-franjas-negro-b.png';
 
 export const products: Product[] = [
@@ -223,13 +223,13 @@ export const products: Product[] = [
   },
   {
     id: '19',
-    name: 'Gilet Mandala Verde Citron Especial',
-    price: 45.00,
-    style: 'Boho Chic',
+    name: 'Gilet Multicolor Especial',
+    price: 35.00,
+    style: 'Hippie',
     category: 'Gilets',
-    image: giletMandalaVerdeCitronB,
-    description: 'Versión especial del gilet verde citron con detalles únicos. Cada pieza es una obra de arte tejida a mano.',
-    materials: ['Hilo premium verde', 'Detalles dorados'],
+    image: giletMulticolorEspecial,
+    description: 'Vibrante gilet multicolor con texturas florales en azul, naranja, amarillo y rosa. Diseño único que combina múltiples colores en perfecta armonía.',
+    materials: ['Hilos multicolores', 'Fibras texturizadas'],
     inStock: true,
   },
   {
