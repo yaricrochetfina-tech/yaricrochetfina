@@ -3,6 +3,7 @@ export interface Product {
   name: string;
   price: number;
   style: ProductStyle;
+  category: ProductCategory;
   image: string;
   description: string;
   materials: string[];
@@ -10,6 +11,8 @@ export interface Product {
 }
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';
+
+export type ProductCategory = 'Blusas' | 'Gilets';
 
 export interface CartItem {
   product: Product;
