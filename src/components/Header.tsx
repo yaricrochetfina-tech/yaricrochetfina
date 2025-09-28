@@ -2,6 +2,7 @@ import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
+import logoYariCrochetFina from '@/assets/logo-yari-crochet-fina.png';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,11 +21,15 @@ export const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
-            <div className="w-12 h-12 rounded-full bg-gradient-warm flex items-center justify-center">
-              <span className="text-2xl">🌸</span>
+            <div className="w-12 h-12 rounded-full overflow-hidden bg-background border-2 border-primary/20">
+              <img 
+                src={logoYariCrochetFina} 
+                alt="Yari Crochet Fina Logo" 
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <h1 className="font-playfair text-2xl font-bold text-foreground">YariCrochetFina</h1>
+              <h1 className="font-playfair text-2xl font-bold text-foreground">Yari Crochet Fina</h1>
               <p className="text-xs text-muted-foreground font-medium">La moda audaz en Crochet</p>
             </div>
           </div>

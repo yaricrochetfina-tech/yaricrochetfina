@@ -19,6 +19,15 @@ import giletGrannyCafe from '@/assets/gilet-granny-franjas-cafe.png';
 import giletMandalaRosa from '@/assets/gilet-mandala-rosa.png';
 import giletMulticolorEspecial from '@/assets/gilet-multicolor-especial.png';
 import giletGrannyNegroB from '@/assets/gilet-granny-franjas-negro-b.png';
+import chalecoBrilloDorado from '@/assets/chaleco-brillo-dorado.jpg';
+import chalecoBrilloDoradoNegro from '@/assets/chaleco-brillo-dorado-negro.jpg';
+import chalecoCortoVintage from '@/assets/chaleco-corto-vintage.jpg';
+import chalecoVintageRosa from '@/assets/chaleco-vintage-rosa.jpg';
+import chalecoVintageFlecos from '@/assets/chaleco-vintage-flecos.jpg';
+import chalecoBrilloNegro from '@/assets/chaleco-brillo-negro.jpg';
+import chalecoGrannyVintage from '@/assets/chaleco-granny-vintage.jpg';
+import chalecoBoho from '@/assets/chaleco-boho.jpg';
+import chalecoVintageMulticolor from '@/assets/chaleco-vintage-multicolor.jpg';
 
 export const products: Product[] = [
   // Blusas
@@ -241,6 +250,106 @@ export const products: Product[] = [
     image: giletGrannyNegroB,
     description: 'Elegante gilet negro con patrón granny sofisticado. Perfecto para looks urbanos con toque artesanal.',
     materials: ['Hilo negro premium', 'Fibras de alta calidad'],
+    inStock: true,
+  },
+  // Chalecos
+  {
+    id: '21',
+    name: 'Chaleco de Brillo Dorado',
+    price: 35.00,
+    style: 'Boho Chic',
+    category: 'Chalecos',
+    image: chalecoBrilloDorado,
+    description: 'Elegante chaleco largo con hilos brillantes dorados. Textura suave y esponjosa perfecta para looks sofisticados.',
+    materials: ['Hilo dorado brillante', 'Fibras sintéticas suaves'],
+    inStock: true,
+  },
+  {
+    id: '22',
+    name: 'Chaleco de Brillo con Borde Negro',
+    price: 35.00,
+    style: 'Vintage',
+    category: 'Chalecos',
+    image: chalecoBrilloDoradoNegro,
+    description: 'Chaleco largo de textura esponjosa con elegantes bordes negros. Combina sofisticación con comodidad.',
+    materials: ['Hilo texturizado', 'Bordes de hilo negro'],
+    inStock: true,
+  },
+  {
+    id: '23',
+    name: 'Chaleco Corto Vintage Azul',
+    price: 30.00,
+    style: 'Vintage',
+    category: 'Chalecos',
+    image: chalecoCortoVintage,
+    description: 'Chaleco corto azul con detalles florales multicolores. Diseño clásico con cordón de ajuste frontal.',
+    materials: ['Hilo azul turquesa', 'Detalles multicolores'],
+    inStock: true,
+  },
+  {
+    id: '24',
+    name: 'Chaleco Vintage Rosa',
+    price: 30.00,
+    style: 'Shabby Chic',
+    category: 'Chalecos',
+    image: chalecoVintageRosa,
+    description: 'Hermoso chaleco en tonos rosa y morado con técnica granny square. Diseño romántico y versátil.',
+    materials: ['Hilos en tonos rosa', 'Técnica granny square'],
+    inStock: true,
+  },
+  {
+    id: '25',
+    name: 'Chaleco Vintage con Flecos',
+    price: 30.00,
+    style: 'Traditional',
+    category: 'Chalecos',
+    image: chalecoVintageFlecos,
+    description: 'Chaleco tradicional con motivos granny square y flecos decorativos. Colores vibrantes en diseño atemporal.',
+    materials: ['Hilos multicolores', 'Flecos artesanales'],
+    inStock: true,
+  },
+  {
+    id: '26',
+    name: 'Chaleco de Brillo Negro',
+    price: 35.00,
+    style: 'Vintage',
+    category: 'Chalecos',
+    image: chalecoBrilloNegro,
+    description: 'Elegante chaleco negro con textura brillante y esponjosa. Perfecto para looks sofisticados y modernos.',
+    materials: ['Hilo negro brillante', 'Fibras texturizadas'],
+    inStock: true,
+  },
+  {
+    id: '27',
+    name: 'Chaleco Granny Vintage Floral',
+    price: 30.00,
+    style: 'Shabby Chic',
+    category: 'Chalecos',
+    image: chalecoGrannyVintage,
+    description: 'Chaleco sin mangas con hermosos motivos florales en técnica granny. Base blanca con detalles coloridos.',
+    materials: ['Hilo blanco base', 'Detalles florales multicolores'],
+    inStock: true,
+  },
+  {
+    id: '28',
+    name: 'Chaleco Boho Mandala',
+    price: 35.00,
+    style: 'Boho Chic',
+    category: 'Chalecos',
+    image: chalecoBoho,
+    description: 'Chaleco bohemio con círculos mandala coloridos sobre base negra. Diseño único con cordón de ajuste.',
+    materials: ['Base negra calada', 'Mandalas multicolores'],
+    inStock: true,
+  },
+  {
+    id: '29',
+    name: 'Chaleco Vintage Multicolor',
+    price: 45.00,
+    style: 'Hippie',
+    category: 'Chalecos',
+    image: chalecoVintageMulticolor,
+    description: 'Espectacular chaleco largo con mangas y diseños geométricos multicolores. Pieza única de arte textil.',
+    materials: ['Hilos multicolores premium', 'Técnica geométrica'],
     inStock: true,
   },
 ];

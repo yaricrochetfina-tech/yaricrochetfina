@@ -12,7 +12,7 @@ export interface Product {
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';
 
-export type ProductCategory = 'Blusas' | 'Gilets';
+export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos';
 
 export interface CartItem {
   product: Product;

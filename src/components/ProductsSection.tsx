@@ -5,7 +5,7 @@ import { products } from '@/data/mockData';
 import { Product, ProductStyle, ProductCategory } from '@/types';
 
 const styles: ProductStyle[] = ['Boho Chic', 'Hippie', 'Vintage', 'Shabby Chic', 'Traditional'];
-const categories: ProductCategory[] = ['Blusas', 'Gilets'];
+const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos'];
 
 export const ProductsSection = () => {
   const [selectedStyle, setSelectedStyle] = useState<ProductStyle | 'all'>('all');
@@ -24,7 +24,7 @@ export const ProductsSection = () => {
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-section-title">Nuestras Colecciones</h2>
           <p className="text-warm text-lg max-w-2xl mx-auto">
-            Explora nuestras diferentes colecciones de blusas y gilets, cada una con su propio carácter y estilo único. 
+            Explora nuestras diferentes colecciones de blusas, gilets y chalecos, cada una con su propio carácter y estilo único. 
             Desde el boho chic hasta los diseños tradicionales.
           </p>
         </div>
