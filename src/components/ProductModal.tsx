@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
+import { OptimizedImage } from './ImageOptimization';
 
 interface ProductModalProps {
   product: Product;
@@ -51,10 +52,11 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
         <div className="grid md:grid-cols-2 gap-8">
           {/* Product Image */}
           <div className="relative">
-            <img
+            <OptimizedImage
               src={product.image}
               alt={product.name}
-              className="w-full h-96 object-cover rounded-lg"
+              thumbnailClassName="w-full h-96 object-cover rounded-lg"
+              enableFullView={true}
             />
             <Badge 
               className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}

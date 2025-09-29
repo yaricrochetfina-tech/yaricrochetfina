@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Eye } from 'lucide-react';
 import { useState } from 'react';
+import { OptimizedImage } from './ImageOptimization';
 
 interface ProductCardProps {
   product: Product;
@@ -39,10 +40,11 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
     <div className="card-product group">
       {/* Image */}
       <div className="relative overflow-hidden h-64 bg-muted">
-        <img
+        <OptimizedImage
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          thumbnailClassName="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          enableFullView={true}
         />
         
         {/* Style badge */}
