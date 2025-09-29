@@ -32,8 +32,8 @@ export const HeroSection = () => {
 
           {/* Mission statement */}
           <p className="text-xl md:text-2xl text-warm mb-8 max-w-3xl mx-auto leading-relaxed">
-            Dedicada a revivir las técnicas ancestrales, ofrecemos una gama de productos con estilos étnicos y retro, 
-            con la misión de valorar el trabajo manual y la compra local.
+            Me dedico a revivir las técnicas ancestrales, creando piezas únicas con estilos étnicos y retro. 
+            Mi misión es valorar el trabajo manual y promover la compra local desde Montreal.
           </p>
 
           {/* Call to action buttons */}
@@ -48,7 +48,7 @@ export const HeroSection = () => {
               onClick={() => scrollToSection('sobre-yaritza')}
               className="btn-outline-warm text-lg px-8 py-4"
             >
-              Conoce a Yaritza
+              Conoce mi Historia
             </Button>
           </div>
 

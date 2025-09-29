@@ -5,10 +5,10 @@ export const ProcessSection = () => {
     <section id="proceso" className="py-20 bg-texture-warm">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-section-title">Nuestro Proceso Artesanal</h2>
+          <h2 className="text-section-title">Mi Proceso Artesanal</h2>
           <p className="text-warm text-lg max-w-3xl mx-auto">
-            Cada pieza de YariCrochetFina es el resultado de un proceso cuidadoso que honra las tradiciones 
-            ancestrales del tejido, combinando técnicas milenarias con creatividad contemporánea.
+            Cada pieza que creo es el resultado de un proceso cuidadoso que honra las tradiciones 
+            ancestrales del tejido, combinando técnicas milenarias con mi creatividad contemporánea.
           </p>
         </div>
 
@@ -58,9 +58,9 @@ export const ProcessSection = () => {
               Garantía de Calidad Artesanal
             </h3>
             <p className="text-warm text-lg leading-relaxed mb-6">
-              Cada pieza pasa por un riguroso control de calidad. Revisamos cada puntada, 
-              cada detalle, asegurándonos de que cada creación refleje la excelencia y 
-              el amor que ponemos en nuestro trabajo.
+              Cada pieza pasa por mi riguroso control de calidad. Reviso cada puntada, 
+              cada detalle, asegurándome de que cada creación refleje la excelencia y 
+              el amor que pongo en mi trabajo.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
               <div>

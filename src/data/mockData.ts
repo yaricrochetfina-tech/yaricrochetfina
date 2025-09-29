@@ -382,19 +382,19 @@ export const artisanProcess: ArtisanProcess[] = [
   {
     step: 1,
     title: 'Selección de Materiales',
-    description: 'Elegimos cuidadosamente fibras naturales y hilos de la más alta calidad para cada creación.',
+    description: 'Elijo cuidadosamente fibras naturales e hilos de la más alta calidad para cada una de mis creaciones.',
     icon: '🧶',
   },
   {
     step: 2,
     title: 'Técnicas Ancestrales',
-    description: 'Aplicamos métodos tradicionales de crochet y tricot transmitidos de generación en generación.',
+    description: 'Aplico métodos tradicionales de crochet y tricot que me fueron transmitidos de generación en generación.',
     icon: '🧵',
   },
   {
     step: 3,
     title: 'Creación Artística',
-    description: 'Cada pieza es tejida a mano con amor, creatividad y la experiencia de años de dedicación.',
+    description: 'Cada pieza la tejo a mano con amor, creatividad y la experiencia de mis años de dedicación.',
     icon: '🎨',
   },
 ];

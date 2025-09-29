@@ -52,12 +52,12 @@ export const NewsletterSection = () => {
             </div>
             
             <h2 className="text-4xl md:text-5xl font-playfair font-bold text-white mb-4">
-              Mantente Conectada
+              Únete a Mi Comunidad
             </h2>
             
             <p className="text-xl text-white/90 max-w-2xl mx-auto leading-relaxed">
-              Sé la primera en conocer nuestras nuevas colecciones, técnicas exclusivas 
-              y ofertas especiales creadas especialmente para amantes del crochet.
+              Sé la primera en conocer mis nuevas creaciones, técnicas exclusivas 
+              y ofertas especiales. Recibe contenido único directo desde mi taller en Montreal.
             </p>
           </div>
 
@@ -71,14 +71,14 @@ export const NewsletterSection = () => {
             
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
               <div className="text-2xl mb-3">📱</div>
-              <h3 className="font-semibold mb-2">Nuevas Colecciones</h3>
-              <p className="text-sm text-white/80">Sé la primera en ver nuestros diseños únicos</p>
+              <h3 className="font-semibold mb-2">Nuevas Creaciones</h3>
+              <p className="text-sm text-white/80">Sé la primera en ver mis diseños únicos antes que nadie</p>
             </div>
             
             <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
               <div className="text-2xl mb-3">💡</div>
-              <h3 className="font-semibold mb-2">Tips y Tutoriales</h3>
-              <p className="text-sm text-white/80">Aprende técnicas ancestrales de crochet</p>
+              <h3 className="font-semibold mb-2">Secretos del Oficio</h3>
+              <p className="text-sm text-white/80">Aprende mis técnicas ancestrales y trucos personales</p>
             </div>
           </div>
 

@@ -81,7 +81,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
                 className="btn-hero"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
-                {isAdding ? 'Agregando...' : 'Agregar'}
+                {isAdding ? 'Agregando...' : 'Comprar'}
               </Button>
             )}
           </div>
@@ -103,17 +103,17 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
             ${product.price.toFixed(2)}
           </div>
           
-          {product.inStock && (
-            <Button
-              onClick={handleAddToCart}
-              disabled={isAdding}
-              size="sm"
-              className="btn-outline-warm"
-            >
-              <ShoppingCart className="h-4 w-4 mr-1" />
-              {isAdding ? 'Agregando...' : 'Agregar'}
-            </Button>
-          )}
+            {product.inStock && (
+              <Button
+                onClick={handleAddToCart}
+                disabled={isAdding}
+                size="sm"
+                className="btn-outline-warm"
+              >
+                <ShoppingCart className="h-4 w-4 mr-1" />
+                {isAdding ? 'Agregando...' : 'Pieza Única'}
+              </Button>
+            )}
         </div>
 
         {/* Materials */}

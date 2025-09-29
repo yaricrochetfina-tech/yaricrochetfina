@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
+import { ShippingCalculator } from './ShippingCalculator';
 
 interface ProductModalProps {
   product: Product;
@@ -14,15 +15,12 @@ interface ProductModalProps {
 
 export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
   const { addItem } = useCart();
-  const [quantity, setQuantity] = useState(1);
   const [isAdding, setIsAdding] = useState(false);
+  const [shippingCost, setShippingCost] = useState<number>(0);
 
   const handleAddToCart = async () => {
     setIsAdding(true);
-    
-    for (let i = 0; i < quantity; i++) {
-      addItem(product);
-    }
+    addItem(product);
     
     setTimeout(() => {
       setIsAdding(false);
@@ -104,35 +102,34 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
               </div>
             </div>
 
-            {/* Quantity and Add to Cart */}
+            {/* Unique Piece Info and Add to Cart */}
             {product.inStock && (
               <div className="space-y-4">
-                <div>
-                  <label className="font-semibold text-lg mb-2 block">Cantidad</label>
-                  <div className="flex items-center space-x-3">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    >
-                      -
-                    </Button>
-                    <span className="text-xl font-medium w-12 text-center">
-                      {quantity}
-                    </span>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => setQuantity(quantity + 1)}
-                    >
-                      +
-                    </Button>
-                  </div>
+                <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
+                  <h3 className="font-semibold text-lg mb-2 text-primary">✨ Pieza Única e Irrepetible</h3>
+                  <p className="text-warm text-sm leading-relaxed">
+                    Esta pieza es única en su tipo, tejida completamente a mano por mí, Yaritza Salgado Fina. 
+                    Solo está disponible la pieza que se muestra. Una vez vendida, no habrá otra igual.
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-2 italic">
+                    Hecho con amor y técnicas ancestrales en Montreal, Canadá
+                  </p>
                 </div>
+
+                {/* Shipping Calculator */}
+                <ShippingCalculator 
+                  productPrice={product.price} 
+                  onShippingCalculated={setShippingCost}
+                />
 
                 <div className="flex items-center justify-between">
                   <div className="text-lg font-semibold">
-                    Total: ${(product.price * quantity).toFixed(2)}
+                    Total: ${(product.price + shippingCost).toFixed(2)} CAD
+                    {shippingCost > 0 && (
+                      <div className="text-sm text-muted-foreground">
+                        Producto: ${product.price.toFixed(2)} + Envío: ${shippingCost.toFixed(2)}
+                      </div>
+                    )}
                   </div>
                   <Button
                     onClick={handleAddToCart}
@@ -140,7 +137,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                     className="btn-hero"
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />
-                    {isAdding ? 'Agregando...' : 'Agregar al Carrito'}
+                    {isAdding ? 'Agregando...' : 'Comprar Pieza Única'}
                   </Button>
                 </div>
               </div>

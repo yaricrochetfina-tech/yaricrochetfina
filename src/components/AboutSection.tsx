@@ -35,22 +35,22 @@ export const AboutSection = () => {
 
               <div className="space-y-4 text-warm text-lg leading-relaxed">
                 <p>
-                  Desde pequeña, Yaritza encontró en el tejido no solo una pasión, sino una forma de 
+                  Desde pequeña, encontré en el tejido no solo una pasión, sino una forma de 
                   conectar con las tradiciones familiares que pasaron de generación en generación. 
-                  Con más de 15 años de experiencia, ha perfeccionado técnicas ancestrales que 
+                  Con más de 15 años de experiencia, he perfeccionado técnicas ancestrales que 
                   parecían perderse en el tiempo.
                 </p>
 
                 <p>
-                  Su misión va más allá de crear hermosas piezas de crochet y tricot: busca 
+                  Mi misión va más allá de crear hermosas piezas de crochet y tricot: busco 
                   <strong className="text-primary"> revivir el valor del trabajo artesanal</strong> en 
                   una época donde lo hecho a mano se vuelve cada vez más preciado y significativo.
                 </p>
 
                 <p>
-                  Cada creación de YariCrochetFina refleja no solo habilidad técnica, sino también 
-                  <strong className="text-primary"> creatividad, imaginación y dextérité manuelle</strong> - 
-                  esa destreza manual que solo viene con años de dedicación y amor por el oficio.
+                  Cada una de mis creaciones refleja no solo habilidad técnica, sino también 
+                  <strong className="text-primary"> creatividad, imaginación y destreza manual</strong> - 
+                  esa habilidad que solo viene con años de dedicación y amor por mi oficio.
                 </p>
               </div>
 
