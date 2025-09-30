@@ -28,6 +28,16 @@ import chalecoBrilloNegro from '@/assets/chaleco-brillo-negro.jpg';
 import chalecoGrannyVintage from '@/assets/chaleco-granny-vintage.jpg';
 import chalecoBoho from '@/assets/chaleco-boho.jpg';
 import chalecoVintageMulticolor from '@/assets/chaleco-vintage-multicolor.jpg';
+import tunicaCremaFrente from '@/assets/tunica-crema-mangas-frente.png';
+import tunicaCremaEspalda from '@/assets/tunica-crema-mangas-espalda.png';
+import tunicaRosaFrente from '@/assets/tunica-rosa-frente.png';
+import tunicaRosaEspalda from '@/assets/tunica-rosa-espalda.png';
+import tunicaAzulFrente from '@/assets/tunica-azul-cielo-frente.png';
+import tunicaAzulEspalda from '@/assets/tunica-azul-cielo-espalda.png';
+import tunicaPuntaFrente from '@/assets/tunica-punta-negra-roja-frente.png';
+import tunicaPuntaEspalda from '@/assets/tunica-punta-negra-roja-espalda.png';
+import tunicaMandalaFrente from '@/assets/tunica-mandala-multicolor-frente.png';
+import tunicaMandalaEspalda from '@/assets/tunica-mandala-multicolor-espalda.png';
 
 export const products: Product[] = [
   // Blusas
@@ -351,6 +361,67 @@ export const products: Product[] = [
     description: 'Espectacular chaleco largo con mangas y diseños geométricos multicolores. Pieza única de arte textil.',
     materials: ['Hilos multicolores premium', 'Técnica geométrica'],
     inStock: true,
+  },
+  // Túnicas
+  {
+    id: '30',
+    name: 'Túnica Larga Crema con Mangas',
+    price: 50.00,
+    style: 'Boho Chic',
+    category: 'Túnicas',
+    image: tunicaCremaFrente,
+    description: 'Elegante túnica larga tejida a mano en tono crema natural. Presenta un hermoso diseño de red calada con detalles de flores en los bordes y mangas acampanadas. Esta pieza única es perfecta como vestido de playa o sobre un vestido básico. El trabajo artesanal incluye un medallón central en la espalda y terminaciones onduladas en el bajo. Solo disponible la pieza mostrada, hecha a mano por Yaritza Salgado Fina.',
+    materials: ['Hilo de algodón crema', 'Punto calado', 'Flores de crochet'],
+    inStock: true,
+    images: [tunicaCremaFrente, tunicaCremaEspalda],
+  },
+  {
+    id: '31',
+    name: 'Túnica Larga Rosa Delicada',
+    price: 50.00,
+    style: 'Shabby Chic',
+    category: 'Túnicas',
+    image: tunicaRosaFrente,
+    description: 'Romántica túnica larga en suave tono rosa degradado. El diseño calado permite ver delicados patrones de red y flores, con un hermoso medallón circular en la espalda. Las mangas cortas tipo mariposa añaden un toque femenino. Ideal para eventos especiales o como salida de playa elegante. Pieza única e irrepetible, tejida completamente a mano por Yaritza Salgado Fina.',
+    materials: ['Hilo de algodón rosa', 'Punto calado degradado', 'Medallón central'],
+    inStock: true,
+    images: [tunicaRosaFrente, tunicaRosaEspalda],
+  },
+  {
+    id: '32',
+    name: 'Túnica Larga Azul Cielo',
+    price: 50.00,
+    style: 'Boho Chic',
+    category: 'Túnicas',
+    image: tunicaAzulFrente,
+    description: 'Hermosa túnica larga en vibrante azul cielo con diseño de red muy abierta. El medallón superior y la red calada crean un efecto visual impresionante. Las mangas cortas y el bajo con ondas decorativas completan este diseño bohemio. Perfecta para la playa o eventos casuales de verano. Cada pieza es única, disponible solo la mostrada, creada a mano por Yaritza Salgado Fina.',
+    materials: ['Hilo de algodón azul cielo', 'Red calada', 'Medallón superior'],
+    inStock: true,
+    images: [tunicaAzulFrente, tunicaAzulEspalda],
+  },
+  {
+    id: '33',
+    name: 'Túnica de Punta Negra y Roja',
+    price: 50.00,
+    style: 'Hippie',
+    category: 'Túnicas',
+    image: tunicaPuntaFrente,
+    description: 'Impactante túnica asimétrica tipo poncho en negro y rojo. El diseño geométrico en zigzag combina red calada con franjas contrastantes. Los laterales caen en punta creando una silueta dramática y moderna. Las mangas cortas presentan el mismo patrón decorativo. Una pieza de arte textil única, perfecta para destacar en cualquier ocasión. Solo disponible la pieza mostrada, tejida a mano por Yaritza Salgado Fina.',
+    materials: ['Hilo negro y rojo', 'Diseño geométrico', 'Corte asimétrico'],
+    inStock: true,
+    images: [tunicaPuntaFrente, tunicaPuntaEspalda],
+  },
+  {
+    id: '34',
+    name: 'Túnica Mandala Multicolor',
+    price: 70.00,
+    style: 'Hippie',
+    category: 'Túnicas',
+    image: tunicaMandalaFrente,
+    description: 'Extraordinaria túnica sin mangas con diseño de mandala y círculos de colores vibrantes. La espalda presenta un gran mandala circular multicolor, mientras que la parte inferior combina círculos en turquesa con detalles en naranja, rosa, amarillo y verde. La base termina con un patrón en zigzag azul y amarillo. Una verdadera obra de arte textil que requiere horas de trabajo artesanal. Pieza única e irrepetible, completamente tejida a mano por Yaritza Salgado Fina.',
+    materials: ['Hilos multicolores premium', 'Técnica mandala', 'Círculos de crochet', 'Patrón zigzag'],
+    inStock: true,
+    images: [tunicaMandalaFrente, tunicaMandalaEspalda],
   },
 ];
 

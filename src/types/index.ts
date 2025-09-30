@@ -8,11 +8,12 @@ export interface Product {
   description: string;
   materials: string[];
   inStock: boolean;
+  images?: string[];
 }
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';
 
-export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos';
+export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos' | 'Túnicas';
 
 export interface CartItem {
   product: Product;

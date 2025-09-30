@@ -18,6 +18,9 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const { addItem } = useCart();
   const [isAdding, setIsAdding] = useState(false);
   const [shippingCost, setShippingCost] = useState<number>(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  
+  const displayImages = product.images || [product.image];
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -50,26 +53,54 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Product Image */}
-          <div className="relative">
-            <OptimizedImage
-              src={product.image}
-              alt={product.name}
-              thumbnailClassName="w-full h-96 object-cover rounded-lg"
-              enableFullView={true}
-            />
-            <Badge 
-              className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}
-            >
-              {product.style}
-            </Badge>
-            {!product.inStock && (
+          {/* Product Image Gallery */}
+          <div className="space-y-4">
+            <div className="relative">
+              <OptimizedImage
+                src={displayImages[selectedImageIndex]}
+                alt={`${product.name} - Vista ${selectedImageIndex + 1}`}
+                thumbnailClassName="w-full h-96 object-cover rounded-lg"
+                enableFullView={true}
+              />
               <Badge 
-                variant="secondary" 
-                className="absolute top-4 right-4 bg-red-500 text-white"
+                className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}
               >
-                Agotado
+                {product.style}
               </Badge>
+              {!product.inStock && (
+                <Badge 
+                  variant="secondary" 
+                  className="absolute top-4 right-4 bg-red-500 text-white"
+                >
+                  Agotado
+                </Badge>
+              )}
+            </div>
+            
+            {/* Thumbnail Gallery */}
+            {displayImages.length > 1 && (
+              <div className="flex gap-2 overflow-x-auto">
+                {displayImages.map((img, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setSelectedImageIndex(index)}
+                    className={`flex-shrink-0 relative rounded-lg overflow-hidden border-2 transition-all ${
+                      selectedImageIndex === index 
+                        ? 'border-primary shadow-lg scale-105' 
+                        : 'border-transparent hover:border-primary/50'
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`Vista ${index + 1}`}
+                      className="w-20 h-20 object-cover"
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1 text-center">
+                      {index === 0 ? 'Frente' : 'Espalda'}
+                    </div>
+                  </button>
+                ))}
+              </div>
             )}
           </div>
 
