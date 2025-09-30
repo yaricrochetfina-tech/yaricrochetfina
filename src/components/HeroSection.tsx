@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import heroCard from '@/assets/hero-yaritza-card.png';
 
 export const HeroSection = () => {
   const scrollToSection = (sectionId: string) => {
@@ -7,7 +8,7 @@ export const HeroSection = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden">
+    <section className="relative min-h-screen flex items-center justify-center bg-gradient-hero overflow-hidden py-20">
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-primary/20 animate-float"></div>
@@ -16,25 +17,15 @@ export const HeroSection = () => {
       </div>
 
       <div className="container mx-auto px-4 text-center z-10">
-        <div className="max-w-4xl mx-auto animate-fade-in-up">
-          {/* Main logo and brand */}
-          <div className="mb-8">
-            <div className="w-24 h-24 md:w-32 md:h-32 mx-auto mb-6 rounded-full bg-gradient-warm flex items-center justify-center shadow-warm">
-              <span className="text-4xl md:text-5xl">🌸</span>
-            </div>
-            <h1 className="text-hero mb-4">
-              <span className="block font-playfair">YariCrochetFina</span>
-            </h1>
-            <h2 className="text-2xl md:text-4xl font-playfair font-semibold text-primary mb-6">
-              "La moda audaz en Crochet"
-            </h2>
+        <div className="max-w-6xl mx-auto animate-fade-in-up">
+          {/* Hero Card Image */}
+          <div className="mb-12">
+            <img 
+              src={heroCard} 
+              alt="Yaritza Salgado Fina - Yari Crochet" 
+              className="w-full rounded-2xl shadow-2xl"
+            />
           </div>
-
-          {/* Mission statement */}
-          <p className="text-xl md:text-2xl text-warm mb-8 max-w-3xl mx-auto leading-relaxed">
-            Me dedico a revivir las técnicas ancestrales, creando piezas únicas con estilos étnicos y retro. 
-            Mi misión es valorar el trabajo manual y promover la compra local desde Montreal.
-          </p>
 
           {/* Call to action buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
