@@ -24,8 +24,7 @@ export const ProductsSection = () => {
         <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-section-title">Nuestras Colecciones</h2>
           <p className="text-warm text-lg max-w-2xl mx-auto">
-            Explora nuestras diferentes colecciones de blusas, gilets y chalecos, cada una con su propio carácter y estilo único. 
-            Desde el boho chic hasta los diseños tradicionales.
+            Explora mis colecciones para Otoño, Invierno, Verano y Primavera cada crochet con su propio carácter y estilo único. Desde el boho chic hasta los diseños tradicionales.
           </p>
         </div>
 

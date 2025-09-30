@@ -141,8 +141,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
                   <h3 className="font-semibold text-lg mb-2 text-primary">✨ Pieza Única e Irrepetible</h3>
                   <p className="text-warm text-sm leading-relaxed">
-                    Esta pieza es única en su tipo, tejida completamente a mano por mí, Yaritza Salgado Fina. 
-                    Solo está disponible la pieza que se muestra. Una vez vendida, no habrá otra igual.
+                    Esta pieza es única en su tipo, tejida completamente a mano. Solo está disponible la pieza que se muestra. Una vez vendida, no habrá otra igual.
                   </p>
                   <p className="text-xs text-muted-foreground mt-2 italic">
                     Hecho con amor y técnicas ancestrales en Montreal, Canadá
