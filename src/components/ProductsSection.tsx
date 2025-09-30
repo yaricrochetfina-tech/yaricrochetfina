@@ -5,7 +5,7 @@ import { products } from '@/data/mockData';
 import { Product, ProductStyle, ProductCategory } from '@/types';
 
 const styles: ProductStyle[] = ['Boho Chic', 'Hippie', 'Vintage', 'Shabby Chic', 'Traditional'];
-const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos'];
+const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas'];
 
 export const ProductsSection = () => {
   const [selectedStyle, setSelectedStyle] = useState<ProductStyle | 'all'>('all');
