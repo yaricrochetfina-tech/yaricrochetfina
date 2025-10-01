@@ -38,6 +38,16 @@ import tunicaPuntaFrente from '@/assets/tunica-punta-negra-roja-frente.png';
 import tunicaPuntaEspalda from '@/assets/tunica-punta-negra-roja-espalda.png';
 import tunicaMandalaFrente from '@/assets/tunica-mandala-multicolor-frente.png';
 import tunicaMandalaEspalda from '@/assets/tunica-mandala-multicolor-espalda.png';
+import vestidoBlancoFrente from '@/assets/vestido-blanco-frente.png';
+import vestidoBlancoEspalda from '@/assets/vestido-blanco-espalda.png';
+import vestidoCremaLargoFrente from '@/assets/vestido-crema-largo-frente.png';
+import vestidoCremaLargoEspalda from '@/assets/vestido-crema-largo-espalda.png';
+import vestidoFranjasFrente from '@/assets/vestido-franjas-frente.png';
+import vestidoFranjasEspalda from '@/assets/vestido-franjas-espalda.png';
+import vestidoChocolateFrente from '@/assets/vestido-chocolate-frente.jpg';
+import vestidoChocolateEspalda from '@/assets/vestido-chocolate-espalda.jpg';
+import vestidoMangasMulticolorFrente from '@/assets/vestido-mangas-multicolor-frente.png';
+import vestidoMangasMulticolorEspalda from '@/assets/vestido-mangas-multicolor-espalda.png';
 
 export const products: Product[] = [
   // Blusas
@@ -422,6 +432,67 @@ export const products: Product[] = [
     materials: ['Hilos multicolores premium', 'Técnica mandala', 'Círculos de crochet', 'Patrón zigzag'],
     inStock: true,
     images: [tunicaMandalaFrente, tunicaMandalaEspalda],
+  },
+  // Vestidos
+  {
+    id: '35',
+    name: 'Vestido Blanco Mandala Corto',
+    price: 60.00,
+    style: 'Boho Chic',
+    category: 'Vestidos',
+    image: vestidoBlancoFrente,
+    description: 'Hermoso vestido corto blanco con diseño de mandalas circulares en el corpiño. El escote presenta detalles de cordón decorativo y mangas cortas delicadas. La falda en punto calado crea un efecto ligero y elegante. Perfecto para eventos especiales o salidas de verano. Pieza única tejida completamente a mano.',
+    materials: ['Hilo de algodón blanco', 'Punto mandala', 'Encaje calado'],
+    inStock: true,
+    images: [vestidoBlancoFrente, vestidoBlancoEspalda],
+  },
+  {
+    id: '36',
+    name: 'Vestido Extra Largo Crema',
+    price: 80.00,
+    style: 'Shabby Chic',
+    category: 'Vestidos',
+    image: vestidoCremaLargoFrente,
+    description: 'Espectacular vestido largo en tono crema con diseño sofisticado. El corpiño presenta un tejido de red con cuello decorativo y mangas cortas. La parte media incorpora franjas colgantes que añaden movimiento, seguido de una falda larga con patrón en zigzag. Una pieza elegante perfecta para ocasiones especiales o como vestido de playa de lujo.',
+    materials: ['Hilo de algodón crema premium', 'Franjas tejidas', 'Patrón zigzag'],
+    inStock: true,
+    images: [vestidoCremaLargoFrente, vestidoCremaLargoEspalda],
+  },
+  {
+    id: '37',
+    name: 'Vestido con Franjas Multicolor',
+    price: 50.00,
+    style: 'Hippie',
+    category: 'Vestidos',
+    image: vestidoFranjasFrente,
+    description: 'Vibrante vestido halter con diseño de franjas en colores rosa, verde y blanco. El corpiño en punto calado crema contrasta hermosamente con la falda a rayas. La espalda presenta un cierre de cordón decorativo que permite ajuste personalizado. Perfecto para looks bohemios y festivales de verano.',
+    materials: ['Hilos multicolores', 'Punto calado', 'Patrón de franjas'],
+    inStock: true,
+    images: [vestidoFranjasFrente, vestidoFranjasEspalda],
+  },
+  {
+    id: '38',
+    name: 'Vestido Chocolate Elegante',
+    price: 40.00,
+    style: 'Vintage',
+    category: 'Vestidos',
+    image: vestidoChocolateFrente,
+    description: 'Elegante vestido corto en tono chocolate intenso con diseño de mandalas calados en el corpiño. Las mangas cortas presentan el mismo patrón circular delicado. La cintura está definida por un tejido acanalado, seguido de una falda con más patrones calados. Un vestido sofisticado perfecto para eventos de día o noche.',
+    materials: ['Hilo chocolate premium', 'Mandalas calados', 'Tejido acanalado'],
+    inStock: true,
+    images: [vestidoChocolateFrente, vestidoChocolateEspalda],
+  },
+  {
+    id: '39',
+    name: 'Vestido Multicolor con Mangas',
+    price: 65.00,
+    style: 'Hippie',
+    category: 'Vestidos',
+    image: vestidoMangasMulticolorFrente,
+    description: 'Espectacular vestido con mangas largas y diseño geométrico multicolor. El corpiño combina crema con detalles en rojo, negro y turquesa, creando un hermoso patrón tribal. La falda presenta franjas onduladas en colores variados: rosa, verde, negro y crema. Una verdadera obra de arte textil que destaca por su complejidad y belleza.',
+    materials: ['Hilos multicolores premium', 'Diseño geométrico', 'Patrón tribal'],
+    inStock: true,
+    images: [vestidoMangasMulticolorFrente, vestidoMangasMulticolorEspalda],
   },
 ];
 
