@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Eye, Download, Maximize2 } from 'lucide-react';
+import { Eye, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 interface OptimizedImageProps {
   src: string;
@@ -21,6 +21,8 @@ export const OptimizedImage = ({
   const [isLoaded, setIsLoaded] = useState(false);
   const [thumbnailSrc, setThumbnailSrc] = useState('');
   const [fullSrc, setFullSrc] = useState('');
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [showFullResolution, setShowFullResolution] = useState(false);
 
   useEffect(() => {
     // Create a canvas to generate optimized thumbnail
@@ -74,18 +76,74 @@ export const OptimizedImage = ({
     );
   }
 
-  const ImageComponent = () => (
-    <img
-      src={thumbnailSrc}
-      alt={alt}
-      className={`${thumbnailClassName} ${className} transition-all duration-300 hover:scale-105`}
-      loading="lazy"
-    />
-  );
-
   if (!enableFullView) {
-    return <ImageComponent />;
+    return (
+      <img
+        src={thumbnailSrc}
+        alt={alt}
+        className={`${thumbnailClassName} ${className}`}
+        loading="lazy"
+      />
+    );
   }
 
-  return <ImageComponent />;
+  return (
+    <>
+      <div className="relative group">
+        <img
+          src={thumbnailSrc}
+          alt={alt}
+          className={`${thumbnailClassName} ${className}`}
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsDialogOpen(true)}
+            className="gap-2"
+          >
+            <Eye className="h-4 w-4" />
+            Ver
+          </Button>
+        </div>
+      </div>
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-5xl max-h-[90vh] p-2">
+          <div className="relative">
+            <img
+              src={showFullResolution ? fullSrc : thumbnailSrc}
+              alt={alt}
+              className="w-full h-auto max-h-[85vh] object-contain"
+            />
+            <div className="absolute top-4 right-4 flex gap-2">
+              {!showFullResolution && (
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => setShowFullResolution(true)}
+                  className="gap-2 bg-background/90 backdrop-blur"
+                >
+                  <Maximize2 className="h-4 w-4" />
+                  Zoom
+                </Button>
+              )}
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => {
+                  setIsDialogOpen(false);
+                  setShowFullResolution(false);
+                }}
+                className="bg-background/90 backdrop-blur"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 };
