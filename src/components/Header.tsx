@@ -1,11 +1,14 @@
 import { ShoppingCart, Menu, X } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import logoYariCrochetFina from '@/assets/logo-yari-crochet-fina.png';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { t } = useTranslation();
   const { openCart, getItemCount } = useCart();
   const itemCount = getItemCount();
 
@@ -36,36 +39,38 @@ export const Header = () => {
               onClick={() => scrollToSection('colecciones')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
-              Colecciones
+              {t('header.products')}
             </button>
             <button
               onClick={() => scrollToSection('galeria')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
-              Galería
+              {t('header.gallery')}
             </button>
             <button
               onClick={() => scrollToSection('proceso')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
-              Proceso
+              {t('header.process')}
             </button>
             <button
               onClick={() => scrollToSection('sobre-yaritza')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
-              Sobre Yaritza
+              {t('header.about')}
             </button>
             <button
               onClick={() => scrollToSection('contacto')}
               className="text-foreground hover:text-primary transition-colors duration-300"
             >
-              Contacto
+              {t('header.contact')}
             </button>
           </nav>
 
-          {/* Cart and Mobile Menu */}
-          <div className="flex items-center space-x-4">
+          {/* Language Selector, Cart and Mobile Menu */}
+          <div className="flex items-center space-x-2">
+            <LanguageSelector />
+            
             <Button
               variant="ghost"
               size="sm"
@@ -100,31 +105,31 @@ export const Header = () => {
                 onClick={() => scrollToSection('colecciones')}
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
-                Colecciones
+                {t('header.products')}
               </button>
               <button
                 onClick={() => scrollToSection('galeria')}
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
-                Galería
+                {t('header.gallery')}
               </button>
               <button
                 onClick={() => scrollToSection('proceso')}
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
-                Proceso
+                {t('header.process')}
               </button>
               <button
                 onClick={() => scrollToSection('sobre-yaritza')}
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
-                Sobre Yaritza
+                {t('header.about')}
               </button>
               <button
                 onClick={() => scrollToSection('contacto')}
                 className="text-left text-foreground hover:text-primary transition-colors duration-300"
               >
-                Contacto
+                {t('header.contact')}
               </button>
             </div>
           </nav>

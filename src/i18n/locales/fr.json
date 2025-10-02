@@ -1,0 +1,127 @@
+{
+  "header": {
+    "products": "Collections",
+    "gallery": "Galerie",
+    "process": "Processus",
+    "about": "À Propos",
+    "testimonials": "Témoignages",
+    "contact": "Contact",
+    "cart": "Panier"
+  },
+  "hero": {
+    "title": "La Mode Audacieuse en Crochet",
+    "subtitle": "Créations Uniques Faites à la Main",
+    "description": "Découvrez des pièces de crochet uniques alliant tradition et design contemporain. Chaque création raconte une histoire de passion et de savoir-faire artisanal.",
+    "cta": "Découvrir les Collections"
+  },
+  "products": {
+    "title": "Nos Collections",
+    "subtitle": "Pièces Uniques Faites à la Main",
+    "description": "Chaque création est une œuvre d'art unique, confectionnée avec amour et attention aux détails",
+    "allStyles": "Tous les Styles",
+    "allCategories": "Toutes les Collections",
+    "noProducts": "Aucun produit ne correspond aux filtres sélectionnés",
+    "viewDetails": "Voir Détails",
+    "addToCart": "Ajouter au Panier",
+    "inStock": "En Stock",
+    "outOfStock": "Épuisé",
+    "materials": "Matériaux",
+    "price": "Prix"
+  },
+  "gallery": {
+    "title": "Galerie de Créations",
+    "subtitle": "Explorez Nos Créations Uniques"
+  },
+  "process": {
+    "title": "Notre Processus Artisanal",
+    "subtitle": "De l'Inspiration à la Création",
+    "step1": {
+      "title": "Sélection des Matériaux",
+      "description": "Nous choisissons soigneusement des fils de haute qualité pour garantir durabilité et confort"
+    },
+    "step2": {
+      "title": "Design et Planification",
+      "description": "Chaque pièce est conçue avec attention aux détails et au style unique"
+    },
+    "step3": {
+      "title": "Création Manuelle",
+      "description": "Confection à la main avec techniques traditionnelles de crochet et tricot"
+    },
+    "step4": {
+      "title": "Contrôle Qualité",
+      "description": "Chaque création est inspectée pour garantir la perfection avant livraison"
+    }
+  },
+  "about": {
+    "title": "À Propos de YariCrochetFina",
+    "subtitle": "L'Art du Crochet Fait à la Main",
+    "description": "Bienvenue dans mon univers de créations uniques en crochet et tricot. Je suis Yaritza Salgado Fina, artisane passionnée qui transforme chaque fil en une œuvre d'art portable. Chaque pièce que je crée raconte une histoire, alliant techniques ancestrales et design contemporain.",
+    "passion": "Ma passion pour le crochet a commencé il y a des années et s'est transformée en une véritable vocation. Chaque création est le résultat de nombreuses heures de travail minutieux, d'amour pour l'artisanat et d'un engagement envers la qualité.",
+    "quality": "Je m'engage à utiliser uniquement des matériaux de première qualité et à maintenir les plus hauts standards de confection. Chaque pièce est unique et faite avec amour, spécialement pour vous.",
+    "cta": "Découvrir Notre Histoire"
+  },
+  "testimonials": {
+    "title": "Ce Que Disent Nos Clientes",
+    "subtitle": "Avis Authentiques"
+  },
+  "newsletter": {
+    "title": "Restez Informée",
+    "subtitle": "Recevez nos Nouveautés et Offres Exclusives",
+    "description": "Inscrivez-vous à notre newsletter pour découvrir en avant-première nos nouvelles créations et bénéficier d'offres spéciales.",
+    "placeholder": "Votre email",
+    "button": "S'inscrire",
+    "success": "Merci de votre inscription!",
+    "error": "Veuillez entrer un email valide"
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "subtitle": "Nous Sommes Là Pour Vous",
+    "description": "Une question sur nos créations ? Envie d'une pièce personnalisée ? Contactez-nous, nous serions ravies de vous répondre.",
+    "name": "Nom",
+    "email": "Email",
+    "message": "Message",
+    "send": "Envoyer",
+    "success": "Message envoyé avec succès!",
+    "error": "Erreur lors de l'envoi"
+  },
+  "footer": {
+    "description": "Créations uniques en crochet et tricot faites à la main avec passion et savoir-faire artisanal.",
+    "quickLinks": "Liens Rapides",
+    "followUs": "Suivez-Nous",
+    "rights": "Tous droits réservés."
+  },
+  "cart": {
+    "title": "Votre Panier",
+    "empty": "Votre panier est vide",
+    "subtotal": "Sous-total",
+    "shipping": "Frais de port",
+    "total": "Total",
+    "checkout": "Procéder au Paiement",
+    "continueShopping": "Continuer vos Achats",
+    "itemAdded": "Article ajouté au panier",
+    "itemRemoved": "Article retiré du panier",
+    "calculateShipping": "Calculer les Frais de Port",
+    "shippingCalculator": {
+      "title": "Calculateur de Frais de Port",
+      "country": "Pays",
+      "province": "Province/État",
+      "postalCode": "Code Postal",
+      "calculate": "Calculer",
+      "estimatedShipping": "Frais de port estimés"
+    }
+  },
+  "categories": {
+    "Blusas": "Chemisiers",
+    "Gilets": "Gilets",
+    "Chalecos": "Gilets Courts",
+    "Túnicas": "Tuniques",
+    "Vestidos": "Robes"
+  },
+  "styles": {
+    "Boho Chic": "Boho Chic",
+    "Hippie": "Hippie",
+    "Vintage": "Vintage",
+    "Shabby Chic": "Shabby Chic",
+    "Traditional": "Traditionnel"
+  }
+}

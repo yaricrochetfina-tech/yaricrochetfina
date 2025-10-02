@@ -1,0 +1,127 @@
+{
+  "header": {
+    "products": "Collections",
+    "gallery": "Gallery",
+    "process": "Process",
+    "about": "About",
+    "testimonials": "Testimonials",
+    "contact": "Contact",
+    "cart": "Cart"
+  },
+  "hero": {
+    "title": "Bold Fashion in Crochet",
+    "subtitle": "Unique Handmade Creations",
+    "description": "Discover unique crochet pieces combining tradition and contemporary design. Each creation tells a story of passion and artisanal craftsmanship.",
+    "cta": "Explore Collections"
+  },
+  "products": {
+    "title": "Our Collections",
+    "subtitle": "Unique Handmade Pieces",
+    "description": "Each creation is a unique work of art, crafted with love and attention to detail",
+    "allStyles": "All Styles",
+    "allCategories": "All Collections",
+    "noProducts": "No products match the selected filters",
+    "viewDetails": "View Details",
+    "addToCart": "Add to Cart",
+    "inStock": "In Stock",
+    "outOfStock": "Out of Stock",
+    "materials": "Materials",
+    "price": "Price"
+  },
+  "gallery": {
+    "title": "Creations Gallery",
+    "subtitle": "Explore Our Unique Creations"
+  },
+  "process": {
+    "title": "Our Artisanal Process",
+    "subtitle": "From Inspiration to Creation",
+    "step1": {
+      "title": "Material Selection",
+      "description": "We carefully select high-quality yarns to ensure durability and comfort"
+    },
+    "step2": {
+      "title": "Design and Planning",
+      "description": "Each piece is designed with attention to detail and unique style"
+    },
+    "step3": {
+      "title": "Handmade Creation",
+      "description": "Handcrafted using traditional crochet and knitting techniques"
+    },
+    "step4": {
+      "title": "Quality Control",
+      "description": "Each creation is inspected to ensure perfection before delivery"
+    }
+  },
+  "about": {
+    "title": "About YariCrochetFina",
+    "subtitle": "The Art of Handmade Crochet",
+    "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms each thread into a wearable work of art. Each piece I create tells a story, combining ancestral techniques with contemporary design.",
+    "passion": "My passion for crochet began years ago and has transformed into a true calling. Each creation is the result of many hours of meticulous work, love for the craft, and a commitment to quality.",
+    "quality": "I'm committed to using only premium materials and maintaining the highest standards of craftsmanship. Each piece is unique and made with love, especially for you.",
+    "cta": "Discover Our Story"
+  },
+  "testimonials": {
+    "title": "What Our Customers Say",
+    "subtitle": "Authentic Reviews"
+  },
+  "newsletter": {
+    "title": "Stay Informed",
+    "subtitle": "Receive Our News and Exclusive Offers",
+    "description": "Subscribe to our newsletter to discover our new creations first and benefit from special offers.",
+    "placeholder": "Your email",
+    "button": "Subscribe",
+    "success": "Thank you for subscribing!",
+    "error": "Please enter a valid email"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We're Here For You",
+    "description": "Have a question about our creations? Want a custom piece? Contact us, we'd be delighted to help.",
+    "name": "Name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "success": "Message sent successfully!",
+    "error": "Error sending message"
+  },
+  "footer": {
+    "description": "Unique handmade crochet and knit creations made with passion and artisanal craftsmanship.",
+    "quickLinks": "Quick Links",
+    "followUs": "Follow Us",
+    "rights": "All rights reserved."
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "continueShopping": "Continue Shopping",
+    "itemAdded": "Item added to cart",
+    "itemRemoved": "Item removed from cart",
+    "calculateShipping": "Calculate Shipping",
+    "shippingCalculator": {
+      "title": "Shipping Calculator",
+      "country": "Country",
+      "province": "Province/State",
+      "postalCode": "Postal Code",
+      "calculate": "Calculate",
+      "estimatedShipping": "Estimated shipping"
+    }
+  },
+  "categories": {
+    "Blusas": "Blouses",
+    "Gilets": "Gilets",
+    "Chalecos": "Vests",
+    "Túnicas": "Tunics",
+    "Vestidos": "Dresses"
+  },
+  "styles": {
+    "Boho Chic": "Boho Chic",
+    "Hippie": "Hippie",
+    "Vintage": "Vintage",
+    "Shabby Chic": "Shabby Chic",
+    "Traditional": "Traditional"
+  }
+}

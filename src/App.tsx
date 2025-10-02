@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import { Header } from "@/components/Header";
 import { ShoppingCart } from "@/components/ShoppingCart";
+import "./i18n/config";
 
 const queryClient = new QueryClient();
 
