@@ -1,10 +1,12 @@
 import { useCart } from '@/hooks/useCart';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
 import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
 
 export const ShoppingCart = () => {
+  const { t } = useTranslation();
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotal, clearCart } = useCart();
 
   const handleCheckout = () => {
@@ -16,7 +18,7 @@ export const ShoppingCart = () => {
       <SheetContent className="w-full sm:max-w-lg">
         <SheetHeader>
           <SheetTitle className="font-playfair text-2xl">
-            Carrito de Compras
+            {t('cart.title')}
           </SheetTitle>
         </SheetHeader>
 
@@ -24,12 +26,12 @@ export const ShoppingCart = () => {
           {items.length === 0 ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
               <ShoppingBag className="h-16 w-16 text-muted-foreground" />
-              <h3 className="font-playfair text-xl">Tu carrito está vacío</h3>
+              <h3 className="font-playfair text-xl">{t('cart.empty')}</h3>
               <p className="text-warm">
-                Descubre nuestras hermosas creaciones artesanales
+                {t('products.description')}
               </p>
               <Button onClick={closeCart} className="btn-hero">
-                Explorar Productos
+                {t('hero.cta')}
               </Button>
             </div>
           ) : (
@@ -100,7 +102,7 @@ export const ShoppingCart = () => {
               {/* Cart Footer */}
               <div className="border-t border-border pt-6 space-y-4">
                 <div className="flex items-center justify-between text-lg">
-                  <span className="font-semibold">Total:</span>
+                  <span className="font-semibold">{t('cart.total')}:</span>
                   <span className="font-bold text-2xl text-primary">
                     ${getTotal().toFixed(2)}
                   </span>
@@ -111,7 +113,7 @@ export const ShoppingCart = () => {
                     onClick={handleCheckout} 
                     className="w-full btn-hero text-lg py-3"
                   >
-                    Proceder al Checkout
+                    {t('cart.checkout')}
                   </Button>
                   
                   <div className="flex space-x-3">
@@ -120,14 +122,14 @@ export const ShoppingCart = () => {
                       onClick={closeCart}
                       className="flex-1"
                     >
-                      Seguir Comprando
+                      {t('cart.continueShopping')}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={clearCart}
                       className="flex-1 text-destructive border-destructive hover:bg-destructive hover:text-white"
                     >
-                      Vaciar Carrito
+                      {t('cart.clearCart')}
                     </Button>
                   </div>
                 </div>

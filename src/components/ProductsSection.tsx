@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
 import { products } from '@/data/mockData';
@@ -8,6 +9,7 @@ const styles: ProductStyle[] = ['Boho Chic', 'Hippie', 'Vintage', 'Shabby Chic',
 const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos'];
 
 export const ProductsSection = () => {
+  const { t } = useTranslation();
   const [selectedStyle, setSelectedStyle] = useState<ProductStyle | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -22,9 +24,9 @@ export const ProductsSection = () => {
     <section id="colecciones" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="text-section-title">Nuestras Colecciones</h2>
+          <h2 className="text-section-title">{t('products.title')}</h2>
           <p className="text-warm text-lg max-w-2xl mx-auto">
-            Explora mis colecciones para Otoño, Invierno, Verano y Primavera cada crochet con su propio carácter y estilo único. Desde el boho chic hasta los diseños tradicionales.
+            {t('products.description')}
           </p>
         </div>
 
@@ -34,7 +36,7 @@ export const ProductsSection = () => {
             onClick={() => setSelectedCategory('all')}
             className={`filter-chip ${selectedCategory === 'all' ? 'active' : ''}`}
           >
-            Todas las Prendas
+            {t('products.allCategories')}
           </button>
           {categories.map((category) => (
             <button
@@ -42,7 +44,7 @@ export const ProductsSection = () => {
               onClick={() => setSelectedCategory(category)}
               className={`filter-chip ${selectedCategory === category ? 'active' : ''}`}
             >
-              {category}
+              {t(`categories.${category}`)}
             </button>
           ))}
         </div>
@@ -53,7 +55,7 @@ export const ProductsSection = () => {
             onClick={() => setSelectedStyle('all')}
             className={`filter-chip ${selectedStyle === 'all' ? 'active' : ''}`}
           >
-            Todos los Estilos
+            {t('products.allStyles')}
           </button>
           {styles.map((style) => (
             <button
@@ -61,7 +63,7 @@ export const ProductsSection = () => {
               onClick={() => setSelectedStyle(style)}
               className={`filter-chip ${selectedStyle === style ? 'active' : ''}`}
             >
-              {style}
+              {t(`styles.${style}`)}
             </button>
           ))}
         </div>
@@ -80,7 +82,7 @@ export const ProductsSection = () => {
         {filteredProducts.length === 0 && (
           <div className="text-center py-12">
             <p className="text-warm text-lg">
-              No hay productos disponibles en esta selección por el momento.
+              {t('products.noProducts')}
             </p>
           </div>
         )}

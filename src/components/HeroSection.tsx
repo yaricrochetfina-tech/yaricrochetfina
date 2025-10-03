@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
+import { useTranslation } from 'react-i18next';
 import heroCard from '@/assets/hero-yaritza-card.png';
 
 export const HeroSection = () => {
+  const { t } = useTranslation();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -33,13 +36,13 @@ export const HeroSection = () => {
               onClick={() => scrollToSection('colecciones')}
               className="btn-hero text-lg px-8 py-4"
             >
-              Explorar Colecciones
+              {t('hero.cta')}
             </Button>
             <Button
               onClick={() => scrollToSection('sobre-yaritza')}
               className="btn-outline-warm text-lg px-8 py-4"
             >
-              Conoce mi Historia
+              {t('about.cta')}
             </Button>
           </div>
 
@@ -47,18 +50,18 @@ export const HeroSection = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="card-warm text-center">
               <div className="text-3xl mb-3">✨</div>
-              <h3 className="font-playfair text-xl font-semibold mb-2">Piezas Únicas</h3>
-              <p className="text-warm">Hechas a mano con amor</p>
+              <h3 className="font-playfair text-xl font-semibold mb-2">{t('hero.uniquePieces')}</h3>
+              <p className="text-warm">{t('hero.handmade')}</p>
             </div>
             <div className="card-warm text-center">
               <div className="text-3xl mb-3">🕰️</div>
-              <h3 className="font-playfair text-xl font-semibold mb-2">Técnicas Ancestrales</h3>
-              <p className="text-warm">Tradición en cada puntada</p>
+              <h3 className="font-playfair text-xl font-semibold mb-2">{t('hero.ancestralTechniques')}</h3>
+              <p className="text-warm">{t('hero.tradition')}</p>
             </div>
             <div className="card-warm text-center">
               <div className="text-3xl mb-3">💖</div>
-              <h3 className="font-playfair text-xl font-semibold mb-2">Cada Pieza Cuenta</h3>
-              <p className="text-warm">Una historia única</p>
+              <h3 className="font-playfair text-xl font-semibold mb-2">{t('hero.everyPiece')}</h3>
+              <p className="text-warm">{t('hero.uniqueStory')}</p>
             </div>
           </div>
         </div>

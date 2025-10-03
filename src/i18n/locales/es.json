@@ -12,7 +12,13 @@
     "title": "La Moda Audaz en Crochet",
     "subtitle": "Creaciones Únicas Hechas a Mano",
     "description": "Descubre piezas únicas de crochet que combinan tradición y diseño contemporáneo. Cada creación cuenta una historia de pasión y artesanía.",
-    "cta": "Descubrir Colecciones"
+    "cta": "Descubrir Colecciones",
+    "uniquePieces": "Piezas Únicas",
+    "handmade": "Hechas a mano con amor",
+    "ancestralTechniques": "Técnicas Ancestrales",
+    "tradition": "Tradición en cada puntada",
+    "everyPiece": "Cada Pieza Cuenta",
+    "uniqueStory": "Una historia única"
   },
   "products": {
     "title": "Nuestras Colecciones",
@@ -85,10 +91,11 @@
     "error": "Error al enviar el mensaje"
   },
   "footer": {
-    "description": "Creaciones únicas en crochet y tricot hechas a mano con pasión y artesanía.",
+    "description": "Dedicada a revivir las técnicas ancestrales del crochet, creamos piezas únicas que cuentan historias y abrazan tradiciones. Cada puntada es un latido, cada creación es un alma.",
     "quickLinks": "Enlaces Rápidos",
     "followUs": "Síguenos",
-    "rights": "Todos los derechos reservados."
+    "rights": "Todos los derechos reservados.",
+    "support": "Soporte"
   },
   "cart": {
     "title": "Tu Carrito",
@@ -98,6 +105,7 @@
     "total": "Total",
     "checkout": "Proceder al Pago",
     "continueShopping": "Continuar Comprando",
+    "clearCart": "Vaciar Carrito",
     "itemAdded": "Artículo añadido al carrito",
     "itemRemoved": "Artículo eliminado del carrito",
     "calculateShipping": "Calcular Envío",

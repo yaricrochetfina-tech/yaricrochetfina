@@ -12,7 +12,13 @@
     "title": "La Mode Audacieuse en Crochet",
     "subtitle": "Créations Uniques Faites à la Main",
     "description": "Découvrez des pièces de crochet uniques alliant tradition et design contemporain. Chaque création raconte une histoire de passion et de savoir-faire artisanal.",
-    "cta": "Découvrir les Collections"
+    "cta": "Découvrir les Collections",
+    "uniquePieces": "Pièces Uniques",
+    "handmade": "Faites à la main avec amour",
+    "ancestralTechniques": "Techniques Ancestrales",
+    "tradition": "Tradition dans chaque point",
+    "everyPiece": "Chaque Pièce Compte",
+    "uniqueStory": "Une histoire unique"
   },
   "products": {
     "title": "Nos Collections",
@@ -85,10 +91,11 @@
     "error": "Erreur lors de l'envoi"
   },
   "footer": {
-    "description": "Créations uniques en crochet et tricot faites à la main avec passion et savoir-faire artisanal.",
+    "description": "Dédiée à faire revivre les techniques ancestrales du crochet, nous créons des pièces uniques qui racontent des histoires et embrassent les traditions. Chaque point est un battement, chaque création est une âme.",
     "quickLinks": "Liens Rapides",
     "followUs": "Suivez-Nous",
-    "rights": "Tous droits réservés."
+    "rights": "Tous droits réservés.",
+    "support": "Support"
   },
   "cart": {
     "title": "Votre Panier",
@@ -98,6 +105,7 @@
     "total": "Total",
     "checkout": "Procéder au Paiement",
     "continueShopping": "Continuer vos Achats",
+    "clearCart": "Vider le Panier",
     "itemAdded": "Article ajouté au panier",
     "itemRemoved": "Article retiré du panier",
     "calculateShipping": "Calculer les Frais de Port",

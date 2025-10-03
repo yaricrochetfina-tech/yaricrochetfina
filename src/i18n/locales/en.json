@@ -12,7 +12,13 @@
     "title": "Bold Fashion in Crochet",
     "subtitle": "Unique Handmade Creations",
     "description": "Discover unique crochet pieces combining tradition and contemporary design. Each creation tells a story of passion and artisanal craftsmanship.",
-    "cta": "Explore Collections"
+    "cta": "Explore Collections",
+    "uniquePieces": "Unique Pieces",
+    "handmade": "Handmade with love",
+    "ancestralTechniques": "Ancestral Techniques",
+    "tradition": "Tradition in every stitch",
+    "everyPiece": "Every Piece Counts",
+    "uniqueStory": "A unique story"
   },
   "products": {
     "title": "Our Collections",
@@ -85,10 +91,11 @@
     "error": "Error sending message"
   },
   "footer": {
-    "description": "Unique handmade crochet and knit creations made with passion and artisanal craftsmanship.",
+    "description": "Dedicated to reviving ancestral crochet techniques, we create unique pieces that tell stories and embrace traditions. Each stitch is a heartbeat, each creation is a soul.",
     "quickLinks": "Quick Links",
     "followUs": "Follow Us",
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "support": "Support"
   },
   "cart": {
     "title": "Your Cart",
@@ -98,6 +105,7 @@
     "total": "Total",
     "checkout": "Proceed to Checkout",
     "continueShopping": "Continue Shopping",
+    "clearCart": "Clear Cart",
     "itemAdded": "Item added to cart",
     "itemRemoved": "Item removed from cart",
     "calculateShipping": "Calculate Shipping",

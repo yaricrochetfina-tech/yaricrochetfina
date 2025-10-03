@@ -1,6 +1,9 @@
 import { Facebook, Instagram, Heart } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 export const Footer = () => {
+  const { t } = useTranslation();
+  
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -24,9 +27,7 @@ export const Footer = () => {
             </div>
             
             <p className="text-secondary-foreground/80 leading-relaxed mb-6 max-w-md">
-              Dedicada a revivir las técnicas ancestrales del crochet, creamos piezas únicas 
-              que cuentan historias y abrazan tradiciones. Cada puntada es un latido, 
-              cada creación es un alma.
+              {t('footer.description')}
             </p>
 
             <div className="flex space-x-4">
@@ -67,14 +68,14 @@ export const Footer = () => {
 
           {/* Navigation Links */}
           <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4">Navegación</h4>
+            <h4 className="font-playfair text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
             <ul className="space-y-3">
               <li>
                 <button
                   onClick={() => scrollToSection('colecciones')}
                   className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
                 >
-                  Colecciones
+                  {t('header.products')}
                 </button>
               </li>
               <li>
@@ -82,7 +83,7 @@ export const Footer = () => {
                   onClick={() => scrollToSection('proceso')}
                   className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
                 >
-                  Proceso Artesanal
+                  {t('header.process')}
                 </button>
               </li>
               <li>
@@ -90,7 +91,7 @@ export const Footer = () => {
                   onClick={() => scrollToSection('sobre-yaritza')}
                   className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
                 >
-                  Sobre Yaritza
+                  {t('header.about')}
                 </button>
               </li>
               <li>
@@ -98,7 +99,7 @@ export const Footer = () => {
                   onClick={() => scrollToSection('contacto')}
                   className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
                 >
-                  Contacto
+                  {t('header.contact')}
                 </button>
               </li>
             </ul>
@@ -106,7 +107,7 @@ export const Footer = () => {
 
           {/* Support & Info */}
           <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4">Soporte</h4>
+            <h4 className="font-playfair text-lg font-semibold mb-4">{t('footer.support')}</h4>
             <ul className="space-y-3">
               <li>
                 <a href="#" className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300">
@@ -169,7 +170,7 @@ export const Footer = () => {
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="flex items-center space-x-2 text-sm text-secondary-foreground/70">
               <span>© 2024 YariCrochetFina.</span>
-              <span>Todos los derechos reservados.</span>
+              <span>{t('footer.rights')}</span>
             </div>
             
             <div className="flex items-center space-x-2 text-sm text-secondary-foreground/70">
