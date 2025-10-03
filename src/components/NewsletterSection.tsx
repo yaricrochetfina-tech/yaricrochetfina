@@ -3,6 +3,15 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Mail, Gift } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
+
+// Validation schema for newsletter email
+const newsletterSchema = z.object({
+  email: z.string()
+    .trim()
+    .email('Email inválido')
+    .max(255, 'El email no puede exceder 255 caracteres')
+});
 
 export const NewsletterSection = () => {
   const [email, setEmail] = useState('');
@@ -12,26 +21,31 @@ export const NewsletterSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!email || !/\S+@\S+\.\S+/.test(email)) {
-      toast({
-        title: "Email inválido",
-        description: "Por favor, ingresa un email válido.",
-        variant: "destructive",
-      });
-      return;
+    // Validate email with Zod
+    try {
+      const validatedData = newsletterSchema.parse({ email });
+      
+      setIsSubscribing(true);
+      
+      // Simulate API call with validated data
+      setTimeout(() => {
+        toast({
+          title: "¡Suscripción exitosa!",
+          description: "Pronto recibirás nuestras novedades y ofertas especiales.",
+        });
+        setEmail('');
+        setIsSubscribing(false);
+      }, 1500);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Email inválido",
+          description: firstError.message,
+          variant: "destructive",
+        });
+      }
     }
-
-    setIsSubscribing(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      toast({
-        title: "¡Suscripción exitosa!",
-        description: "Pronto recibirás nuestras novedades y ofertas especiales.",
-      });
-      setEmail('');
-      setIsSubscribing(false);
-    }, 1500);
   };
 
   return (
@@ -94,6 +108,8 @@ export const NewsletterSection = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="bg-white/20 border-white/30 text-white placeholder:text-white/70 focus:bg-white/30 focus:border-white/50 h-14 text-lg"
                     disabled={isSubscribing}
+                    maxLength={255}
+                    required
                   />
                 </div>
                 <Button

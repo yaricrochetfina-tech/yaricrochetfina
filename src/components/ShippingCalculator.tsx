@@ -4,6 +4,14 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Truck, MapPin, DollarSign } from 'lucide-react';
+import { z } from 'zod';
+
+// Validation schema for postal code (flexible format for international codes)
+const postalCodeSchema = z.string()
+  .trim()
+  .max(20, 'Código postal demasiado largo')
+  .regex(/^[A-Za-z0-9\s-]+$/, 'Código postal inválido')
+  .optional();
 
 interface ShippingCalculatorProps {
   productPrice: number;
@@ -92,6 +100,8 @@ export const ShippingCalculator = ({ productPrice, onShippingCalculated }: Shipp
               placeholder="Ej: H1A 1A1"
               value={postalCode}
               onChange={(e) => setPostalCode(e.target.value)}
+              maxLength={20}
+              pattern="[A-Za-z0-9\s-]+"
             />
           </div>
         </div>

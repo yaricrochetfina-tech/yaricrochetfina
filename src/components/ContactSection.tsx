@@ -4,6 +4,23 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
+
+// Validation schema with security constraints
+const contactFormSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(1, 'El nombre es requerido')
+    .max(100, 'El nombre no puede exceder 100 caracteres'),
+  email: z.string()
+    .trim()
+    .email('Email inválido')
+    .max(255, 'El email no puede exceder 255 caracteres'),
+  message: z.string()
+    .trim()
+    .min(1, 'El mensaje es requerido')
+    .max(1000, 'El mensaje no puede exceder 1000 caracteres')
+});
 
 export const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -24,35 +41,31 @@ export const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.email || !formData.message) {
-      toast({
-        title: "Campos requeridos",
-        description: "Por favor, completa todos los campos.",
-        variant: "destructive",
-      });
-      return;
+    // Validate form data with Zod
+    try {
+      const validatedData = contactFormSchema.parse(formData);
+      
+      setIsSubmitting(true);
+
+      // Simulate API call with validated data
+      setTimeout(() => {
+        toast({
+          title: "Mensaje enviado",
+          description: "Gracias por contactarnos. Te responderemos pronto.",
+        });
+        setFormData({ name: '', email: '', message: '' });
+        setIsSubmitting(false);
+      }, 2000);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const firstError = error.errors[0];
+        toast({
+          title: "Error de validación",
+          description: firstError.message,
+          variant: "destructive",
+        });
+      }
     }
-
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      toast({
-        title: "Email inválido",
-        description: "Por favor, ingresa un email válido.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      toast({
-        title: "Mensaje enviado",
-        description: "Gracias por contactarnos. Te responderemos pronto.",
-      });
-      setFormData({ name: '', email: '', message: '' });
-      setIsSubmitting(false);
-    }, 2000);
   };
 
   return (
@@ -89,6 +102,8 @@ export const ContactSection = () => {
                       placeholder="Tu nombre"
                       className="h-12"
                       disabled={isSubmitting}
+                      maxLength={100}
+                      required
                     />
                   </div>
 
@@ -105,6 +120,8 @@ export const ContactSection = () => {
                       placeholder="tu@email.com"
                       className="h-12"
                       disabled={isSubmitting}
+                      maxLength={255}
+                      required
                     />
                   </div>
 
@@ -120,6 +137,8 @@ export const ContactSection = () => {
                       placeholder="Cuéntanos sobre tu proyecto, dudas o cualquier consulta..."
                       className="min-h-[120px] resize-none"
                       disabled={isSubmitting}
+                      maxLength={1000}
+                      required
                     />
                   </div>
 
