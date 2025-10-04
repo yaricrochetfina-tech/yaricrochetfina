@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { X } from 'lucide-react';
 import fashionShoot1 from '@/assets/fashion-shoot-1.jpg';
@@ -94,6 +95,7 @@ const galleryImages: GalleryImage[] = [
 ];
 
 export const GallerySection = () => {
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [filter, setFilter] = useState<'all' | 'editorial' | 'runway'>('all');
 
@@ -105,10 +107,9 @@ export const GallerySection = () => {
     <section id="galeria" className="py-20 bg-muted">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12 animate-fade-in-up">
-          <h2 className="text-section-title">Galería de Modelos</h2>
+          <h2 className="text-section-title">{t('gallery.title')}</h2>
           <p className="text-warm text-lg max-w-3xl mx-auto">
-            Descubre cómo nuestras creaciones cobran vida en editoriales de moda y desfiles internacionales. 
-            Cada pieza cuenta una historia de elegancia y sofisticación artesanal.
+            {t('gallery.description')}
           </p>
         </div>
 
@@ -118,19 +119,19 @@ export const GallerySection = () => {
             onClick={() => setFilter('all')}
             className={`filter-chip ${filter === 'all' ? 'active' : ''}`}
           >
-            Todas
+            {t('gallery.allFilter')}
           </button>
           <button
             onClick={() => setFilter('editorial')}
             className={`filter-chip ${filter === 'editorial' ? 'active' : ''}`}
           >
-            Editoriales
+            {t('gallery.editorialFilter')}
           </button>
           <button
             onClick={() => setFilter('runway')}
             className={`filter-chip ${filter === 'runway' ? 'active' : ''}`}
           >
-            Pasarelas
+            {t('gallery.runwayFilter')}
           </button>
         </div>
 
@@ -142,7 +143,14 @@ export const GallerySection = () => {
               className="group relative overflow-hidden rounded-lg cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-elegant"
               onClick={() => setSelectedImage(image)}
             >
-              <div className="aspect-[3/4] overflow-hidden">
+              <div className="aspect-[3/4] overflow-hidden relative">
+                {/* CSS overlay to fade text on borders */}
+                <div className="absolute inset-0 z-10 pointer-events-none">
+                  <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-background/80 to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background/80 to-transparent"></div>
+                  <div className="absolute top-0 left-0 bottom-0 w-12 bg-gradient-to-r from-background/80 to-transparent"></div>
+                  <div className="absolute top-0 right-0 bottom-0 w-12 bg-gradient-to-l from-background/80 to-transparent"></div>
+                </div>
                 <img
                   src={image.src}
                   alt={image.alt}
@@ -157,7 +165,7 @@ export const GallerySection = () => {
                     {image.title}
                   </h3>
                   <span className="inline-block px-2 py-1 bg-primary/80 text-primary-foreground text-xs rounded-full">
-                    {image.category === 'editorial' ? 'Editorial' : 'Pasarela'}
+                    {image.category === 'editorial' ? t('gallery.editorialFilter') : t('gallery.runwayFilter')}
                   </span>
                 </div>
               </div>
@@ -169,12 +177,10 @@ export const GallerySection = () => {
         <div className="text-center mt-16 animate-fade-in-up">
           <div className="max-w-2xl mx-auto">
             <h3 className="text-xl font-semibold text-foreground mb-4">
-              YariCrochetFina en los Medios
+              {t('gallery.inMediaTitle')}
             </h3>
             <p className="text-warm leading-relaxed">
-              Nuestras creaciones han sido destacadas en importantes revistas de moda y desfiles 
-              internacionales en Montreal, demostrando que el crochet artesanal puede competir 
-              en las más altas esferas de la moda contemporánea.
+              {t('gallery.inMediaDescription')}
             </p>
           </div>
         </div>

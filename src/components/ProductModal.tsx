@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -15,6 +16,7 @@ interface ProductModalProps {
 }
 
 export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
+  const { t } = useTranslation();
   const { addItem } = useCart();
   const [isAdding, setIsAdding] = useState(false);
   const [shippingCost, setShippingCost] = useState<number>(0);
@@ -72,7 +74,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                   variant="secondary" 
                   className="absolute top-4 right-4 bg-red-500 text-white"
                 >
-                  Agotado
+                  {t('products.soldOut')}
                 </Badge>
               )}
             </div>
@@ -92,11 +94,11 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                   >
                     <img
                       src={img}
-                      alt={`Vista ${index + 1}`}
+                      alt={`${t('products.view')} ${index + 1}`}
                       className="w-20 h-20 object-cover"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1 text-center">
-                      {index === 0 ? 'Frente' : 'Espalda'}
+                      {index === 0 ? t('products.frontView') : t('products.backView')}
                     </div>
                   </button>
                 ))}
@@ -113,7 +115,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
 
             {/* Description */}
             <div>
-              <h3 className="font-semibold text-lg mb-2">Descripción</h3>
+              <h3 className="font-semibold text-lg mb-2">{t('products.descriptionLabel')}</h3>
               <p className="text-warm leading-relaxed">
                 {product.description}
               </p>
@@ -121,7 +123,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
 
             {/* Materials */}
             <div>
-              <h3 className="font-semibold text-lg mb-2">Materiales</h3>
+              <h3 className="font-semibold text-lg mb-2">{t('products.materials')}</h3>
               <div className="flex flex-wrap gap-2">
                 {product.materials.map((material, index) => (
                   <Badge
@@ -139,12 +141,12 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             {product.inStock && (
               <div className="space-y-4">
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                  <h3 className="font-semibold text-lg mb-2 text-primary">✨ Pieza Única e Irrepetible</h3>
+                  <h3 className="font-semibold text-lg mb-2 text-primary">✨ {t('products.uniquePieceTitle')}</h3>
                   <p className="text-warm text-sm leading-relaxed">
-                    Esta pieza es única en su tipo, tejida completamente a mano. Solo está disponible la pieza que se muestra. Una vez vendida, no habrá otra igual.
+                    {t('products.uniquePieceDescription')}
                   </p>
                   <p className="text-xs text-muted-foreground mt-2 italic">
-                    Hecho con amor y técnicas ancestrales en Montreal, Canadá
+                    {t('products.madeIn')}
                   </p>
                 </div>
 
@@ -156,10 +158,10 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
 
                 <div className="flex items-center justify-between">
                   <div className="text-lg font-semibold">
-                    Total: ${(product.price + shippingCost).toFixed(2)} CAD
+                    {t('products.total')}: ${(product.price + shippingCost).toFixed(2)} CAD
                     {shippingCost > 0 && (
                       <div className="text-sm text-muted-foreground">
-                        Producto: ${product.price.toFixed(2)} + Envío: ${shippingCost.toFixed(2)}
+                        {t('products.productLabel')}: ${product.price.toFixed(2)} + {t('products.shippingLabel')}: ${shippingCost.toFixed(2)}
                       </div>
                     )}
                   </div>
@@ -169,7 +171,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                     className="btn-hero"
                   >
                     <ShoppingCart className="h-4 w-4 mr-2" />
-                    {isAdding ? 'Agregando...' : 'Comprar Pieza Única'}
+                    {isAdding ? t('products.adding') : t('products.buyUniquePiece')}
                   </Button>
                 </div>
               </div>
@@ -178,7 +180,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             {!product.inStock && (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
                 <p className="text-red-700 font-medium">
-                  Este producto está temporalmente agotado. ¡Vuelve pronto para ver nuevos diseños!
+                  {t('products.temporarilyOutOfStock')}
                 </p>
               </div>
             )}

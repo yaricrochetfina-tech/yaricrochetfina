@@ -32,15 +32,39 @@
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
     "materials": "Materials",
-    "price": "Price"
+    "price": "Price",
+    "soldOut": "Sold Out",
+    "view": "View",
+    "buy": "Buy",
+    "adding": "Adding...",
+    "uniquePiece": "Unique Piece",
+    "more": "more",
+    "descriptionLabel": "Description",
+    "uniquePieceTitle": "Unique and Irreplaceable Piece",
+    "uniquePieceDescription": "This piece is one of a kind, woven entirely by hand. Only the piece shown is available. Once sold, there will be no other like it.",
+    "madeIn": "Made with love and ancestral techniques in Montreal, Canada",
+    "productLabel": "Product",
+    "shippingLabel": "Shipping",
+    "buyUniquePiece": "Buy Unique Piece",
+    "temporarilyOutOfStock": "This product is temporarily out of stock. Come back soon to see new designs!",
+    "frontView": "Front",
+    "backView": "Back",
+    "total": "Total"
   },
   "gallery": {
     "title": "Creations Gallery",
-    "subtitle": "Explore Our Unique Creations"
+    "subtitle": "Explore Our Unique Creations",
+    "description": "Discover how our creations come to life in fashion editorials and international runways. Each piece tells a story of elegance and artisanal sophistication.",
+    "allFilter": "All",
+    "editorialFilter": "Editorials",
+    "runwayFilter": "Runway",
+    "inMediaTitle": "YariCrochetFina in the Media",
+    "inMediaDescription": "Our creations have been featured in major fashion magazines and international runway shows in Montreal, proving that artisanal crochet can compete in the highest spheres of contemporary fashion."
   },
   "process": {
     "title": "Our Artisanal Process",
     "subtitle": "From Inspiration to Creation",
+    "description": "Each piece I create is the result of a careful process that honors the ancestral traditions of weaving, combining ancient techniques with my contemporary creativity.",
     "step1": {
       "title": "Material Selection",
       "description": "We carefully select high-quality yarns to ensure durability and comfort"
@@ -56,7 +80,13 @@
     "step4": {
       "title": "Quality Control",
       "description": "Each creation is inspected to ensure perfection before delivery"
-    }
+    },
+    "qualityTitle": "Artisanal Quality Guarantee",
+    "qualityDescription": "Each piece goes through my rigorous quality control. I review every stitch, every detail, ensuring that each creation reflects the excellence and love I put into my work.",
+    "handmade": "Handmade",
+    "yearsExperience": "Years of Experience",
+    "piecesCreated": "Pieces Created",
+    "satisfiedClients": "Satisfied Customers"
   },
   "about": {
     "title": "About YariCrochetFina",
@@ -64,11 +94,42 @@
     "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms each thread into a wearable work of art. Each piece I create tells a story, combining ancestral techniques with contemporary design.",
     "passion": "My passion for crochet began years ago and has transformed into a true calling. Each creation is the result of many hours of meticulous work, love for the craft, and a commitment to quality.",
     "quality": "I'm committed to using only premium materials and maintaining the highest standards of craftsmanship. Each piece is unique and made with love, especially for you.",
-    "cta": "Discover Our Story"
+    "cta": "Discover Our Story",
+    "meetYaritza": "Meet Yaritza Salgado Fina",
+    "artisanTitle": "Artisan at Heart, Creator of Dreams",
+    "paragraph1": "Since childhood, I found in weaving not just a passion, but a way to connect with family traditions passed down through generations. With over 15 years of experience, I've perfected ancestral techniques that seemed to be lost in time.",
+    "paragraph2": "My mission goes beyond creating beautiful crochet and knit pieces: I seek to revive the value of artisanal work in an era where handmade items are becoming increasingly precious and meaningful.",
+    "paragraph3": "Each of my creations reflects not only technical skill, but also creativity, imagination, and manual dexterity - that ability that only comes with years of dedication and love for my craft.",
+    "mission": {
+      "title": "Mission",
+      "description": "Valuing manual work and local shopping"
+    },
+    "vision": {
+      "title": "Vision",
+      "description": "Where vintage meets contemporary"
+    },
+    "passion": {
+      "title": "Passion",
+      "description": "Ancestral techniques with modern love"
+    },
+    "promise": {
+      "title": "Promise",
+      "description": "Every piece tells a unique story"
+    },
+    "quote": "In every stitch there is a heartbeat, in every creation there is a soul. This is more than crochet, it's art that embraces.",
+    "quoteAuthor": "Yaritza Salgado Fina"
   },
   "testimonials": {
     "title": "What Our Customers Say",
-    "subtitle": "Authentic Reviews"
+    "subtitle": "Authentic Reviews",
+    "description": "Each testimonial is a story of satisfaction, a smile woven into words. These are the voices of those who have found something special in our creations.",
+    "verifiedCustomer": "Verified customer",
+    "collection": "Collection",
+    "satisfactionTitle": "Our Satisfaction Promise",
+    "averageRating": "Average Rating",
+    "happyCustomers": "Happy Customers",
+    "returningCustomers": "Returning Customers",
+    "recommend": "Recommend the Brand"
   },
   "newsletter": {
     "title": "Stay Informed",

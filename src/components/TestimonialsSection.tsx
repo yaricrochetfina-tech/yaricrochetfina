@@ -1,7 +1,9 @@
+import { useTranslation } from 'react-i18next';
 import { testimonials } from '@/data/mockData';
 import { Star } from 'lucide-react';
 
 export const TestimonialsSection = () => {
+  const { t } = useTranslation();
   const renderStars = (rating: number) => {
     return Array.from({ length: 5 }, (_, index) => (
       <Star
@@ -30,10 +32,9 @@ export const TestimonialsSection = () => {
     <section className="py-20 bg-texture-warm">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-section-title">Lo Que Dicen Nuestros Clientes</h2>
+          <h2 className="text-section-title">{t('testimonials.title')}</h2>
           <p className="text-warm text-lg max-w-3xl mx-auto">
-            Cada testimonio es una historia de satisfacción, una sonrisa tejida en palabras. 
-            Estas son las voces de quienes han encontrado en nuestras creaciones algo especial.
+            {t('testimonials.description')}
           </p>
         </div>
 
@@ -62,10 +63,10 @@ export const TestimonialsSection = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-                    <p className="text-sm text-muted-foreground">Cliente verificada</p>
+                    <p className="text-sm text-muted-foreground">{t('testimonials.verifiedCustomer')}</p>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-muted-foreground">Colección</div>
+                    <div className="text-xs text-muted-foreground">{t('testimonials.collection')}</div>
                     <div className="text-sm font-medium text-primary">{testimonial.style}</div>
                   </div>
                 </div>
@@ -87,32 +88,32 @@ export const TestimonialsSection = () => {
         <div className="mt-16 text-center">
           <div className="card-warm max-w-4xl mx-auto">
             <h3 className="font-playfair text-2xl font-semibold mb-8 text-foreground">
-              Nuestra Promesa de Satisfacción
+              {t('testimonials.satisfactionTitle')}
             </h3>
             
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               <div className="text-center">
                 <div className="text-4xl mb-2">⭐</div>
                 <div className="text-3xl font-bold text-primary mb-1">4.9/5</div>
-                <div className="text-sm text-muted-foreground">Calificación Promedio</div>
+                <div className="text-sm text-muted-foreground">{t('testimonials.averageRating')}</div>
               </div>
               
               <div className="text-center">
                 <div className="text-4xl mb-2">💝</div>
                 <div className="text-3xl font-bold text-primary mb-1">250+</div>
-                <div className="text-sm text-muted-foreground">Clientes Felices</div>
+                <div className="text-sm text-muted-foreground">{t('testimonials.happyCustomers')}</div>
               </div>
               
               <div className="text-center">
                 <div className="text-4xl mb-2">🔄</div>
                 <div className="text-3xl font-bold text-primary mb-1">89%</div>
-                <div className="text-sm text-muted-foreground">Clientes Recurrentes</div>
+                <div className="text-sm text-muted-foreground">{t('testimonials.returningCustomers')}</div>
               </div>
               
               <div className="text-center">
                 <div className="text-4xl mb-2">🎁</div>
                 <div className="text-3xl font-bold text-primary mb-1">95%</div>
-                <div className="text-sm text-muted-foreground">Recomiendan la Marca</div>
+                <div className="text-sm text-muted-foreground">{t('testimonials.recommend')}</div>
               </div>
             </div>
           </div>

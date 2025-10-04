@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
+  const { t } = useTranslation();
   const { addItem } = useCart();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -58,7 +60,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
         {!product.inStock && (
           <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
             <Badge variant="secondary" className="bg-red-500 text-white">
-              Agotado
+              {t('products.soldOut')}
             </Badge>
           </div>
         )}
@@ -73,7 +75,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
               className="bg-white/90 hover:bg-white text-foreground"
             >
               <Eye className="h-4 w-4 mr-1" />
-              Ver
+              {t('products.view')}
             </Button>
             {product.inStock && (
               <Button
@@ -83,7 +85,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
                 className="btn-hero"
               >
                 <ShoppingCart className="h-4 w-4 mr-1" />
-                {isAdding ? 'Agregando...' : 'Comprar'}
+                {isAdding ? t('products.adding') : t('products.buy')}
               </Button>
             )}
           </div>
@@ -110,11 +112,11 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
                 onClick={handleAddToCart}
                 disabled={isAdding}
                 size="sm"
-                className="btn-outline-warm"
-              >
-                <ShoppingCart className="h-4 w-4 mr-1" />
-                {isAdding ? 'Agregando...' : 'Pieza Única'}
-              </Button>
+              className="btn-outline-warm"
+            >
+              <ShoppingCart className="h-4 w-4 mr-1" />
+              {isAdding ? t('products.adding') : t('products.uniquePiece')}
+            </Button>
             )}
         </div>
 
@@ -131,7 +133,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
           ))}
           {product.materials.length > 2 && (
             <Badge variant="outline" className="text-xs text-muted-foreground">
-              +{product.materials.length - 2} más
+              +{product.materials.length - 2} {t('products.more')}
             </Badge>
           )}
         </div>
