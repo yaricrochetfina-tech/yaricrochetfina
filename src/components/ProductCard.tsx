@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { ShoppingCart, Eye } from 'lucide-react';
 import { useState } from 'react';
 import { OptimizedImage } from './ImageOptimization';
+import { useProductTranslation } from '@/hooks/useProductTranslation';
 
 interface ProductCardProps {
   product: Product;
@@ -15,6 +16,7 @@ interface ProductCardProps {
 export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
   const { t } = useTranslation();
   const { addItem } = useCart();
+  const translatedProduct = useProductTranslation(product);
   const [isAdding, setIsAdding] = useState(false);
 
   const handleAddToCart = async () => {
@@ -95,11 +97,11 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
       {/* Product info */}
       <div className="p-6">
         <h3 className="font-playfair text-xl font-semibold mb-2 text-foreground">
-          {product.name}
+          {translatedProduct.name}
         </h3>
         
         <p className="text-warm text-sm mb-4 line-clamp-2">
-          {product.description}
+          {translatedProduct.description}
         </p>
 
         <div className="flex items-center justify-between">
@@ -122,7 +124,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
 
         {/* Materials */}
         <div className="mt-4 flex flex-wrap gap-1">
-          {product.materials.slice(0, 2).map((material, index) => (
+          {translatedProduct.materials.slice(0, 2).map((material, index) => (
             <Badge
               key={index}
               variant="outline"
@@ -131,9 +133,9 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
               {material}
             </Badge>
           ))}
-          {product.materials.length > 2 && (
+          {translatedProduct.materials.length > 2 && (
             <Badge variant="outline" className="text-xs text-muted-foreground">
-              +{product.materials.length - 2} {t('products.more')}
+              +{translatedProduct.materials.length - 2} {t('products.more')}
             </Badge>
           )}
         </div>

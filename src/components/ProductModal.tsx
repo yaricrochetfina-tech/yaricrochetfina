@@ -8,6 +8,7 @@ import { ShoppingCart, X } from 'lucide-react';
 import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
+import { useProductTranslation } from '@/hooks/useProductTranslation';
 
 interface ProductModalProps {
   product: Product;
@@ -18,6 +19,7 @@ interface ProductModalProps {
 export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
   const { t } = useTranslation();
   const { addItem } = useCart();
+  const translatedProduct = useProductTranslation(product);
   const [isAdding, setIsAdding] = useState(false);
   const [shippingCost, setShippingCost] = useState<number>(0);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -50,7 +52,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="font-playfair text-2xl">
-            {product.name}
+            {translatedProduct.name}
           </DialogTitle>
         </DialogHeader>
 
@@ -60,7 +62,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             <div className="relative">
               <OptimizedImage
                 src={displayImages[selectedImageIndex]}
-                alt={`${product.name} - Vista ${selectedImageIndex + 1}`}
+                alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
                 thumbnailClassName="w-full h-96 object-cover rounded-lg"
                 enableFullView={true}
               />
@@ -117,7 +119,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             <div>
               <h3 className="font-semibold text-lg mb-2">{t('products.descriptionLabel')}</h3>
               <p className="text-warm leading-relaxed">
-                {product.description}
+                {translatedProduct.description}
               </p>
             </div>
 
@@ -125,7 +127,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             <div>
               <h3 className="font-semibold text-lg mb-2">{t('products.materials')}</h3>
               <div className="flex flex-wrap gap-2">
-                {product.materials.map((material, index) => (
+                {translatedProduct.materials.map((material, index) => (
                   <Badge
                     key={index}
                     variant="outline"
