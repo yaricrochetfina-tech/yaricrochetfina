@@ -4,7 +4,7 @@ import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ShoppingCart, X } from 'lucide-react';
+import { ShoppingCart, X, Play } from 'lucide-react';
 import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
@@ -24,6 +24,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const [shippingCost, setShippingCost] = useState<number>(0);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [showVideo, setShowVideo] = useState(false);
   
   // Stripe payment link for this product
   const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
@@ -64,12 +65,24 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
           {/* Product Image Gallery */}
           <div className="space-y-4">
             <div className="relative">
-              <OptimizedImage
-                src={displayImages[selectedImageIndex]}
-                alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
-                thumbnailClassName="w-full h-96 object-cover rounded-lg"
-                enableFullView={true}
-              />
+              {showVideo && product.videoUrl ? (
+                <div className="w-full h-96 rounded-lg overflow-hidden bg-black">
+                  <iframe
+                    className="w-full h-full"
+                    src={`${product.videoUrl}?autoplay=1&controls=0&showinfo=0&rel=0&modestbranding=1&loop=1&mute=0`}
+                    title={`${translatedProduct.name} video`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+              ) : (
+                <OptimizedImage
+                  src={displayImages[selectedImageIndex]}
+                  alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
+                  thumbnailClassName="w-full h-96 object-cover rounded-lg"
+                  enableFullView={true}
+                />
+              )}
               <Badge 
                 className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}
               >
@@ -84,6 +97,28 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                 </Badge>
               )}
             </div>
+            
+            {/* Video Button */}
+            {product.videoUrl && !showVideo && (
+              <Button
+                onClick={() => setShowVideo(true)}
+                className="w-full btn-hero"
+                variant="outline"
+              >
+                <Play className="h-4 w-4 mr-2" />
+                Toca para ver video animado
+              </Button>
+            )}
+            
+            {showVideo && (
+              <Button
+                onClick={() => setShowVideo(false)}
+                className="w-full"
+                variant="outline"
+              >
+                Ver imágenes del producto
+              </Button>
+            )}
             
             {/* Thumbnail Gallery */}
             {displayImages.length > 1 && (

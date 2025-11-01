@@ -9,6 +9,7 @@ export interface Product {
   materials: string[];
   inStock: boolean;
   images?: string[];
+  videoUrl?: string;
 }
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';

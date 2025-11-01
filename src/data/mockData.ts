@@ -61,6 +61,7 @@ export const products: Product[] = [
     description: 'Chaleco boho tejido a mano con hermosa mezcla de colores terrosos. Combina tonos marrones, azules y naranjas en un diseño único.',
     materials: ['Hilo multicolor', 'Fibras naturales'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/vPoZClfWfpA',
   },
   {
     id: '2',
@@ -72,6 +73,7 @@ export const products: Product[] = [
     description: 'Delicada blusa rosa con intrincados patrones de encaje. Perfecta para un look romántico y femenino.',
     materials: ['Hilo de algodón rosa', 'Encaje artesanal'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/ToCRJFbC-fY',
   },
   {
     id: '3',
@@ -94,6 +96,7 @@ export const products: Product[] = [
     description: 'Blusa colorida con técnica granny square. Combina colores vibrantes con franjas colgantes para un look único.',
     materials: ['Hilo multicolor', 'Algodón orgánico'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/3OFOEB8UVoA',
   },
   {
     id: '5',
@@ -105,6 +108,7 @@ export const products: Product[] = [
     description: 'Elegante blusa con diseño de rayas horizontales en colores rojo, azul y crema. Con fajón incorporado.',
     materials: ['Hilo matizado', 'Lana suave'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/A8cyqsli_Ps',
   },
   {
     id: '6',
@@ -116,6 +120,7 @@ export const products: Product[] = [
     description: 'Blusa clásica con rayas en tonos azul, blanco y crema. Diseño tradicional con acabado moderno.',
     materials: ['Hilo de algodón', 'Fibras naturales'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/jzzblSdaf5s',
   },
   {
     id: '7',
@@ -127,6 +132,7 @@ export const products: Product[] = [
     description: 'Vibrante blusa verde lima con patrones de encaje abierto. Perfecta para los días de verano.',
     materials: ['Hilo verde citron', 'Algodón orgánico'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/MvX46FCODkk',
   },
   {
     id: '8',
@@ -138,6 +144,7 @@ export const products: Product[] = [
     description: 'Delicada blusa corta color crema con diseño cruzado. Ideal para combinar con faldas altas.',
     materials: ['Hilo de algodón crema', 'Encaje fino'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/AlcDlQigR4I',
   },
   {
     id: '9',
@@ -149,6 +156,7 @@ export const products: Product[] = [
     description: 'Hermosa blusa azul marino con técnica granny y detalles en amarillo. Patrón tradicional con toque moderno.',
     materials: ['Hilo azul marino', 'Detalles dorados'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/UEPbqO5TWY4',
   },
   {
     id: '10',
@@ -160,6 +168,7 @@ export const products: Product[] = [
     description: 'Blusa estilo marinero con rayas azules y blancas. Incluye encaje en el cuello y cordón de ajuste.',
     materials: ['Hilo marina', 'Encaje blanco'],
     inStock: true,
+    videoUrl: 'https://www.youtube.com/embed/rV0Fppnp5Fk',
   },
   // Gilets
   {
