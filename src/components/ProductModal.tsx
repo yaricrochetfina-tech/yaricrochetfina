@@ -22,7 +22,11 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const translatedProduct = useProductTranslation(product);
   const [isAdding, setIsAdding] = useState(false);
   const [shippingCost, setShippingCost] = useState<number>(0);
+  const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  
+  // Stripe payment link for this product
+  const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
   
   const displayImages = product.images || [product.image];
 
@@ -154,28 +158,21 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
 
                 {/* Shipping Calculator */}
                 <ShippingCalculator 
-                  productPrice={product.price} 
-                  onShippingCalculated={setShippingCost}
+                  productPrice={product.price}
+                  stripePaymentLink={stripePaymentLink}
+                  onShippingCalculated={(cost, country) => {
+                    setShippingCost(cost);
+                    setSelectedCountry(country);
+                  }}
                 />
 
-                <div className="flex items-center justify-between">
-                  <div className="text-lg font-semibold">
-                    {t('products.total')}: ${(product.price + shippingCost).toFixed(2)} CAD
-                    {shippingCost > 0 && (
-                      <div className="text-sm text-muted-foreground">
-                        {t('products.productLabel')}: ${product.price.toFixed(2)} + {t('products.shippingLabel')}: ${shippingCost.toFixed(2)}
-                      </div>
-                    )}
+                {!shippingCost && (
+                  <div className="bg-accent/10 border border-accent/20 rounded-lg p-4">
+                    <p className="text-sm text-accent-foreground text-center">
+                      👆 Selecciona tu país para calcular el envío y proceder a la compra
+                    </p>
                   </div>
-                  <Button
-                    onClick={handleAddToCart}
-                    disabled={isAdding}
-                    className="btn-hero"
-                  >
-                    <ShoppingCart className="h-4 w-4 mr-2" />
-                    {isAdding ? t('products.adding') : t('products.buyUniquePiece')}
-                  </Button>
-                </div>
+                )}
               </div>
             )}
 

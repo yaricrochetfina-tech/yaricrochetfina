@@ -15,10 +15,11 @@ const postalCodeSchema = z.string()
 
 interface ShippingCalculatorProps {
   productPrice: number;
-  onShippingCalculated: (shippingCost: number) => void;
+  stripePaymentLink: string;
+  onShippingCalculated: (shippingCost: number, country: string) => void;
 }
 
-export const ShippingCalculator = ({ productPrice, onShippingCalculated }: ShippingCalculatorProps) => {
+export const ShippingCalculator = ({ productPrice, stripePaymentLink, onShippingCalculated }: ShippingCalculatorProps) => {
   const [country, setCountry] = useState('');
   const [postalCode, setPostalCode] = useState('');
   const [shippingCost, setShippingCost] = useState<number | null>(null);
@@ -50,7 +51,7 @@ export const ShippingCalculator = ({ productPrice, onShippingCalculated }: Shipp
     setTimeout(() => {
       const cost = shippingRates[country as keyof typeof shippingRates] || shippingRates.Other;
       setShippingCost(cost);
-      onShippingCalculated(cost);
+      onShippingCalculated(cost, country);
       setIsCalculating(false);
     }, 1000);
   };
@@ -140,10 +141,24 @@ export const ShippingCalculator = ({ productPrice, onShippingCalculated }: Shipp
           </div>
         )}
 
+        {shippingCost && (
+          <Button
+            onClick={() => window.open(stripePaymentLink, '_blank')}
+            className="w-full btn-hero"
+            size="lg"
+          >
+            <DollarSign className="h-5 w-5 mr-2" />
+            Comprar Ahora - ${getTotalPrice().toFixed(2)} CAD
+          </Button>
+        )}
+
         <div className="text-xs text-muted-foreground space-y-1">
           <p>📦 Todos los envíos incluyen seguro y número de seguimiento</p>
           <p>🌍 Envío mundial disponible desde Montreal, Canadá</p>
           <p>💝 Empaque especial para proteger cada pieza artesanal</p>
+          {shippingCost && (
+            <p className="text-primary font-medium mt-2">✨ Haz clic en "Comprar Ahora" para proceder al pago seguro con Stripe</p>
+          )}
         </div>
       </CardContent>
     </Card>
