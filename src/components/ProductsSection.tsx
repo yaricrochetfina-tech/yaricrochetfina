@@ -3,21 +3,18 @@ import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
 import { products } from '@/data/mockData';
-import { Product, ProductStyle, ProductCategory } from '@/types';
+import { Product, ProductCategory } from '@/types';
 
-const styles: ProductStyle[] = ['Boho Chic', 'Hippie', 'Vintage', 'Shabby Chic', 'Traditional'];
 const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos'];
 
 export const ProductsSection = () => {
   const { t } = useTranslation();
-  const [selectedStyle, setSelectedStyle] = useState<ProductStyle | 'all'>('all');
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const filteredProducts = products.filter(product => {
-    const styleMatch = selectedStyle === 'all' || product.style === selectedStyle;
     const categoryMatch = selectedCategory === 'all' || product.category === selectedCategory;
-    return styleMatch && categoryMatch;
+    return categoryMatch;
   });
 
   return (
@@ -31,7 +28,7 @@ export const ProductsSection = () => {
         </div>
 
         {/* Category filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-6">
+        <div className="flex flex-wrap justify-center gap-3 mb-12">
           <button
             onClick={() => setSelectedCategory('all')}
             className={`filter-chip ${selectedCategory === 'all' ? 'active' : ''}`}
@@ -45,25 +42,6 @@ export const ProductsSection = () => {
               className={`filter-chip ${selectedCategory === category ? 'active' : ''}`}
             >
               {t(`categories.${category}`)}
-            </button>
-          ))}
-        </div>
-
-        {/* Style filters */}
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          <button
-            onClick={() => setSelectedStyle('all')}
-            className={`filter-chip ${selectedStyle === 'all' ? 'active' : ''}`}
-          >
-            {t('products.allStyles')}
-          </button>
-          {styles.map((style) => (
-            <button
-              key={style}
-              onClick={() => setSelectedStyle(style)}
-              className={`filter-chip ${selectedStyle === style ? 'active' : ''}`}
-            >
-              {t(`styles.${style}`)}
             </button>
           ))}
         </div>
