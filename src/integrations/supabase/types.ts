@@ -154,6 +154,7 @@ export type Database = {
           price: number
           style: string
           updated_at: string
+          video_url: string | null
         }
         Insert: {
           category: string
@@ -168,6 +169,7 @@ export type Database = {
           price: number
           style: string
           updated_at?: string
+          video_url?: string | null
         }
         Update: {
           category?: string
@@ -182,6 +184,7 @@ export type Database = {
           price?: number
           style?: string
           updated_at?: string
+          video_url?: string | null
         }
         Relationships: []
       }
