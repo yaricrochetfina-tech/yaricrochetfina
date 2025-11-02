@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
+import { supabase } from '@/integrations/supabase/client';
 
 // Validation schema with security constraints
 const contactFormSchema = z.object({
@@ -47,15 +48,29 @@ export const ContactSection = () => {
       
       setIsSubmitting(true);
 
-      // Simulate API call with validated data
-      setTimeout(() => {
+      // Save to database
+      const { error } = await supabase
+        .from('contact_messages')
+        .insert([{
+          name: validatedData.name,
+          email: validatedData.email,
+          message: validatedData.message,
+        }]);
+
+      if (error) {
         toast({
-          title: "Mensaje enviado",
-          description: "Gracias por contactarnos. Te responderemos pronto.",
+          title: "Error al enviar",
+          description: "No pudimos enviar tu mensaje. Por favor intenta de nuevo.",
+          variant: "destructive",
         });
-        setFormData({ name: '', email: '', message: '' });
-        setIsSubmitting(false);
-      }, 2000);
+        return;
+      }
+
+      toast({
+        title: "Mensaje enviado",
+        description: "Gracias por contactarnos. Te responderemos pronto.",
+      });
+      setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
@@ -65,6 +80,8 @@ export const ContactSection = () => {
           variant: "destructive",
         });
       }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

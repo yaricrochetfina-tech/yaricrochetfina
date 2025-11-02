@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Mail, Gift } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
+import { supabase } from '@/integrations/supabase/client';
 
 // Validation schema for newsletter email
 const newsletterSchema = z.object({
@@ -27,15 +28,33 @@ export const NewsletterSection = () => {
       
       setIsSubscribing(true);
       
-      // Simulate API call with validated data
-      setTimeout(() => {
-        toast({
-          title: "¡Suscripción exitosa!",
-          description: "Pronto recibirás nuestras novedades y ofertas especiales.",
-        });
-        setEmail('');
-        setIsSubscribing(false);
-      }, 1500);
+      // Save to database
+      const { error } = await supabase
+        .from('newsletter_subscribers')
+        .insert([{ email: validatedData.email }]);
+
+      if (error) {
+        // Handle duplicate email gracefully
+        if (error.code === '23505') {
+          toast({
+            title: "Ya estás suscrito",
+            description: "Este email ya está en nuestra lista de suscriptores.",
+          });
+        } else {
+          toast({
+            title: "Error al suscribirse",
+            description: "No pudimos completar tu suscripción. Por favor intenta de nuevo.",
+            variant: "destructive",
+          });
+        }
+        return;
+      }
+
+      toast({
+        title: "¡Suscripción exitosa!",
+        description: "Pronto recibirás nuestras novedades y ofertas especiales.",
+      });
+      setEmail('');
     } catch (error) {
       if (error instanceof z.ZodError) {
         const firstError = error.errors[0];
@@ -45,6 +64,8 @@ export const NewsletterSection = () => {
           variant: "destructive",
         });
       }
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
