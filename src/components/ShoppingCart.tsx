@@ -1,16 +1,76 @@
+import { useState } from 'react';
 import { useCart } from '@/hooks/useCart';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Plus, Minus, ShoppingBag } from 'lucide-react';
+import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
 
 export const ShoppingCart = () => {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const { items, isOpen, closeCart, removeItem, updateQuantity, getTotal, clearCart } = useCart();
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleCheckout = () => {
-    alert('¡Funcionalidad de checkout próximamente! Gracias por tu interés en nuestros productos artesanales.');
+  const handleCheckout = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: t('auth.loginRequired'),
+          description: t('auth.loginToCheckout'),
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsProcessing(true);
+
+      // Call stripe-checkout edge function
+      const { data, error } = await supabase.functions.invoke('stripe-checkout', {
+        body: {
+          items: items.map(item => ({
+            product: {
+              id: item.product.id,
+              name: item.product.name,
+              price: item.product.price,
+              image: item.product.image,
+            },
+            quantity: item.quantity,
+          })),
+          shippingCountry: 'MX', // Default to Mexico, you can add country selection
+          customerEmail: session.user.email,
+          customerName: session.user.user_metadata?.full_name || '',
+        },
+      });
+
+      if (error) {
+        console.error('Checkout error:', error);
+        toast({
+          title: 'Error',
+          description: 'No se pudo procesar el pago. Por favor intenta de nuevo.',
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Redirect to Stripe Checkout
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: 'Error',
+        description: 'Ocurrió un error inesperado. Por favor intenta de nuevo.',
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -112,8 +172,10 @@ export const ShoppingCart = () => {
                   <Button 
                     onClick={handleCheckout} 
                     className="w-full btn-hero text-lg py-3"
+                    disabled={isProcessing}
                   >
-                    {t('cart.checkout')}
+                    {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    {isProcessing ? 'Procesando...' : t('cart.checkout')}
                   </Button>
                   
                   <div className="flex space-x-3">

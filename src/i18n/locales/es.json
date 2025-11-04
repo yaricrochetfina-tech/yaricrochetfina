@@ -179,6 +179,26 @@
       "estimatedShipping": "Envío estimado"
     }
   },
+  "payment": {
+    "success": {
+      "title": "¡Pago Exitoso!",
+      "subtitle": "Tu pedido ha sido confirmado",
+      "orderNumber": "Número de Pedido",
+      "emailSent": "Te hemos enviado un correo de confirmación",
+      "processing": "Estamos procesando tu pedido",
+      "continueShopping": "Continuar Comprando",
+      "thankYou": "¡Gracias por tu compra! Recibirás tu pedido pronto."
+    },
+    "cancel": {
+      "title": "Pago Cancelado",
+      "subtitle": "No se completó tu pedido",
+      "message": "No te preocupes, tu carrito sigue guardado y puedes intentar nuevamente cuando estés listo.",
+      "cartPreserved": "Tu carrito está guardado y listo para cuando decidas continuar",
+      "backToCart": "Volver al Carrito",
+      "continueShopping": "Continuar Comprando",
+      "needHelp": "¿Necesitas ayuda? Contáctanos y te asistiremos con gusto."
+    }
+  },
   "categories": {
     "Blusas": "Blusas",
     "Gilets": "Gilets",

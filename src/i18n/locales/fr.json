@@ -179,6 +179,26 @@
       "estimatedShipping": "Frais de port estimés"
     }
   },
+  "payment": {
+    "success": {
+      "title": "Paiement Réussi!",
+      "subtitle": "Votre commande a été confirmée",
+      "orderNumber": "Numéro de Commande",
+      "emailSent": "Nous vous avons envoyé un email de confirmation",
+      "processing": "Nous traitons votre commande",
+      "continueShopping": "Continuer vos Achats",
+      "thankYou": "Merci pour votre achat! Vous recevrez votre commande bientôt."
+    },
+    "cancel": {
+      "title": "Paiement Annulé",
+      "subtitle": "Votre commande n'a pas été complétée",
+      "message": "Ne vous inquiétez pas, votre panier est toujours sauvegardé et vous pouvez réessayer quand vous êtes prêt.",
+      "cartPreserved": "Votre panier est sauvegardé et prêt pour quand vous décidez de continuer",
+      "backToCart": "Retour au Panier",
+      "continueShopping": "Continuer vos Achats",
+      "needHelp": "Besoin d'aide? Contactez-nous et nous serons ravis de vous aider."
+    }
+  },
   "categories": {
     "Blusas": "Chemisiers",
     "Gilets": "Gilets",
