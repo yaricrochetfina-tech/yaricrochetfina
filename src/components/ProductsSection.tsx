@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
-import { products } from '@/data/mockData';
+import { supabase } from '@/integrations/supabase/client';
 import { Product, ProductCategory } from '@/types';
+import { toast } from 'sonner';
 
 const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos'];
 
@@ -11,6 +12,46 @@ export const ProductsSection = () => {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('products')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (data) {
+          // Map database schema to Product type
+          const mappedProducts: Product[] = data.map(dbProduct => ({
+            id: dbProduct.id,
+            name: dbProduct.name,
+            price: Number(dbProduct.price),
+            style: dbProduct.style as Product['style'],
+            category: dbProduct.category as ProductCategory,
+            image: dbProduct.image,
+            description: dbProduct.description,
+            materials: dbProduct.materials,
+            inStock: dbProduct.in_stock,
+            images: dbProduct.images || undefined,
+            videoUrl: dbProduct.video_url || undefined,
+          }));
+          setProducts(mappedProducts);
+        }
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        toast.error(t('products.errorLoading') || 'Error loading products');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [t]);
 
   const filteredProducts = products.filter(product => {
     const categoryMatch = selectedCategory === 'all' || product.category === selectedCategory;
@@ -47,22 +88,30 @@ export const ProductsSection = () => {
         </div>
 
         {/* Products grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onViewDetails={setSelectedProduct}
-            />
-          ))}
-        </div>
-
-        {filteredProducts.length === 0 && (
+        {loading ? (
           <div className="text-center py-12">
-            <p className="text-warm text-lg">
-              {t('products.noProducts')}
-            </p>
+            <p className="text-warm text-lg">{t('products.loading') || 'Loading products...'}</p>
           </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 animate-fade-in-up">
+              {filteredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onViewDetails={setSelectedProduct}
+                />
+              ))}
+            </div>
+
+            {filteredProducts.length === 0 && !loading && (
+              <div className="text-center py-12">
+                <p className="text-warm text-lg">
+                  {t('products.noProducts')}
+                </p>
+              </div>
+            )}
+          </>
         )}
       </div>
 
