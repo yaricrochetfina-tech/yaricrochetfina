@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Stripe from 'https://esm.sh/stripe@14.21.0';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -43,6 +44,56 @@ serve(async (req) => {
 
     console.log('Creating checkout session for:', { itemsCount: items.length, shippingCountry });
 
+    // Create Supabase client to validate products
+    const supabase = createClient(
+      Deno.env.get('SUPABASE_URL')!,
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
+    );
+
+    // Fetch real product data from database to validate prices and stock
+    const productIds = items.map(item => item.product.id);
+    const { data: dbProducts, error: dbError } = await supabase
+      .from('products')
+      .select('id, name, price, in_stock')
+      .in('id', productIds);
+
+    if (dbError || !dbProducts) {
+      console.error('Failed to validate products:', dbError);
+      return new Response(
+        JSON.stringify({ error: 'Failed to validate products' }),
+        {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        }
+      );
+    }
+
+    // Validate each item against database
+    const validatedItems = items.map(item => {
+      const dbProduct = dbProducts.find(p => p.id === item.product.id);
+      
+      if (!dbProduct) {
+        throw new Error(`Product ${item.product.id} not found`);
+      }
+      
+      if (!dbProduct.in_stock) {
+        throw new Error(`Product "${dbProduct.name}" is out of stock`);
+      }
+      
+      // Use database price and name, not client-provided values
+      return {
+        product: {
+          id: dbProduct.id,
+          name: dbProduct.name,
+          price: Number(dbProduct.price),
+          image: item.product.image,
+        },
+        quantity: item.quantity,
+      };
+    });
+
+    console.log('Products validated successfully');
+
     // Shipping rates by country (in USD)
     const shippingRates: Record<string, number> = {
       'MX': 15.00,
@@ -58,8 +109,8 @@ serve(async (req) => {
 
     const shippingCost = shippingRates[shippingCountry] || shippingRates.default;
 
-    // Create line items for Stripe
-    const lineItems = items.map(item => ({
+    // Create line items for Stripe using validated data
+    const lineItems = validatedItems.map(item => ({
       price_data: {
         currency: 'usd',
         product_data: {
@@ -97,7 +148,7 @@ serve(async (req) => {
       metadata: {
         customer_name: customerName || '',
         shipping_country: shippingCountry,
-        items: JSON.stringify(items.map(item => ({
+        items: JSON.stringify(validatedItems.map(item => ({
           product_id: item.product.id,
           product_name: item.product.name,
           quantity: item.quantity,

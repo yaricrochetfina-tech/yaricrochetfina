@@ -158,6 +158,7 @@ export type Database = {
           materials: string[]
           name: string
           price: number
+          stock_quantity: number | null
           style: string
           updated_at: string
           video_url: string | null
@@ -173,6 +174,7 @@ export type Database = {
           materials?: string[]
           name: string
           price: number
+          stock_quantity?: number | null
           style: string
           updated_at?: string
           video_url?: string | null
@@ -188,6 +190,7 @@ export type Database = {
           materials?: string[]
           name?: string
           price?: number
+          stock_quantity?: number | null
           style?: string
           updated_at?: string
           video_url?: string | null
@@ -220,6 +223,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      decrement_stock: {
+        Args: { p_product_id: string; p_quantity: number }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
