@@ -234,6 +234,12 @@ export const productTranslations = {
         name: 'Vestido Multicolor con Mangas',
         description: 'Espectacular vestido con mangas largas y diseño geométrico multicolor. El corpiño combina crema con detalles en rojo, negro y turquesa, creando un hermoso patrón tribal. La falda presenta franjas onduladas en colores variados: rosa, verde, negro y crema. Una verdadera obra de arte textil que destaca por su complejidad y belleza.',
         materials: ['Hilos multicolores premium', 'Diseño geométrico', 'Patrón tribal']
+      },
+      {
+        id: '40',
+        name: 'Abrigo Oversized Multicolor',
+        description: 'Espectacular abrigo oversized de crochet con diseño de bloques de color. Combina magenta vibrante, turquesa en patrón granny square, y detalles en azul marino con puntos multicolores. Los bordes presentan un hermoso patrón de pompones en azul, blanco y detalles dorados. Incluye cordón frontal decorativo con pompones de colores. Pieza única tejida completamente a mano con técnica artesanal.',
+        materials: ['Hilo magenta texturizado', 'Hilo turquesa granny', 'Detalles multicolores', 'Pompones artesanales']
       }
     ],
     testimonials: [
@@ -489,6 +495,12 @@ export const productTranslations = {
         name: 'Robe Multicolore avec Manches',
         description: 'Spectaculaire robe avec manches longues et design géométrique multicolore. Le corsage combine crème avec détails en rouge, noir et turquoise, créant un beau motif tribal. La jupe présente des rayures ondulées en rose, vert, noir et crème. Une véritable œuvre d\'art textile se distinguant par sa complexité et sa beauté.',
         materials: ['Fils multicolores premium', 'Design géométrique', 'Motif tribal']
+      },
+      {
+        id: '40',
+        name: 'Manteau Oversize Multicolore',
+        description: 'Spectaculaire manteau oversize en crochet avec design en blocs de couleur. Combine magenta vibrant, turquoise en motif granny square, et détails en bleu marine avec points multicolores. Les bordures présentent un magnifique motif de pompons bleu, blanc et détails dorés. Comprend cordon décoratif frontal avec pompons colorés. Pièce unique entièrement tricotée à la main avec technique artisanale.',
+        materials: ['Fil magenta texturé', 'Fil turquoise granny', 'Détails multicolores', 'Pompons artisanaux']
       }
     ],
     testimonials: [
@@ -744,6 +756,12 @@ export const productTranslations = {
         name: 'Multicolor Dress with Sleeves',
         description: 'Spectacular dress with long sleeves and multicolor geometric design. The bodice combines cream with red, black, and turquoise details, creating a beautiful tribal pattern. The skirt features wavy stripes in pink, green, black, and cream. A true textile art piece that stands out for its complexity and beauty.',
         materials: ['Premium multicolor yarns', 'Geometric design', 'Tribal pattern']
+      },
+      {
+        id: '40',
+        name: 'Oversized Multicolor Coat',
+        description: 'Spectacular oversized crochet coat with color-block design. Combines vibrant magenta, turquoise granny square pattern, and navy blue details with multicolored dots. The edges feature a beautiful pattern of blue, white pompoms with golden details. Includes decorative front cord with colorful pompoms. Unique piece entirely hand-crocheted with artisan technique.',
+        materials: ['Textured magenta yarn', 'Turquoise granny yarn', 'Multicolor details', 'Handmade pompoms']
       }
     ],
     testimonials: [
