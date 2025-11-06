@@ -11,7 +11,7 @@
   "hero": {
     "title": "Bold Fashion in Crochet",
     "subtitle": "Unique Handmade Creations",
-    "description": "Discover unique crochet pieces combining tradition and contemporary design. Each creation tells a story of passion and artisanal craftsmanship.",
+    "description": "Discover unique crochet pieces that combine tradition with contemporary design. Each creation tells a story of passion and artisanal craftsmanship.",
     "cta": "Explore Collections",
     "uniquePieces": "Unique Pieces",
     "handmade": "Handmade with love",
@@ -91,9 +91,9 @@
   "about": {
     "title": "About YariCrochetFina",
     "subtitle": "The Art of Handmade Crochet",
-    "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms each thread into a wearable work of art. Each piece I create tells a story, combining ancestral techniques with contemporary design.",
-    "passion": "My passion for crochet began years ago and has transformed into a true calling. Each creation is the result of many hours of meticulous work, love for the craft, and a commitment to quality.",
-    "quality": "I'm committed to using only premium materials and maintaining the highest standards of craftsmanship. Each piece is unique and made with love, especially for you.",
+    "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms every thread into wearable art. Each piece I create tells a story, blending ancestral techniques with contemporary design.",
+    "passion": "My passion for crochet began years ago and has become my true calling. Each creation results from countless hours of meticulous work, love for the craft, and unwavering commitment to quality.",
+    "quality": "I'm committed to using only premium materials and maintaining the highest craftsmanship standards. Each piece is unique and made with love, especially for you.",
     "cta": "Discover Our Story",
     "meetYaritza": "Meet Yaritza Salgado Fina",
     "artisanTitle": "Artisan at Heart, Creator of Dreams",
@@ -200,11 +200,11 @@
     }
   },
   "categories": {
-    "Blusas": "Blouses",
+    "Blusas": "Blusas",
     "Gilets": "Gilets",
-    "Chalecos": "Vests",
-    "Túnicas": "Tunics",
-    "Vestidos": "Dresses"
+    "Chalecos": "Chalecos",
+    "Túnicas": "Túnicas",
+    "Vestidos": "Vestidos"
   },
   "styles": {
     "Boho Chic": "Boho Chic",

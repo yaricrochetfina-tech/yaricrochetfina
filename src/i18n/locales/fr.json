@@ -10,11 +10,11 @@
   },
   "hero": {
     "title": "La Mode Audacieuse en Crochet",
-    "subtitle": "Créations Uniques Faites à la Main",
-    "description": "Découvrez des pièces de crochet uniques alliant tradition et design contemporain. Chaque création raconte une histoire de passion et de savoir-faire artisanal.",
+    "subtitle": "Créations Uniques Faites Main",
+    "description": "Découvrez des pièces de crochet uniques qui allient tradition et design contemporain. Chaque création raconte une histoire de passion et de savoir-faire artisanal.",
     "cta": "Découvrir les Collections",
     "uniquePieces": "Pièces Uniques",
-    "handmade": "Faites à la main avec amour",
+    "handmade": "Faites main avec amour",
     "ancestralTechniques": "Techniques Ancestrales",
     "tradition": "Tradition dans chaque point",
     "everyPiece": "Chaque Pièce Compte",
@@ -90,9 +90,9 @@
   },
   "about": {
     "title": "À Propos de YariCrochetFina",
-    "subtitle": "L'Art du Crochet Fait à la Main",
-    "description": "Bienvenue dans mon univers de créations uniques en crochet et tricot. Je suis Yaritza Salgado Fina, artisane passionnée qui transforme chaque fil en une œuvre d'art portable. Chaque pièce que je crée raconte une histoire, alliant techniques ancestrales et design contemporain.",
-    "passion": "Ma passion pour le crochet a commencé il y a des années et s'est transformée en une véritable vocation. Chaque création est le résultat de nombreuses heures de travail minutieux, d'amour pour l'artisanat et d'un engagement envers la qualité.",
+    "subtitle": "L'Art du Crochet Fait Main",
+    "description": "Bienvenue dans mon univers de créations uniques en crochet et tricot. Je suis Yaritza Salgado Fina, une artisane passionnée qui transforme chaque fil en œuvre d'art portable. Chaque pièce que je crée raconte une histoire, alliant techniques ancestrales et design contemporain.",
+    "passion": "Ma passion pour le crochet a commencé il y a des années et s'est transformée en véritable vocation. Chaque création est le résultat de nombreuses heures de travail minutieux, d'amour pour l'artisanat et d'engagement envers la qualité.",
     "quality": "Je m'engage à utiliser uniquement des matériaux de première qualité et à maintenir les plus hauts standards de confection. Chaque pièce est unique et faite avec amour, spécialement pour vous.",
     "cta": "Découvrir Notre Histoire",
     "meetYaritza": "Rencontrez Yaritza Salgado Fina",
@@ -200,11 +200,11 @@
     }
   },
   "categories": {
-    "Blusas": "Chemisiers",
+    "Blusas": "Blusas",
     "Gilets": "Gilets",
-    "Chalecos": "Gilets Courts",
-    "Túnicas": "Tuniques",
-    "Vestidos": "Robes"
+    "Chalecos": "Chalecos",
+    "Túnicas": "Túnicas",
+    "Vestidos": "Vestidos"
   },
   "styles": {
     "Boho Chic": "Boho Chic",
