@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Eye, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
-
+import { resolveProductImage } from '@/lib/imageResolver';
 interface OptimizedImageProps {
   src: string;
   alt: string;
@@ -65,7 +65,8 @@ export const OptimizedImage = ({
       img.src = imageSrc;
     };
 
-    createThumbnail(src);
+    const resolvedSrc = resolveProductImage(src);
+    createThumbnail(resolvedSrc);
   }, [src]);
 
   if (!isLoaded) {
