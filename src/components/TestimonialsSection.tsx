@@ -51,7 +51,7 @@ export const TestimonialsSection = () => {
                 <div className="flex items-center justify-between">
                   <div>
                     <h4 className="font-semibold text-foreground">{testimonial.name}</h4>
-                    <p className="text-sm text-muted-foreground">{t('testimonials.verifiedCustomer')}</p>
+                    
                   </div>
                   <div className="text-right">
                     <div className="text-xs text-muted-foreground">{t('testimonials.collection')}</div>

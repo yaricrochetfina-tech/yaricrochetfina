@@ -135,11 +135,7 @@ export const NewsletterSection = () => {
           {/* Social proof */}
           <div className="mt-12 text-white/80">
             
-            <div className="flex justify-center space-x-4 text-xs">
-              <span>⭐ María G. - "Contenido increíble"</span>
-              <span>⭐ Ana R. - "Tips muy útiles"</span>
-              <span>⭐ Carmen L. - "Ofertas exclusivas"</span>
-            </div>
+            
           </div>
         </div>
       </div>
