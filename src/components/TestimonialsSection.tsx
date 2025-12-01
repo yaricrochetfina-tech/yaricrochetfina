@@ -1,35 +1,26 @@
 import { useTranslation } from 'react-i18next';
 import { testimonials } from '@/data/mockData';
 import { Star } from 'lucide-react';
-
 export const TestimonialsSection = () => {
-  const { t } = useTranslation();
+  const {
+    t
+  } = useTranslation();
   const renderStars = (rating: number) => {
-    return Array.from({ length: 5 }, (_, index) => (
-      <Star
-        key={index}
-        className={`h-5 w-5 ${
-          index < rating
-            ? 'text-yellow-400 fill-yellow-400'
-            : 'text-gray-300'
-        }`}
-      />
-    ));
+    return Array.from({
+      length: 5
+    }, (_, index) => <Star key={index} className={`h-5 w-5 ${index < rating ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />);
   };
-
   const getStyleColor = (style: string) => {
     const colors = {
       'Boho Chic': 'border-primary/20 bg-primary/5',
       'Hippie': 'border-accent/20 bg-accent/5',
       'Vintage': 'border-secondary/20 bg-secondary/5',
       'Shabby Chic': 'border-pink-200 bg-pink-50',
-      'Traditional': 'border-amber-200 bg-amber-50',
+      'Traditional': 'border-amber-200 bg-amber-50'
     };
     return colors[style as keyof typeof colors] || 'border-muted bg-muted/5';
   };
-
-  return (
-    <section className="py-20 bg-texture-warm">
+  return <section className="py-20 bg-texture-warm">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16 animate-fade-in-up">
           <h2 className="text-section-title">{t('testimonials.title')}</h2>
@@ -39,12 +30,9 @@ export const TestimonialsSection = () => {
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={testimonial.id}
-              className={`card-warm border-2 ${getStyleColor(testimonial.style)} animate-fade-in-up hover:shadow-earth transition-all duration-300`}
-              style={{ animationDelay: `${index * 0.2}s` }}
-            >
+          {testimonials.map((testimonial, index) => <div key={testimonial.id} className={`card-warm border-2 ${getStyleColor(testimonial.style)} animate-fade-in-up hover:shadow-earth transition-all duration-300`} style={{
+          animationDelay: `${index * 0.2}s`
+        }}>
               {/* Quote icon */}
               <div className="text-4xl text-primary/30 mb-4 font-serif">"</div>
               
@@ -80,45 +68,11 @@ export const TestimonialsSection = () => {
                 {testimonial.style === 'Shabby Chic' && '🦋'}
                 {testimonial.style === 'Traditional' && '🏺'}
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         {/* Customer satisfaction stats */}
-        <div className="mt-16 text-center">
-          <div className="card-warm max-w-4xl mx-auto">
-            <h3 className="font-playfair text-2xl font-semibold mb-8 text-foreground">
-              {t('testimonials.satisfactionTitle')}
-            </h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-4xl mb-2">⭐</div>
-                <div className="text-3xl font-bold text-primary mb-1">4.9/5</div>
-                <div className="text-sm text-muted-foreground">{t('testimonials.averageRating')}</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-4xl mb-2">💝</div>
-                <div className="text-3xl font-bold text-primary mb-1">250+</div>
-                <div className="text-sm text-muted-foreground">{t('testimonials.happyCustomers')}</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-4xl mb-2">🔄</div>
-                <div className="text-3xl font-bold text-primary mb-1">89%</div>
-                <div className="text-sm text-muted-foreground">{t('testimonials.returningCustomers')}</div>
-              </div>
-              
-              <div className="text-center">
-                <div className="text-4xl mb-2">🎁</div>
-                <div className="text-3xl font-bold text-primary mb-1">95%</div>
-                <div className="text-sm text-muted-foreground">{t('testimonials.recommend')}</div>
-              </div>
-            </div>
-          </div>
-        </div>
+        
       </div>
-    </section>
-  );
+    </section>;
 };
