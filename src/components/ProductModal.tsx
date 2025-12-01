@@ -9,6 +9,7 @@ import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
 import { useProductTranslation } from '@/hooks/useProductTranslation';
+import { resolveProductImage } from '@/lib/imageResolver';
 
 interface ProductModalProps {
   product: Product;
@@ -134,7 +135,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                     }`}
                   >
                     <img
-                      src={img}
+                      src={resolveProductImage(img)}
                       alt={`${t('products.view')} ${index + 1}`}
                       className="w-20 h-20 object-cover"
                     />
