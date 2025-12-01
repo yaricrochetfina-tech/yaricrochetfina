@@ -1,16 +1,16 @@
 import { Facebook, Instagram, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-
 export const Footer = () => {
-  const { t } = useTranslation();
-  
+  const {
+    t
+  } = useTranslation();
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: 'smooth' });
+    element?.scrollIntoView({
+      behavior: 'smooth'
+    });
   };
-
-  return (
-    <footer className="bg-secondary text-secondary-foreground">
+  return <footer className="bg-secondary text-secondary-foreground">
       {/* Main Footer */}
       <div className="container mx-auto px-4 py-16">
         <div className="grid md:grid-cols-4 gap-8">
@@ -31,79 +31,23 @@ export const Footer = () => {
             </p>
 
             <div className="flex space-x-4">
-              <a
-                href="https://facebook.com/yaricrochetfina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-              >
+              <a href="https://facebook.com/yaricrochetfina" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a
-                href="https://instagram.com/yaricrochetfina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-              >
+              <a href="https://instagram.com/yaricrochetfina" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a
-                href="https://pinterest.com/yaricrochetfina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-              >
+              <a href="https://pinterest.com/yaricrochetfina" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                 <span className="text-sm font-bold">P</span>
               </a>
-              <a
-                href="https://etsy.com/shop/yaricrochetfina"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300"
-              >
+              <a href="https://etsy.com/shop/yaricrochetfina" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-secondary-foreground/10 rounded-full flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
                 <span className="text-sm font-bold">E</span>
               </a>
             </div>
           </div>
 
           {/* Navigation Links */}
-          <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4">{t('footer.quickLinks')}</h4>
-            <ul className="space-y-3">
-              <li>
-                <button
-                  onClick={() => scrollToSection('colecciones')}
-                  className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                >
-                  {t('header.products')}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('proceso')}
-                  className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                >
-                  {t('header.process')}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('sobre-yaritza')}
-                  className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                >
-                  {t('header.about')}
-                </button>
-              </li>
-              <li>
-                <button
-                  onClick={() => scrollToSection('contacto')}
-                  className="text-secondary-foreground/80 hover:text-primary transition-colors duration-300"
-                >
-                  {t('header.contact')}
-                </button>
-              </li>
-            </ul>
-          </div>
+          
 
           {/* Support & Info */}
           <div>
@@ -181,6 +125,5 @@ export const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
