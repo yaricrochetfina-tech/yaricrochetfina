@@ -170,6 +170,7 @@
     "itemAdded": "Artículo añadido al carrito",
     "itemRemoved": "Artículo eliminado del carrito",
     "calculateShipping": "Calcular Envío",
+    "checkoutError": "No se pudo procesar el pago. Por favor intenta de nuevo.",
     "shippingCalculator": {
       "title": "Calculadora de Envío",
       "country": "País",
@@ -177,6 +178,15 @@
       "postalCode": "Código Postal",
       "calculate": "Calcular",
       "estimatedShipping": "Envío estimado"
+    },
+    "guestCheckout": {
+      "title": "Continuar como Invitado",
+      "description": "Ingresa tu email para recibir la confirmación de tu pedido",
+      "emailPlaceholder": "tu@email.com",
+      "continue": "Continuar al Pago",
+      "orLogin": "¿Ya tienes una cuenta?",
+      "loginLink": "Inicia sesión",
+      "invalidEmail": "Por favor ingresa un email válido"
     }
   },
   "payment": {

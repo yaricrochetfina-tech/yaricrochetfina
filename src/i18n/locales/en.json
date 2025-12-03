@@ -170,6 +170,7 @@
     "itemAdded": "Item added to cart",
     "itemRemoved": "Item removed from cart",
     "calculateShipping": "Calculate Shipping",
+    "checkoutError": "Could not process payment. Please try again.",
     "shippingCalculator": {
       "title": "Shipping Calculator",
       "country": "Country",
@@ -177,6 +178,15 @@
       "postalCode": "Postal Code",
       "calculate": "Calculate",
       "estimatedShipping": "Estimated shipping"
+    },
+    "guestCheckout": {
+      "title": "Continue as Guest",
+      "description": "Enter your email to receive your order confirmation",
+      "emailPlaceholder": "you@email.com",
+      "continue": "Continue to Payment",
+      "orLogin": "Already have an account?",
+      "loginLink": "Log in",
+      "invalidEmail": "Please enter a valid email"
     }
   },
   "payment": {
