@@ -8,7 +8,18 @@ import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { GuestCheckoutDialog } from './GuestCheckoutDialog';
+import { resolveProductImage } from '@/lib/imageResolver';
 
+// Helper to convert image paths to absolute URLs for Stripe
+const getAbsoluteImageUrl = (imagePath: string): string => {
+  const resolved = resolveProductImage(imagePath);
+  // If already absolute URL, return as-is
+  if (resolved.startsWith('http://') || resolved.startsWith('https://')) {
+    return resolved;
+  }
+  // Convert relative path to absolute URL
+  return `${window.location.origin}${resolved}`;
+};
 export const ShoppingCart = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
@@ -27,7 +38,7 @@ export const ShoppingCart = () => {
               id: item.product.id,
               name: item.product.name,
               price: item.product.price,
-              image: item.product.image,
+              image: getAbsoluteImageUrl(item.product.image),
             },
             quantity: item.quantity,
           })),

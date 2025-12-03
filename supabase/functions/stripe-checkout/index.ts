@@ -109,18 +109,26 @@ serve(async (req) => {
 
     const shippingCost = shippingRates[shippingCountry] || shippingRates.default;
 
+    // Helper to validate image URLs for Stripe (must be absolute https URLs)
+    const isValidImageUrl = (url: string): boolean => {
+      return url.startsWith('https://') && url.length < 2000;
+    };
+
     // Create line items for Stripe using validated data
-    const lineItems = validatedItems.map(item => ({
-      price_data: {
-        currency: 'usd',
-        product_data: {
-          name: item.product.name,
-          images: [item.product.image],
+    const lineItems = validatedItems.map(item => {
+      const images = isValidImageUrl(item.product.image) ? [item.product.image] : [];
+      return {
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: item.product.name,
+            images,
+          },
+          unit_amount: Math.round(item.product.price * 100), // Convert to cents
         },
-        unit_amount: Math.round(item.product.price * 100), // Convert to cents
-      },
-      quantity: item.quantity,
-    }));
+        quantity: item.quantity,
+      };
+    });
 
     // Add shipping as a line item
     lineItems.push({
