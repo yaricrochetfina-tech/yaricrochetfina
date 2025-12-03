@@ -170,6 +170,7 @@
     "itemAdded": "Article ajouté au panier",
     "itemRemoved": "Article retiré du panier",
     "calculateShipping": "Calculer les Frais de Port",
+    "checkoutError": "Le paiement n'a pas pu être traité. Veuillez réessayer.",
     "shippingCalculator": {
       "title": "Calculateur de Frais de Port",
       "country": "Pays",
@@ -177,6 +178,15 @@
       "postalCode": "Code Postal",
       "calculate": "Calculer",
       "estimatedShipping": "Frais de port estimés"
+    },
+    "guestCheckout": {
+      "title": "Continuer en tant qu'Invité",
+      "description": "Entrez votre email pour recevoir la confirmation de votre commande",
+      "emailPlaceholder": "vous@email.com",
+      "continue": "Continuer vers le Paiement",
+      "orLogin": "Vous avez déjà un compte?",
+      "loginLink": "Connectez-vous",
+      "invalidEmail": "Veuillez entrer un email valide"
     }
   },
   "payment": {
