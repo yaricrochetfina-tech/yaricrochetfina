@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
+import { useTranslation } from 'react-i18next';
 
 // Validation schema with security constraints
 const contactFormSchema = z.object({
@@ -20,9 +20,8 @@ export const ContactSection = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  const { i18n } = useTranslation();
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
       ...prev,
@@ -53,6 +52,22 @@ export const ContactSection = () => {
         });
         return;
       }
+
+      // Send emails via edge function (non-blocking)
+      try {
+        await supabase.functions.invoke('send-contact-email', {
+          body: {
+            name: validatedData.name,
+            email: validatedData.email,
+            message: validatedData.message,
+            language: i18n.language
+          }
+        });
+      } catch (emailError) {
+        // Log but don't fail - message is already saved
+        console.error('Email sending failed:', emailError);
+      }
+
       toast({
         title: "Mensaje enviado",
         description: "Gracias por contactarnos. Te responderemos pronto."
