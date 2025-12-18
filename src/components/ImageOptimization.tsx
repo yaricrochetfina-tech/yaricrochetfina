@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Eye, Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { resolveProductImage } from '@/lib/imageResolver';
+
 interface OptimizedImageProps {
   src: string;
   alt: string;
@@ -19,60 +20,16 @@ export const OptimizedImage = ({
   enableFullView = true,
 }: OptimizedImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [thumbnailSrc, setThumbnailSrc] = useState('');
-  const [fullSrc, setFullSrc] = useState('');
+  const [hasError, setHasError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showFullResolution, setShowFullResolution] = useState(false);
 
-  useEffect(() => {
-    // Create a canvas to generate optimized thumbnail
-    const createThumbnail = (imageSrc: string) => {
-      const img = new Image();
-      img.crossOrigin = 'anonymous';
-      img.onload = () => {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+  const resolvedSrc = resolveProductImage(src);
 
-        // Set thumbnail dimensions (400px max for cards)
-        const maxWidth = 400;
-        const maxHeight = 400;
-
-        let { width, height } = img as HTMLImageElement;
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height = (height * maxWidth) / width;
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width = (width * maxHeight) / height;
-            height = maxHeight;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        ctx?.drawImage(img, 0, 0, width, height);
-
-        // Create optimized thumbnail (lower quality for faster loading)
-        const thumbnailDataUrl = canvas.toDataURL('image/jpeg', 0.7);
-        setThumbnailSrc(thumbnailDataUrl);
-        setFullSrc(imageSrc); // Keep original for full view
-        setIsLoaded(true);
-      };
-      img.src = imageSrc;
-    };
-
-    const resolvedSrc = resolveProductImage(src);
-    createThumbnail(resolvedSrc);
-  }, [src]);
-
-  if (!isLoaded) {
+  if (hasError) {
     return (
-      <div className={`${thumbnailClassName} bg-muted animate-pulse rounded-lg flex items-center justify-center`}>
-        <div className="text-muted-foreground">Cargando...</div>
+      <div className={`${thumbnailClassName} bg-muted rounded-lg flex items-center justify-center`}>
+        <div className="text-muted-foreground text-sm">Imagen no disponible</div>
       </div>
     );
   }
@@ -80,10 +37,12 @@ export const OptimizedImage = ({
   if (!enableFullView) {
     return (
       <img
-        src={thumbnailSrc}
+        src={resolvedSrc}
         alt={alt}
         className={`${thumbnailClassName} ${className}`}
         loading="lazy"
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setHasError(true)}
       />
     );
   }
@@ -92,40 +51,48 @@ export const OptimizedImage = ({
     <>
       {/* Imagen con botón "Ver" */}
       <div className="relative group">
+        {!isLoaded && !hasError && (
+          <div className={`${thumbnailClassName} bg-muted animate-pulse rounded-lg flex items-center justify-center absolute inset-0`}>
+            <div className="text-muted-foreground">Cargando...</div>
+          </div>
+        )}
         <img
-          src={thumbnailSrc}
+          src={resolvedSrc}
           alt={alt}
-          className={`${thumbnailClassName} ${className}`}
+          className={`${thumbnailClassName} ${className} ${!isLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity`}
           loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
         />
-        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => setIsDialogOpen(true)}
-            className="gap-2"
-          >
-            <Eye className="h-4 w-4" />
-            Ver
-          </Button>
-        </div>
+        {isLoaded && (
+          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsDialogOpen(true)}
+              className="gap-2"
+            >
+              <Eye className="h-4 w-4" />
+              Ver
+            </Button>
+          </div>
+        )}
       </div>
 
-      {/* Modal con Zoom visible siempre */}
+      {/* Modal con Zoom */}
       <Dialog open={isDialogOpen} onOpenChange={(open) => {
         setIsDialogOpen(open);
         if (!open) setShowFullResolution(false);
       }}>
         <DialogContent className="max-w-5xl max-h-[90vh] p-3">
           <div className="flex flex-col gap-3">
-            {/* Contenedor de imagen */}
             <div
               className={`relative rounded-lg border bg-background ${
                 showFullResolution ? 'h-[75vh] overflow-auto' : ''
               }`}
             >
               <img
-                src={showFullResolution ? fullSrc : thumbnailSrc}
+                src={resolvedSrc}
                 alt={alt}
                 className={
                   showFullResolution
@@ -137,7 +104,6 @@ export const OptimizedImage = ({
               />
             </div>
 
-            {/* Barra de acciones */}
             <div className="flex items-center justify-between">
               <div className="text-xs text-muted-foreground">
                 {showFullResolution
