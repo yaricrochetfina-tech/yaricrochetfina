@@ -1,28 +1,69 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Stripe from 'https://esm.sh/stripe@14.21.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { z } from 'https://esm.sh/zod@3.22.4';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-interface CartItem {
-  product: {
-    id: string;
-    name: string;
-    price: number;
-    image: string;
-  };
-  quantity: number;
-}
+// Input validation schema
+const cartItemSchema = z.object({
+  product: z.object({
+    id: z.string().uuid('Invalid product ID'),
+    name: z.string().max(200, 'Product name too long'),
+    price: z.number().positive('Price must be positive'),
+    image: z.string().max(2000).optional().default(''),
+  }),
+  quantity: z.number().int('Quantity must be an integer').positive('Quantity must be positive').max(100, 'Maximum quantity is 100'),
+});
 
-interface CheckoutRequest {
-  items: CartItem[];
-  shippingCountry: string;
-  customerEmail?: string;
-  customerName?: string;
-}
+const ALLOWED_COUNTRIES = ['MX', 'US', 'CA', 'FR', 'ES', 'IT', 'DE', 'GB'] as const;
+
+const checkoutRequestSchema = z.object({
+  items: z.array(cartItemSchema).min(1, 'Cart cannot be empty').max(50, 'Too many items in cart'),
+  shippingCountry: z.enum(ALLOWED_COUNTRIES, { 
+    errorMap: () => ({ message: 'Invalid shipping country' })
+  }),
+  customerEmail: z.string().email('Invalid email format').max(255, 'Email too long').optional(),
+  customerName: z.string().max(200, 'Name too long').optional(),
+});
+
+// Escape HTML to prevent XSS in error messages
+const escapeHtml = (str: string): string => {
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+};
+
+// Map internal errors to safe user-facing messages
+const getSafeErrorMessage = (error: unknown): string => {
+  console.error('Checkout error:', error);
+  
+  if (error instanceof z.ZodError) {
+    // Return first validation error (already safe since it's from our schema)
+    return error.errors[0]?.message || 'Invalid request data';
+  }
+  
+  if (error instanceof Error) {
+    // Map specific errors to generic messages
+    if (error.message.includes('not found')) {
+      return 'One or more products are unavailable';
+    }
+    if (error.message.includes('out of stock')) {
+      return 'Some items are no longer in stock';
+    }
+    if (error.message.includes('STRIPE_SECRET_KEY')) {
+      return 'Payment system configuration error';
+    }
+  }
+  
+  return 'Unable to process your request. Please try again.';
+};
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -40,7 +81,10 @@ serve(async (req) => {
       apiVersion: '2023-10-16',
     });
 
-    const { items, shippingCountry, customerEmail, customerName }: CheckoutRequest = await req.json();
+    // Parse and validate input
+    const rawBody = await req.json();
+    const validatedInput = checkoutRequestSchema.parse(rawBody);
+    const { items, shippingCountry, customerEmail, customerName } = validatedInput;
 
     console.log('Creating checkout session for:', { itemsCount: items.length, shippingCountry });
 
@@ -60,7 +104,7 @@ serve(async (req) => {
     if (dbError || !dbProducts) {
       console.error('Failed to validate products:', dbError);
       return new Response(
-        JSON.stringify({ error: 'Failed to validate products' }),
+        JSON.stringify({ error: 'Unable to validate products. Please try again.' }),
         {
           headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           status: 400,
@@ -77,7 +121,7 @@ serve(async (req) => {
       }
       
       if (!dbProduct.in_stock) {
-        throw new Error(`Product "${dbProduct.name}" is out of stock`);
+        throw new Error(`Product "${escapeHtml(dbProduct.name)}" is out of stock`);
       }
       
       // Use database price and name, not client-provided values
@@ -86,7 +130,7 @@ serve(async (req) => {
           id: dbProduct.id,
           name: dbProduct.name,
           price: Number(dbProduct.price),
-          image: item.product.image,
+          image: item.product.image || '',
         },
         quantity: item.quantity,
       };
@@ -104,10 +148,9 @@ serve(async (req) => {
       'IT': 35.00,
       'DE': 35.00,
       'GB': 35.00,
-      'default': 40.00,
     };
 
-    const shippingCost = shippingRates[shippingCountry] || shippingRates.default;
+    const shippingCost = shippingRates[shippingCountry];
 
     // Helper to validate image URLs for Stripe (must be absolute https URLs)
     const isValidImageUrl = (url: string): boolean => {
@@ -164,7 +207,7 @@ serve(async (req) => {
         }))),
       },
       shipping_address_collection: {
-        allowed_countries: ['MX', 'US', 'CA', 'FR', 'ES', 'IT', 'DE', 'GB'],
+        allowed_countries: [...ALLOWED_COUNTRIES],
       },
     });
 
@@ -178,13 +221,12 @@ serve(async (req) => {
       }
     );
   } catch (error) {
-    console.error('Error creating checkout session:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+    const safeMessage = getSafeErrorMessage(error);
     return new Response(
-      JSON.stringify({ error: errorMessage }),
+      JSON.stringify({ error: safeMessage }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500,
+        status: error instanceof z.ZodError ? 400 : 500,
       }
     );
   }
