@@ -132,15 +132,22 @@ export function resolveProductImage(dbPath: string): string {
   }
   
   // Extract just the filename from the path
-  const filename = dbPath.split('/').pop();
+  // Handle paths like: src/assets/file.jpg, /src/assets/file.jpg, @/assets/file.jpg
+  const filename = dbPath.split('/').pop()?.trim();
   
   if (filename && imageMap[filename]) {
     return imageMap[filename];
   }
   
-  // Debug: log for troubleshooting
-  console.warn(`Image not found in map: ${dbPath}, filename: ${filename}`);
+  // Try lowercase match as fallback
+  if (filename) {
+    const lowerFilename = filename.toLowerCase();
+    const matchKey = Object.keys(imageMap).find(key => key.toLowerCase() === lowerFilename);
+    if (matchKey) {
+      return imageMap[matchKey];
+    }
+  }
   
-  // Fallback - return placeholder
+  // Return placeholder as absolute last resort
   return '/placeholder.svg';
 }
