@@ -23,8 +23,21 @@ export const OptimizedImage = ({
   const [hasError, setHasError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [showFullResolution, setShowFullResolution] = useState(false);
+  const [dialogImageLoaded, setDialogImageLoaded] = useState(false);
+  const [dialogImageError, setDialogImageError] = useState(false);
 
   const resolvedSrc = resolveProductImage(src);
+
+  // Reset dialog image state when dialog opens
+  const handleDialogOpen = (open: boolean) => {
+    setIsDialogOpen(open);
+    if (open) {
+      setDialogImageLoaded(false);
+      setDialogImageError(false);
+    } else {
+      setShowFullResolution(false);
+    }
+  };
 
   if (hasError) {
     return (
@@ -69,7 +82,7 @@ export const OptimizedImage = ({
             <Button
               variant="secondary"
               size="sm"
-              onClick={() => setIsDialogOpen(true)}
+              onClick={() => handleDialogOpen(true)}
               className="gap-2"
             >
               <Eye className="h-4 w-4" />
@@ -80,27 +93,44 @@ export const OptimizedImage = ({
       </div>
 
       {/* Modal con Zoom */}
-      <Dialog open={isDialogOpen} onOpenChange={(open) => {
-        setIsDialogOpen(open);
-        if (!open) setShowFullResolution(false);
-      }}>
-        <DialogContent className="max-w-5xl max-h-[90vh] p-3">
+      <Dialog open={isDialogOpen} onOpenChange={handleDialogOpen}>
+        <DialogContent className="max-w-5xl max-h-[90vh] p-3" aria-describedby={undefined}>
           <div className="flex flex-col gap-3">
             <div
               className={`relative rounded-lg border bg-background ${
                 showFullResolution ? 'h-[75vh] overflow-auto' : ''
               }`}
             >
+              {/* Loading state for dialog image */}
+              {!dialogImageLoaded && !dialogImageError && (
+                <div className="w-full h-[50vh] bg-muted animate-pulse rounded-lg flex items-center justify-center">
+                  <div className="text-muted-foreground">Cargando imagen...</div>
+                </div>
+              )}
+              
+              {/* Error state for dialog image */}
+              {dialogImageError && (
+                <div className="w-full h-[50vh] bg-muted rounded-lg flex items-center justify-center">
+                  <div className="text-muted-foreground text-center">
+                    <p className="mb-2">No se pudo cargar la imagen</p>
+                    <p className="text-xs">Intenta de nuevo más tarde</p>
+                  </div>
+                </div>
+              )}
+              
+              {/* Actual image */}
               <img
                 src={resolvedSrc}
                 alt={alt}
-                className={
+                className={`${
                   showFullResolution
                     ? 'max-w-none h-auto select-none cursor-zoom-out'
                     : 'w-full h-auto max-h-[75vh] object-contain select-none'
-                }
+                } ${!dialogImageLoaded ? 'hidden' : ''}`}
                 onClick={() => setShowFullResolution((v) => !v)}
                 draggable={false}
+                onLoad={() => setDialogImageLoaded(true)}
+                onError={() => setDialogImageError(true)}
               />
             </div>
 
@@ -115,7 +145,7 @@ export const OptimizedImage = ({
                   variant="secondary"
                   size="sm"
                   onClick={() => setShowFullResolution(true)}
-                  disabled={showFullResolution}
+                  disabled={showFullResolution || !dialogImageLoaded}
                   className="gap-2"
                 >
                   <Maximize2 className="h-4 w-4" />
@@ -124,10 +154,7 @@ export const OptimizedImage = ({
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => {
-                    setIsDialogOpen(false);
-                    setShowFullResolution(false);
-                  }}
+                  onClick={() => handleDialogOpen(false)}
                 >
                   <X className="h-4 w-4" />
                 </Button>
