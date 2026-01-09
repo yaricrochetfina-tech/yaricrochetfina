@@ -9,6 +9,39 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Simple in-memory rate limiting (per instance)
+// For production with multiple instances, use Redis or database-based rate limiting
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 5; // 5 contact emails per minute per IP
+
+const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number } => {
+  const now = Date.now();
+  const record = rateLimitMap.get(clientIp);
+  
+  // Clean up old entries periodically
+  if (rateLimitMap.size > 10000) {
+    const cutoff = now - RATE_LIMIT_WINDOW_MS;
+    for (const [key, value] of rateLimitMap.entries()) {
+      if (value.resetTime < cutoff) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+  
+  if (!record || now >= record.resetTime) {
+    rateLimitMap.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
+  }
+  
+  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+    return { allowed: false, remaining: 0 };
+  }
+  
+  record.count += 1;
+  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
+};
+
 // Supported languages
 const SUPPORTED_LANGUAGES = ['es', 'fr', 'en'] as const;
 
@@ -94,6 +127,27 @@ const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Rate limiting - get client IP
+  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
+                   req.headers.get('x-real-ip') || 
+                   'unknown';
+  
+  const rateLimit = checkRateLimit(clientIp);
+  if (!rateLimit.allowed) {
+    console.warn('Rate limit exceeded for IP:', clientIp);
+    return new Response(
+      JSON.stringify({ error: 'Too many requests. Please try again in a minute.' }),
+      {
+        status: 429,
+        headers: { 
+          "Content-Type": "application/json", 
+          "Retry-After": "60",
+          ...corsHeaders 
+        },
+      }
+    );
   }
 
   try {
