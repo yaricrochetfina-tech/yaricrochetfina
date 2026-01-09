@@ -30,7 +30,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   // Stripe payment link for this product
   const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
   
-  const displayImages = product.images || [product.image];
+  const displayImages = product.images && product.images.length > 0 ? product.images : [product.image];
 
   const handleAddToCart = async () => {
     setIsAdding(true);
