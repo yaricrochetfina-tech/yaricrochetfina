@@ -2,15 +2,13 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Stripe from 'https://esm.sh/stripe@14.21.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+// No CORS needed for server-to-server webhook from Stripe
 
 serve(async (req) => {
-  // Handle CORS preflight requests
-  if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+  // Webhooks don't need CORS - they come directly from Stripe servers
+  // Return 405 for unsupported methods
+  if (req.method !== 'POST') {
+    return new Response('Method not allowed', { status: 405 });
   }
 
   try {
@@ -145,12 +143,11 @@ serve(async (req) => {
       } catch (error) {
         console.error('Error processing order:', error);
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        // Return 200 to acknowledge receipt, but log the error
-        // Stripe will retry if we return non-200
+        // Return 500 to indicate processing failure
         return new Response(
           JSON.stringify({ error: 'Order processing failed', details: errorMessage }),
           { 
-            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' },
             status: 500 
           }
         );
@@ -160,7 +157,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ received: true }),
       { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         status: 200 
       }
     );
@@ -171,7 +168,7 @@ serve(async (req) => {
     return new Response(
       JSON.stringify({ error: errorMessage }),
       {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json' },
         status: 500,
       }
     );
