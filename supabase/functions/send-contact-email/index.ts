@@ -4,9 +4,19 @@ import { z } from 'https://esm.sh/zod@3.22.4';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+// Allowed origins for CORS - restrict to specific domains
+const allowedOrigins = [
+  'https://dlmdegdpdnxoixfophlx.lovable.app',
+  'https://yari-crochet-fina.lovable.app',
+  // Add any custom domains here
+];
+
+const getCorsHeaders = (origin: string | null) => {
+  const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+  return {
+    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
 };
 
 // Simple in-memory rate limiting (per instance)
@@ -124,6 +134,9 @@ const getSafeErrorMessage = (error: unknown): string => {
 };
 
 const handler = async (req: Request): Promise<Response> => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });

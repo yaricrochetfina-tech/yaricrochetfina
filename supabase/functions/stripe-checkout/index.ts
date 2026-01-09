@@ -3,9 +3,19 @@ import Stripe from 'https://esm.sh/stripe@14.21.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { z } from 'https://esm.sh/zod@3.22.4';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+// Allowed origins for CORS - restrict to specific domains
+const allowedOrigins = [
+  'https://dlmdegdpdnxoixfophlx.lovable.app',
+  'https://yari-crochet-fina.lovable.app',
+  // Add any custom domains here
+];
+
+const getCorsHeaders = (origin: string | null) => {
+  const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+  return {
+    'Access-Control-Allow-Origin': allowedOrigin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
 };
 
 // Simple in-memory rate limiting (per instance)
@@ -99,6 +109,9 @@ const getSafeErrorMessage = (error: unknown): string => {
 };
 
 serve(async (req) => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -240,15 +253,16 @@ serve(async (req) => {
       quantity: 1,
     });
 
-    const origin = req.headers.get('origin') || 'https://dlmdegdpdnxoixfophlx.lovable.app';
+    // Use validated origin for redirect URLs
+    const validatedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
 
     // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${origin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/payment/cancel`,
+      success_url: `${validatedOrigin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${validatedOrigin}/payment/cancel`,
       customer_email: customerEmail,
       metadata: {
         customer_name: customerName || '',
