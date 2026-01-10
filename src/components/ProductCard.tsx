@@ -3,10 +3,11 @@ import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Eye } from 'lucide-react';
+import { ShoppingCart, Eye, Link, Check } from 'lucide-react';
 import { useState } from 'react';
 import { OptimizedImage } from './ImageOptimization';
 import { useProductTranslation } from '@/hooks/useProductTranslation';
+import { toast } from 'sonner';
 
 interface ProductCardProps {
   product: Product;
@@ -18,6 +19,16 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
   const { addItem } = useCart();
   const translatedProduct = useProductTranslation(product);
   const [isAdding, setIsAdding] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
+
+  const handleCopyLink = async (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const productUrl = `${window.location.origin}/?product=${product.id}`;
+    await navigator.clipboard.writeText(productUrl);
+    setLinkCopied(true);
+    toast.success(t('products.linkCopied'));
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
 
   const handleAddToCart = async () => {
     setIsAdding(true);
@@ -138,6 +149,28 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
               +{translatedProduct.materials.length - 2} {t('products.more')}
             </Badge>
           )}
+        </div>
+
+        {/* Copy Link Button */}
+        <div className="mt-4">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCopyLink}
+            className="w-full text-muted-foreground hover:text-primary"
+          >
+            {linkCopied ? (
+              <>
+                <Check className="h-4 w-4 mr-2 text-green-500" />
+                {t('products.linkCopied')}
+              </>
+            ) : (
+              <>
+                <Link className="h-4 w-4 mr-2" />
+                {t('products.copyLink')}
+              </>
+            )}
+          </Button>
         </div>
       </div>
     </div>

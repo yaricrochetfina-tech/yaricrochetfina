@@ -49,7 +49,11 @@
     "temporarilyOutOfStock": "This product is temporarily out of stock. Come back soon to see new designs!",
     "frontView": "Front",
     "backView": "Back",
-    "total": "Total"
+    "total": "Total",
+    "watchVideo": "Watch video",
+    "viewImages": "View images",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied!"
   },
   "gallery": {
     "title": "Creations Gallery",

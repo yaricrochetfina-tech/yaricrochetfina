@@ -4,12 +4,13 @@ import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ShoppingCart, X, Play } from 'lucide-react';
+import { ShoppingCart, X, Play, Link, Check } from 'lucide-react';
 import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
 import { useProductTranslation } from '@/hooks/useProductTranslation';
 import { resolveProductImage } from '@/lib/imageResolver';
+import { toast } from 'sonner';
 
 interface ProductModalProps {
   product: Product;
@@ -26,9 +27,18 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [showVideo, setShowVideo] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
   
   // Stripe payment link for this product
   const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
+
+  const handleCopyLink = async () => {
+    const productUrl = `${window.location.origin}/?product=${product.id}`;
+    await navigator.clipboard.writeText(productUrl);
+    setLinkCopied(true);
+    toast.success(t('products.linkCopied'));
+    setTimeout(() => setLinkCopied(false), 2000);
+  };
   
   const displayImages = product.images && product.images.length > 0 ? product.images : [product.image];
 
@@ -107,7 +117,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                 variant="outline"
               >
                 <Play className="h-4 w-4 mr-2" />
-                Toca para ver video animado
+                {t('products.watchVideo')}
               </Button>
             )}
             
@@ -117,9 +127,28 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                 className="w-full"
                 variant="outline"
               >
-                Ver imágenes del producto
+                {t('products.viewImages')}
               </Button>
             )}
+
+            {/* Copy Link Button */}
+            <Button
+              variant="outline"
+              onClick={handleCopyLink}
+              className="w-full text-muted-foreground hover:text-primary"
+            >
+              {linkCopied ? (
+                <>
+                  <Check className="h-4 w-4 mr-2 text-green-500" />
+                  {t('products.linkCopied')}
+                </>
+              ) : (
+                <>
+                  <Link className="h-4 w-4 mr-2" />
+                  {t('products.copyLink')}
+                </>
+              )}
+            </Button>
             
             {/* Thumbnail Gallery */}
             {displayImages.length > 1 && (
