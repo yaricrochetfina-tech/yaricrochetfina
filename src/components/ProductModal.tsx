@@ -4,7 +4,7 @@ import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ShoppingCart, X, Play, Link, Check } from 'lucide-react';
+import { ShoppingCart, X, Play, Share2, Check } from 'lucide-react';
 import { useState } from 'react';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
@@ -32,12 +32,38 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   // Stripe payment link for this product
   const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
 
-  const handleCopyLink = async () => {
+  const handleShare = async () => {
     const productUrl = `${window.location.origin}/?product=${product.id}`;
-    await navigator.clipboard.writeText(productUrl);
-    setLinkCopied(true);
-    toast.success(t('products.linkCopied'));
-    setTimeout(() => setLinkCopied(false), 2000);
+    const shareData = {
+      title: translatedProduct.name,
+      text: translatedProduct.description,
+      url: productUrl,
+    };
+
+    // Try Web Share API first (mobile-friendly native share)
+    if (navigator.share && navigator.canShare?.(shareData)) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        // User cancelled or share failed, fallback to clipboard
+        if ((error as Error).name !== 'AbortError') {
+          console.log('Share failed, falling back to clipboard');
+        } else {
+          return; // User cancelled, don't show toast
+        }
+      }
+    }
+
+    // Fallback: Copy to clipboard
+    try {
+      await navigator.clipboard.writeText(productUrl);
+      setLinkCopied(true);
+      toast.success(t('products.linkCopied'));
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch (error) {
+      toast.error(t('products.copyError') || 'Error copying link');
+    }
   };
   
   const displayImages = product.images && product.images.length > 0 ? product.images : [product.image];
@@ -131,10 +157,10 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
               </Button>
             )}
 
-            {/* Copy Link Button */}
+            {/* Share Button */}
             <Button
               variant="outline"
-              onClick={handleCopyLink}
+              onClick={handleShare}
               className="w-full text-muted-foreground hover:text-primary"
             >
               {linkCopied ? (
@@ -144,8 +170,8 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                 </>
               ) : (
                 <>
-                  <Link className="h-4 w-4 mr-2" />
-                  {t('products.copyLink')}
+                  <Share2 className="h-4 w-4 mr-2" />
+                  {t('products.share')}
                 </>
               )}
             </Button>

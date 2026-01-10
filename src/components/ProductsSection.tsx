@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
 import { supabase } from '@/integrations/supabase/client';
@@ -10,6 +11,7 @@ const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas
 
 export const ProductsSection = () => {
   const { t } = useTranslation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -52,6 +54,27 @@ export const ProductsSection = () => {
 
     fetchProducts();
   }, [t]);
+
+  // Open product modal from URL parameter
+  useEffect(() => {
+    const productId = searchParams.get('product');
+    if (productId && products.length > 0) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
+        // Scroll to products section
+        document.getElementById('colecciones')?.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [searchParams, products]);
+
+  // Handle modal close - clear URL parameter
+  const handleCloseModal = () => {
+    setSelectedProduct(null);
+    // Remove product parameter from URL without page reload
+    searchParams.delete('product');
+    setSearchParams(searchParams, { replace: true });
+  };
 
   const filteredProducts = products.filter(product => {
     const categoryMatch = selectedCategory === 'all' || product.category === selectedCategory;
@@ -120,7 +143,7 @@ export const ProductsSection = () => {
         <ProductModal
           product={selectedProduct}
           isOpen={!!selectedProduct}
-          onClose={() => setSelectedProduct(null)}
+          onClose={handleCloseModal}
         />
       )}
     </section>

@@ -53,7 +53,9 @@
     "watchVideo": "Voir vidéo",
     "viewImages": "Voir images",
     "copyLink": "Copier le lien",
-    "linkCopied": "Lien copié!"
+    "linkCopied": "Lien copié!",
+    "share": "Partager",
+    "copyError": "Erreur lors de la copie du lien"
   },
   "gallery": {
     "title": "Galerie de Créations",
