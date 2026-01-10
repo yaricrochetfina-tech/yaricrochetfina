@@ -3,7 +3,7 @@ import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingCart, Eye, Link, Check } from 'lucide-react';
+import { ShoppingCart, Eye, Share2, Check } from 'lucide-react';
 import { useState } from 'react';
 import { OptimizedImage } from './ImageOptimization';
 import { useProductTranslation } from '@/hooks/useProductTranslation';
@@ -21,13 +21,39 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
   const [isAdding, setIsAdding] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
 
-  const handleCopyLink = async (e: React.MouseEvent) => {
+  const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
     const productUrl = `${window.location.origin}/?product=${product.id}`;
-    await navigator.clipboard.writeText(productUrl);
-    setLinkCopied(true);
-    toast.success(t('products.linkCopied'));
-    setTimeout(() => setLinkCopied(false), 2000);
+    const shareData = {
+      title: translatedProduct.name,
+      text: translatedProduct.description,
+      url: productUrl,
+    };
+
+    // Try Web Share API first (mobile-friendly native share)
+    if (navigator.share && navigator.canShare?.(shareData)) {
+      try {
+        await navigator.share(shareData);
+        return;
+      } catch (error) {
+        // User cancelled or share failed, fallback to clipboard
+        if ((error as Error).name !== 'AbortError') {
+          console.log('Share failed, falling back to clipboard');
+        } else {
+          return; // User cancelled, don't show toast
+        }
+      }
+    }
+
+    // Fallback: Copy to clipboard
+    try {
+      await navigator.clipboard.writeText(productUrl);
+      setLinkCopied(true);
+      toast.success(t('products.linkCopied'));
+      setTimeout(() => setLinkCopied(false), 2000);
+    } catch (error) {
+      toast.error(t('products.copyError') || 'Error copying link');
+    }
   };
 
   const handleAddToCart = async () => {
@@ -151,12 +177,12 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
           )}
         </div>
 
-        {/* Copy Link Button */}
+        {/* Share Button */}
         <div className="mt-4">
           <Button
             variant="outline"
             size="sm"
-            onClick={handleCopyLink}
+            onClick={handleShare}
             className="w-full text-muted-foreground hover:text-primary"
           >
             {linkCopied ? (
@@ -166,8 +192,8 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
               </>
             ) : (
               <>
-                <Link className="h-4 w-4 mr-2" />
-                {t('products.copyLink')}
+                <Share2 className="h-4 w-4 mr-2" />
+                {t('products.share')}
               </>
             )}
           </Button>
