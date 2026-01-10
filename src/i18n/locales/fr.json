@@ -49,7 +49,11 @@
     "temporarilyOutOfStock": "Ce produit est temporairement en rupture de stock. Revenez bientôt pour découvrir de nouveaux designs !",
     "frontView": "Face",
     "backView": "Dos",
-    "total": "Total"
+    "total": "Total",
+    "watchVideo": "Voir vidéo",
+    "viewImages": "Voir images",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié!"
   },
   "gallery": {
     "title": "Galerie de Créations",

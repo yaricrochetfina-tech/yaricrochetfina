@@ -49,7 +49,11 @@
     "temporarilyOutOfStock": "Este producto está temporalmente agotado. ¡Vuelve pronto para ver nuevos diseños!",
     "frontView": "Frente",
     "backView": "Espalda",
-    "total": "Total"
+    "total": "Total",
+    "watchVideo": "Ver video",
+    "viewImages": "Ver imágenes",
+    "copyLink": "Copiar enlace",
+    "linkCopied": "¡Enlace copiado!"
   },
   "gallery": {
     "title": "Galería de Creaciones",
