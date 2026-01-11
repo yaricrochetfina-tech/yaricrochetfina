@@ -33,11 +33,12 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
 
   const handleShare = async () => {
-    const productUrl = `${window.location.origin}/?product=${product.id}`;
+    // Use Edge Function URL for social media crawlers to get proper OG meta tags
+    const ogMetaUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-meta?product=${product.id}&html=true`;
     const shareData = {
       title: translatedProduct.name,
       text: translatedProduct.description,
-      url: productUrl,
+      url: ogMetaUrl,
     };
 
     // Try Web Share API first (mobile-friendly native share)
@@ -57,7 +58,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
 
     // Fallback: Copy to clipboard
     try {
-      await navigator.clipboard.writeText(productUrl);
+      await navigator.clipboard.writeText(ogMetaUrl);
       setLinkCopied(true);
       toast.success(t('products.linkCopied'));
       setTimeout(() => setLinkCopied(false), 2000);
