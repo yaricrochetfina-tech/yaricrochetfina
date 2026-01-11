@@ -49,19 +49,19 @@ Deno.serve(async (req) => {
       imageUrl = product.images[0];
     }
 
-    // Extract filename and construct absolute image URL
-    // For OG images, we need publicly accessible URLs
-    // Since Vite bundles assets with hashes, we'll use the public folder path
-    let absoluteImageUrl = `${siteUrl}/og-images/default-product.jpg`;
+    // Construct absolute image URL for OG meta tags
+    // Priority: 1) Already absolute URL, 2) OG-images bucket, 3) Default fallback
+    let absoluteImageUrl = `${siteUrl}/placeholder.svg`;
     
     if (imageUrl?.startsWith('http')) {
-      // Already an absolute URL
+      // Already an absolute URL (e.g., from storage or external CDN)
       absoluteImageUrl = imageUrl;
     } else if (imageUrl) {
-      // Extract filename and use public folder structure
+      // Extract filename and check for OG image in storage bucket
       const filename = imageUrl.split('/').pop()?.trim();
       if (filename) {
-        absoluteImageUrl = `${siteUrl}/og-images/${filename}`;
+        // Use Supabase Storage public URL for OG images
+        absoluteImageUrl = `${supabaseUrl}/storage/v1/object/public/og-images/${filename}`;
       }
     }
 
