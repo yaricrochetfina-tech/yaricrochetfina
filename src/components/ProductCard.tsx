@@ -23,11 +23,12 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
 
   const handleShare = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    const productUrl = `${window.location.origin}/?product=${product.id}`;
+    // Use Edge Function URL for social media crawlers to get proper OG meta tags
+    const ogMetaUrl = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/og-meta?product=${product.id}&html=true`;
     const shareData = {
       title: translatedProduct.name,
       text: translatedProduct.description,
-      url: productUrl,
+      url: ogMetaUrl,
     };
 
     // Try Web Share API first (mobile-friendly native share)
@@ -47,7 +48,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
 
     // Fallback: Copy to clipboard
     try {
-      await navigator.clipboard.writeText(productUrl);
+      await navigator.clipboard.writeText(ogMetaUrl);
       setLinkCopied(true);
       toast.success(t('products.linkCopied'));
       setTimeout(() => setLinkCopied(false), 2000);
