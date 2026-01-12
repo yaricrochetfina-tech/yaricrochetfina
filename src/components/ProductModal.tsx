@@ -26,7 +26,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
   const [shippingCost, setShippingCost] = useState<number>(0);
   const [selectedCountry, setSelectedCountry] = useState<string>('');
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  const [showVideo, setShowVideo] = useState(false);
+  
   const [linkCopied, setLinkCopied] = useState(false);
   
   // Stripe payment link for this product
@@ -103,24 +103,12 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
           {/* Product Image Gallery */}
           <div className="space-y-4">
             <div className="relative">
-              {showVideo && product.videoUrl ? (
-                <div className="w-full h-96 rounded-lg overflow-hidden bg-black">
-                  <iframe
-                    className="w-full h-full"
-                    src={`${product.videoUrl}?autoplay=1&controls=0&showinfo=0&rel=0&modestbranding=1&loop=1&mute=0`}
-                    title={`${translatedProduct.name} video`}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
-              ) : (
-                <OptimizedImage
-                  src={displayImages[selectedImageIndex]}
-                  alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
-                  thumbnailClassName="w-full h-96 object-cover rounded-lg"
-                  enableFullView={true}
-                />
-              )}
+              <OptimizedImage
+                src={displayImages[selectedImageIndex]}
+                alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
+                thumbnailClassName="w-full h-96 object-cover rounded-lg"
+                enableFullView={true}
+              />
               <Badge 
                 className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}
               >
@@ -136,25 +124,15 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
               )}
             </div>
             
-            {/* Video Button */}
-            {product.videoUrl && !showVideo && (
+            {/* Video Button - Opens in new tab */}
+            {product.videoUrl && (
               <Button
-                onClick={() => setShowVideo(true)}
+                onClick={() => window.open(product.videoUrl, '_blank', 'noopener,noreferrer')}
                 className="w-full btn-hero"
                 variant="outline"
               >
                 <Play className="h-4 w-4 mr-2" />
                 {t('products.watchVideo')}
-              </Button>
-            )}
-            
-            {showVideo && (
-              <Button
-                onClick={() => setShowVideo(false)}
-                className="w-full"
-                variant="outline"
-              >
-                {t('products.viewImages')}
               </Button>
             )}
 
