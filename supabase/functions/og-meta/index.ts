@@ -14,7 +14,7 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const productId = url.searchParams.get("product");
-    const siteUrl = url.searchParams.get("site") || "https://yaricrochetfina.lovable.app";
+    const siteUrl = url.searchParams.get("site") || "https://yarifina.lovable.app";
 
     if (!productId) {
       return new Response(
