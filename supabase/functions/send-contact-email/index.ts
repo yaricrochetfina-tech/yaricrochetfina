@@ -11,10 +11,13 @@ const allowedOrigins = [
   // Add any custom domains here
 ];
 
-const getCorsHeaders = (origin: string | null) => {
-  const allowedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+const getCorsHeaders = (origin: string | null): Record<string, string> | null => {
+  // Reject requests with missing or invalid Origin header
+  if (!origin || !allowedOrigins.includes(origin)) {
+    return null;
+  }
   return {
-    "Access-Control-Allow-Origin": allowedOrigin,
+    "Access-Control-Allow-Origin": origin,
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
   };
 };
@@ -136,6 +139,14 @@ const getSafeErrorMessage = (error: unknown): string => {
 const handler = async (req: Request): Promise<Response> => {
   const origin = req.headers.get('origin');
   const corsHeaders = getCorsHeaders(origin);
+
+  // Reject requests with invalid or missing origin
+  if (!corsHeaders) {
+    return new Response(
+      JSON.stringify({ error: 'Invalid origin' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {

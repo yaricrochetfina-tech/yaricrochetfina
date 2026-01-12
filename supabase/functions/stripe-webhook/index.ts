@@ -55,16 +55,62 @@ serve(async (req) => {
       
       console.log('Processing completed checkout session:', session.id);
 
-      try {
-        // Parse items from metadata
-        const items = JSON.parse(session.metadata?.items || '[]');
+    try {
+        // Parse items from metadata with proper error handling
+        let items: Array<{ product_id: string; quantity: number; price: number; product_name?: string }>;
+        try {
+          const rawItems = JSON.parse(session.metadata?.items || '[]');
+          
+          // Validate items structure
+          if (!Array.isArray(rawItems) || rawItems.length === 0) {
+            throw new Error('Invalid items format: expected non-empty array');
+          }
+          
+          // Validate each item has required fields
+          items = rawItems.map((item: any, index: number) => {
+            if (!item.product_id || typeof item.product_id !== 'string') {
+              throw new Error(`Invalid item at index ${index}: missing or invalid product_id`);
+            }
+            if (!item.quantity || typeof item.quantity !== 'number' || item.quantity <= 0) {
+              throw new Error(`Invalid item at index ${index}: missing or invalid quantity`);
+            }
+            if (item.price === undefined || typeof item.price !== 'number' || item.price < 0) {
+              throw new Error(`Invalid item at index ${index}: missing or invalid price`);
+            }
+            return {
+              product_id: item.product_id,
+              quantity: item.quantity,
+              price: item.price,
+              product_name: item.product_name || undefined,
+            };
+          });
+        } catch (parseError) {
+          const parseErrorMessage = parseError instanceof Error ? parseError.message : 'Unknown parse error';
+          console.error('Failed to parse or validate items metadata:', parseErrorMessage);
+          console.error('Session metadata:', JSON.stringify(session.metadata));
+          
+          // Return 200 to prevent Stripe retries, but log for manual review
+          return new Response(
+            JSON.stringify({ 
+              received: true, 
+              warning: 'Order processing failed - manual review required',
+              session_id: session.id,
+              error: parseErrorMessage
+            }),
+            { 
+              headers: { 'Content-Type': 'application/json' },
+              status: 200 
+            }
+          );
+        }
+
         const shippingCountry = session.metadata?.shipping_country || '';
         const customerName = session.metadata?.customer_name || session.customer_details?.name || '';
         const customerEmail = session.customer_details?.email || '';
         const customerPhone = session.customer_details?.phone || null;
 
         // Calculate totals
-        const subtotal = items.reduce((sum: number, item: any) => sum + (item.price * item.quantity), 0);
+        const subtotal = items.reduce((sum: number, item) => sum + (item.price * item.quantity), 0);
         
         // Shipping rates (must match checkout function)
         const shippingRates: Record<string, number> = {
