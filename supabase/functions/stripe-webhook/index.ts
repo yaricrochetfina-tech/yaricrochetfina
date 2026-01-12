@@ -151,6 +151,7 @@ serve(async (req) => {
         }
 
         console.log('Order created:', order.id);
+        console.log('Order access token for confirmation email:', order.access_token);
 
         // Create order items
         const orderItems = items.map((item: any) => ({
