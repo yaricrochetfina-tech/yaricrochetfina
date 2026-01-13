@@ -55,6 +55,10 @@ import vestidoMangasMulticolorFrente from '@/assets/vestido-mangas-multicolor-fr
 import abrigoOversizeEspalda from '@/assets/abrigo-oversize-espalda.jpg';
 import abrigoOversizeFrente from '@/assets/abrigo-oversize-frente.jpg';
 import abrigoOversizeLateral from '@/assets/abrigo-oversize-lateral.jpg';
+import chalecoVintageMandalasFrente from '@/assets/chaleco-vintage-mandalas-frente.jpg';
+import chalecoVintageMandalasEspalda from '@/assets/chaleco-vintage-mandalas-espalda.jpg';
+import chalecoVintageMandalasLateralA from '@/assets/chaleco-vintage-mandalas-lateral-a.jpg';
+import chalecoVintageMandalasLateralB from '@/assets/chaleco-vintage-mandalas-lateral-b.jpg';
 
 // Map filenames to imported URLs
 const imageMap: Record<string, string> = {
@@ -111,6 +115,10 @@ const imageMap: Record<string, string> = {
   'abrigo-oversize-espalda.jpg': abrigoOversizeEspalda,
   'abrigo-oversize-frente.jpg': abrigoOversizeFrente,
   'abrigo-oversize-lateral.jpg': abrigoOversizeLateral,
+  'chaleco-vintage-mandalas-frente.jpg': chalecoVintageMandalasFrente,
+  'chaleco-vintage-mandalas-espalda.jpg': chalecoVintageMandalasEspalda,
+  'chaleco-vintage-mandalas-lateral-a.jpg': chalecoVintageMandalasLateralA,
+  'chaleco-vintage-mandalas-lateral-b.jpg': chalecoVintageMandalasLateralB,
 };
 
 /**
