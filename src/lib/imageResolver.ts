@@ -69,6 +69,10 @@ import blusaCortaCruzadaLateralC from '@/assets/blusa-corta-cruzada-lateral-c.pn
 import blusaMangasBeigeFrente from '@/assets/blusa-mangas-beige-frente.jpg';
 import blusaMangasBeigeLateral from '@/assets/blusa-mangas-beige-lateral.jpg';
 import blusaMangasBeigeEspalda from '@/assets/blusa-mangas-beige-espalda.jpg';
+import ponchoBlancoFlecosFrente from '@/assets/poncho-blanco-flecos-frente.png';
+import ponchoBlancoFlecosDetalle from '@/assets/poncho-blanco-flecos-detalle.png';
+import ponchoBlancoFlecosEspalda from '@/assets/poncho-blanco-flecos-espalda.png';
+import ponchoBlancoFlecosLateral from '@/assets/poncho-blanco-flecos-lateral.png';
 
 // Map filenames to imported URLs
 const imageMap: Record<string, string> = {
@@ -139,6 +143,10 @@ const imageMap: Record<string, string> = {
   'blusa-mangas-beige-frente.jpg': blusaMangasBeigeFrente,
   'blusa-mangas-beige-lateral.jpg': blusaMangasBeigeLateral,
   'blusa-mangas-beige-espalda.jpg': blusaMangasBeigeEspalda,
+  'poncho-blanco-flecos-frente.png': ponchoBlancoFlecosFrente,
+  'poncho-blanco-flecos-detalle.png': ponchoBlancoFlecosDetalle,
+  'poncho-blanco-flecos-espalda.png': ponchoBlancoFlecosEspalda,
+  'poncho-blanco-flecos-lateral.png': ponchoBlancoFlecosLateral,
 };
 
 /**
