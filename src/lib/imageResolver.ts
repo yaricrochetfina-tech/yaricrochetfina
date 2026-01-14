@@ -59,6 +59,16 @@ import chalecoVintageMandalasFrente from '@/assets/chaleco-vintage-mandalas-fren
 import chalecoVintageMandalasEspalda from '@/assets/chaleco-vintage-mandalas-espalda.jpg';
 import chalecoVintageMandalasLateralA from '@/assets/chaleco-vintage-mandalas-lateral-a.jpg';
 import chalecoVintageMandalasLateralB from '@/assets/chaleco-vintage-mandalas-lateral-b.jpg';
+import blusaGrannyFranjasFrente from '@/assets/blusa-granny-franjas-frente.png';
+import blusaGrannyFranjasEspalda from '@/assets/blusa-granny-franjas-espalda.png';
+import blusaCortaCruzadaFrente from '@/assets/blusa-corta-cruzada-frente.png';
+import blusaCortaCruzadaEspalda from '@/assets/blusa-corta-cruzada-espalda.png';
+import blusaCortaCruzadaLateralA from '@/assets/blusa-corta-cruzada-lateral-a.png';
+import blusaCortaCruzadaLateralB from '@/assets/blusa-corta-cruzada-lateral-b.png';
+import blusaCortaCruzadaLateralC from '@/assets/blusa-corta-cruzada-lateral-c.png';
+import blusaMangasBeigeFrente from '@/assets/blusa-mangas-beige-frente.jpg';
+import blusaMangasBeigeLateral from '@/assets/blusa-mangas-beige-lateral.jpg';
+import blusaMangasBeigeEspalda from '@/assets/blusa-mangas-beige-espalda.jpg';
 
 // Map filenames to imported URLs
 const imageMap: Record<string, string> = {
@@ -119,6 +129,16 @@ const imageMap: Record<string, string> = {
   'chaleco-vintage-mandalas-espalda.jpg': chalecoVintageMandalasEspalda,
   'chaleco-vintage-mandalas-lateral-a.jpg': chalecoVintageMandalasLateralA,
   'chaleco-vintage-mandalas-lateral-b.jpg': chalecoVintageMandalasLateralB,
+  'blusa-granny-franjas-frente.png': blusaGrannyFranjasFrente,
+  'blusa-granny-franjas-espalda.png': blusaGrannyFranjasEspalda,
+  'blusa-corta-cruzada-frente.png': blusaCortaCruzadaFrente,
+  'blusa-corta-cruzada-espalda.png': blusaCortaCruzadaEspalda,
+  'blusa-corta-cruzada-lateral-a.png': blusaCortaCruzadaLateralA,
+  'blusa-corta-cruzada-lateral-b.png': blusaCortaCruzadaLateralB,
+  'blusa-corta-cruzada-lateral-c.png': blusaCortaCruzadaLateralC,
+  'blusa-mangas-beige-frente.jpg': blusaMangasBeigeFrente,
+  'blusa-mangas-beige-lateral.jpg': blusaMangasBeigeLateral,
+  'blusa-mangas-beige-espalda.jpg': blusaMangasBeigeEspalda,
 };
 
 /**
