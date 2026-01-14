@@ -73,6 +73,9 @@ import ponchoBlancoFlecosFrente from '@/assets/poncho-blanco-flecos-frente.png';
 import ponchoBlancoFlecosDetalle from '@/assets/poncho-blanco-flecos-detalle.png';
 import ponchoBlancoFlecosEspalda from '@/assets/poncho-blanco-flecos-espalda.png';
 import ponchoBlancoFlecosLateral from '@/assets/poncho-blanco-flecos-lateral.png';
+import topBlancoCafeFrente from '@/assets/top-blanco-cafe-frente.png';
+import topBlancoCafeLateral from '@/assets/top-blanco-cafe-lateral.png';
+import topBlancoCafeEspalda from '@/assets/top-blanco-cafe-espalda.png';
 
 // Map filenames to imported URLs
 const imageMap: Record<string, string> = {
@@ -147,6 +150,9 @@ const imageMap: Record<string, string> = {
   'poncho-blanco-flecos-detalle.png': ponchoBlancoFlecosDetalle,
   'poncho-blanco-flecos-espalda.png': ponchoBlancoFlecosEspalda,
   'poncho-blanco-flecos-lateral.png': ponchoBlancoFlecosLateral,
+  'top-blanco-cafe-frente.png': topBlancoCafeFrente,
+  'top-blanco-cafe-lateral.png': topBlancoCafeLateral,
+  'top-blanco-cafe-espalda.png': topBlancoCafeEspalda,
 };
 
 /**
