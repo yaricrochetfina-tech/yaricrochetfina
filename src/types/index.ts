@@ -14,7 +14,7 @@ export interface Product {
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';
 
-export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos' | 'Túnicas' | 'Vestidos';
+export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos' | 'Túnicas' | 'Vestidos' | 'Abrigo' | 'Ponchos' | 'Tops';
 
 export interface CartItem {
   product: Product;
