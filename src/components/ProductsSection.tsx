@@ -7,7 +7,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Product, ProductCategory } from '@/types';
 import { toast } from 'sonner';
 
-const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos'];
+const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos', 'Abrigo', 'Ponchos', 'Tops'];
 
 export const ProductsSection = () => {
   const { t } = useTranslation();
