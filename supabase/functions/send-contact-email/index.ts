@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Resend } from "https://esm.sh/resend@2.0.0";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { z } from 'https://esm.sh/zod@3.22.4';
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
@@ -8,6 +9,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 const allowedOrigins = [
   'https://dlmdegdpdnxoixfophlx.lovable.app',
   'https://yari-crochet-fina.lovable.app',
+  'https://yarifina.lovable.app',
   // Add any custom domains here
 ];
 
@@ -22,37 +24,49 @@ const getCorsHeaders = (origin: string | null): Record<string, string> | null =>
   };
 };
 
-// Simple in-memory rate limiting (per instance)
-// For production with multiple instances, use Redis or database-based rate limiting
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
+// Rate limiting configuration
+const RATE_LIMIT_ACTION = 'send_contact_email';
 const RATE_LIMIT_MAX_REQUESTS = 5; // 5 contact emails per minute per IP
+const RATE_LIMIT_WINDOW_SECONDS = 60; // 1 minute window
 
-const checkRateLimit = (clientIp: string): { allowed: boolean; remaining: number } => {
-  const now = Date.now();
-  const record = rateLimitMap.get(clientIp);
-  
-  // Clean up old entries periodically
-  if (rateLimitMap.size > 10000) {
-    const cutoff = now - RATE_LIMIT_WINDOW_MS;
-    for (const [key, value] of rateLimitMap.entries()) {
-      if (value.resetTime < cutoff) {
-        rateLimitMap.delete(key);
-      }
+// Rate limit response type
+interface RateLimitResult {
+  allowed: boolean;
+  remaining: number;
+  reset_at: number;
+}
+
+// Check rate limit using database (distributed)
+const checkRateLimit = async (
+  supabaseUrl: string,
+  supabaseKey: string,
+  clientIp: string
+): Promise<{ allowed: boolean; remaining: number; resetAt: number }> => {
+  try {
+    const supabase = createClient(supabaseUrl, supabaseKey);
+    const { data, error } = await supabase.rpc('check_rate_limit', {
+      p_identifier: clientIp,
+      p_action_type: RATE_LIMIT_ACTION,
+      p_max_requests: RATE_LIMIT_MAX_REQUESTS,
+      p_window_seconds: RATE_LIMIT_WINDOW_SECONDS,
+    });
+
+    if (error) {
+      console.error('Rate limit check error:', error);
+      // Fail open on database errors to avoid blocking legitimate users
+      return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS, resetAt: 0 };
     }
+
+    const result = data as RateLimitResult;
+    return {
+      allowed: result.allowed,
+      remaining: result.remaining,
+      resetAt: result.reset_at,
+    };
+  } catch (err) {
+    console.error('Rate limit check exception:', err);
+    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS, resetAt: 0 };
   }
-  
-  if (!record || now >= record.resetTime) {
-    rateLimitMap.set(clientIp, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
-    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - 1 };
-  }
-  
-  if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
-    return { allowed: false, remaining: 0 };
-  }
-  
-  record.count += 1;
-  return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS - record.count };
 };
 
 // Supported languages
@@ -153,21 +167,28 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
+  // Get Supabase credentials for rate limiting
+  const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+  const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+
   // Rate limiting - get client IP
   const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
                    req.headers.get('x-real-ip') || 
                    'unknown';
   
-  const rateLimit = checkRateLimit(clientIp);
+  const rateLimit = await checkRateLimit(supabaseUrl, supabaseKey, clientIp);
   if (!rateLimit.allowed) {
     console.warn('Rate limit exceeded for IP:', clientIp);
+    const retryAfter = rateLimit.resetAt 
+      ? Math.max(1, Math.ceil(rateLimit.resetAt - Date.now() / 1000))
+      : 60;
     return new Response(
       JSON.stringify({ error: 'Too many requests. Please try again in a minute.' }),
       {
         status: 429,
         headers: { 
           "Content-Type": "application/json", 
-          "Retry-After": "60",
+          "Retry-After": String(retryAfter),
           ...corsHeaders 
         },
       }
