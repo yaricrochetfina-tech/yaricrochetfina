@@ -5,6 +5,13 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+// Whitelist of allowed domains to prevent open redirect attacks
+const ALLOWED_DOMAINS = [
+  "https://yarifina.lovable.app",
+  "https://dlmdegdpdnxoixfophlx.lovable.app",
+  "https://id-preview--4acc05ee-4ccd-4c88-b688-0103e7626044.lovable.app",
+];
+
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -14,7 +21,12 @@ Deno.serve(async (req) => {
   try {
     const url = new URL(req.url);
     const productId = url.searchParams.get("product");
-    const siteUrl = url.searchParams.get("site") || "https://yarifina.lovable.app";
+    const requestedSite = url.searchParams.get("site");
+    
+    // Validate site URL against whitelist to prevent open redirect attacks
+    const siteUrl = requestedSite && ALLOWED_DOMAINS.includes(requestedSite) 
+      ? requestedSite 
+      : ALLOWED_DOMAINS[0];
 
     if (!productId) {
       return new Response(
