@@ -1,4 +1,4 @@
-import { Product } from '@/types';
+import { Product, Testimonial, ArtisanProcess } from '@/types';
 import blusaBohoMulticolor from '@/assets/blusa-boho-multicolor.png';
 import blusaRosaEncaje from '@/assets/blusa-rosa-encaje.png';
 import blusaFloresFranjas from '@/assets/blusa-flores-franjas.png';
@@ -78,12 +78,11 @@ export const products: Product[] = [
     inStock: true,
     videoUrl: 'https://www.youtube.com/embed/A8cyqsli_Ps',
   },
-  // Entradas actualizadas/añadidas según tu solicitud
   {
     id: 'TOP-001',
     name: 'Top Blanco y Café',
     price: 35.0,
-    style: 'Boho',
+    style: 'Boho Chic',
     category: 'Tops',
     image: topBlancoCafe,
     description: 'Elegante top halter tejido a mano en blanco y café con encaje decorativo y cordones ajustables.',
@@ -94,7 +93,7 @@ export const products: Product[] = [
     id: 'PON-001',
     name: 'Poncho Blanc à Franges',
     price: 35.0,
-    style: 'Boho',
+    style: 'Boho Chic',
     category: 'Ponchos',
     image: ponchoBlancoFlecos,
     description: 'Élégant poncho blanc fait à la main con detalles granny y franges decorativas.',
@@ -116,12 +115,58 @@ export const products: Product[] = [
     id: 'BCC-001',
     name: 'Blusa Corta Cruzada',
     price: 35.0,
-    style: 'Romantic',
+    style: 'Shabby Chic',
     category: 'Blusas',
     image: blusaCreemaCruzada,
     description: 'Blusa corta cruzada en blanco con detalles decorativos y tejido calado.',
     materials: ['Hilo 100% algodón', 'Tejido a mano'],
     inStock: true,
   },
-  // Mantener otras entradas existentes si las hay
+];
+
+// Proceso artesanal
+export const artisanProcess: ArtisanProcess[] = [
+  {
+    step: 1,
+    title: 'Selección de Materiales',
+    description: 'Elegimos cuidadosamente hilos de alta calidad y fibras naturales para cada pieza.',
+    icon: '🧶',
+  },
+  {
+    step: 2,
+    title: 'Tejido Artesanal',
+    description: 'Cada prenda es tejida a mano con técnicas tradicionales transmitidas por generaciones.',
+    icon: '🪡',
+  },
+  {
+    step: 3,
+    title: 'Acabado y Calidad',
+    description: 'Revisamos cada detalle para asegurar la máxima calidad en todas nuestras piezas.',
+    icon: '✨',
+  },
+];
+
+// Testimonios de clientes
+export const testimonials: Testimonial[] = [
+  {
+    id: '1',
+    name: 'María García',
+    message: 'La calidad del tejido es increíble. Se nota el amor y dedicación en cada puntada.',
+    rating: 5,
+    style: 'Boho Chic',
+  },
+  {
+    id: '2',
+    name: 'Sophie Martin',
+    message: 'J\'adore mon gilet! C\'est une pièce unique qui attire toujours des compliments.',
+    rating: 5,
+    style: 'Vintage',
+  },
+  {
+    id: '3',
+    name: 'Emma Johnson',
+    message: 'Beautiful craftsmanship and fast shipping. Will definitely order again!',
+    rating: 5,
+    style: 'Hippie',
+  },
 ];
