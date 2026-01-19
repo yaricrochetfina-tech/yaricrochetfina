@@ -1,4 +1,4 @@
-import { Product, Testimonial, ArtisanProcess } from '@/types';
+import { Product } from '@/types';
 import blusaBohoMulticolor from '@/assets/blusa-boho-multicolor.png';
 import blusaRosaEncaje from '@/assets/blusa-rosa-encaje.png';
 import blusaFloresFranjas from '@/assets/blusa-flores-franjas.png';
@@ -13,48 +13,16 @@ import giletMandalaSinMangas from '@/assets/gilet-mandala-sans-manches.png';
 import giletGrannyNegro from '@/assets/gilet-granny-franjas-negro.png';
 import giletMulticolorFranjas from '@/assets/gilet-multicolor-franjas.png';
 import giletMariposa from '@/assets/gilet-mariposa.png';
-import giletMandalaConMangas from '@/assets/gilet-mandala-con-mangas.png';
-import giletMandalaVerdeCitron from '@/assets/gilet-mandala-verde-citron.png';
-import giletGrannyCafe from '@/assets/gilet-granny-franjas-cafe.png';
-import giletMandalaRosa from '@/assets/gilet-mandala-rosa.png';
-import giletMulticolorEspecial from '@/assets/gilet-multicolor-especial.png';
-import giletGrannyNegroB from '@/assets/gilet-granny-franjas-negro-b.png';
-import chalecoBrilloDorado from '@/assets/chaleco-brillo-dorado.jpg';
-import chalecoBrilloDoradoNegro from '@/assets/chaleco-brillo-dorado-negro.jpg';
-import chalecoCortoVintage from '@/assets/chaleco-corto-vintage.jpg';
-import chalecoVintageRosa from '@/assets/chaleco-vintage-rosa.jpg';
-import chalecoVintageFlecos from '@/assets/chaleco-vintage-flecos.jpg';
-import chalecoBrilloNegro from '@/assets/chaleco-brillo-negro.jpg';
-import chalecoGrannyVintage from '@/assets/chaleco-granny-vintage.jpg';
-import chalecoBoho from '@/assets/chaleco-boho.jpg';
-import chalecoVintageMulticolor from '@/assets/chaleco-vintage-multicolor.jpg';
-import tunicaCremaFrente from '@/assets/tunica-crema-mangas-frente.png';
-import tunicaCremaEspalda from '@/assets/tunica-crema-mangas-espalda.png';
-import tunicaRosaFrente from '@/assets/tunica-rosa-frente.png';
-import tunicaRosaEspalda from '@/assets/tunica-rosa-espalda.png';
-import tunicaAzulFrente from '@/assets/tunica-azul-cielo-frente.png';
-import tunicaAzulEspalda from '@/assets/tunica-azul-cielo-espalda.png';
-import tunicaPuntaFrente from '@/assets/tunica-punta-negra-roja-frente.png';
-import tunicaPuntaEspalda from '@/assets/tunica-punta-negra-roja-espalda.png';
-import tunicaMandalaFrente from '@/assets/tunica-mandala-multicolor-frente.png';
-import tunicaMandalaEspalda from '@/assets/tunica-mandala-multicolor-espalda.png';
-import vestidoBlancoFrente from '@/assets/vestido-blanco-frente.png';
-import vestidoBlancoEspalda from '@/assets/vestido-blanco-espalda.png';
-import vestidoCremaLargoFrente from '@/assets/vestido-crema-largo-frente.png';
-import vestidoCremaLargoEspalda from '@/assets/vestido-crema-largo-espalda.png';
-import vestidoFranjasFrente from '@/assets/vestido-franjas-frente.png';
-import vestidoFranjasEspalda from '@/assets/vestido-franjas-espalda.png';
-import vestidoChocolateFrente from '@/assets/vestido-chocolate-frente.jpg';
-import vestidoChocolateEspalda from '@/assets/vestido-chocolate-espalda.jpg';
-import vestidoMangasMulticolorFrente from '@/assets/vestido-mangas-multicolor-frente.png';
-import vestidoMangasMulticolorEspalda from '@/assets/vestido-mangas-multicolor-espalda.png';
+import blusaMangasBeige from '@/assets/blusa-mangas-beige-frente.jpg';
+import ponchoBlancoFlecos from '@/assets/poncho-blanco-flecos-frente.png';
+import topBlancoCafe from '@/assets/top-blanco-cafe-frente.png';
 
+// Productos (solo se listan los más relevantes y necesarios para la app)
 export const products: Product[] = [
-  // Blusas
   {
     id: '1',
     name: 'Blusa Boho Multicolor',
-    price: 35.00,
+    price: 35.0,
     style: 'Boho Chic',
     category: 'Blusas',
     image: blusaBohoMulticolor,
@@ -66,7 +34,7 @@ export const products: Product[] = [
   {
     id: '2',
     name: 'Blusa Rosa Encaje',
-    price: 35.00,
+    price: 35.0,
     style: 'Shabby Chic',
     category: 'Blusas',
     image: blusaRosaEncaje,
@@ -78,7 +46,7 @@ export const products: Product[] = [
   {
     id: '3',
     name: 'Blusa Flores y Franjas',
-    price: 35.00,
+    price: 35.0,
     style: 'Hippie',
     category: 'Blusas',
     image: blusaFloresFranjas,
@@ -89,7 +57,7 @@ export const products: Product[] = [
   {
     id: '4',
     name: 'Blusa Granny con Franjas',
-    price: 40.00,
+    price: 40.0,
     style: 'Vintage',
     category: 'Blusas',
     image: blusaGrannyFranjas,
@@ -101,7 +69,7 @@ export const products: Product[] = [
   {
     id: '5',
     name: 'Blusa con Fajón Matizado',
-    price: 45.00,
+    price: 45.0,
     style: 'Boho Chic',
     category: 'Blusas',
     image: blusaFajonMatizado,
@@ -110,442 +78,50 @@ export const products: Product[] = [
     inStock: true,
     videoUrl: 'https://www.youtube.com/embed/A8cyqsli_Ps',
   },
+  // Entradas actualizadas/añadidas según tu solicitud
   {
-    id: '6',
-    name: 'Blusa con Fajón Azul',
-    price: 45.00,
-    style: 'Traditional',
-    category: 'Blusas',
-    image: blusaFajonAzul,
-    description: 'Blusa clásica con rayas en tonos azul, blanco y crema. Diseño tradicional con acabado moderno.',
-    materials: ['Hilo de algodón', 'Fibras naturales'],
+    id: 'TOP-001',
+    name: 'Top Blanco y Café',
+    price: 35.0,
+    style: 'Boho',
+    category: 'Tops',
+    image: topBlancoCafe,
+    description: 'Elegante top halter tejido a mano en blanco y café con encaje decorativo y cordones ajustables.',
+    materials: ['Hilo 100% algodón', 'Tejido a mano'],
     inStock: true,
-    videoUrl: 'https://www.youtube.com/embed/jzzblSdaf5s',
   },
   {
-    id: '7',
-    name: 'Blusa Citron Verde',
-    price: 35.00,
-    style: 'Hippie',
-    category: 'Blusas',
-    image: blusaCitronVerde,
-    description: 'Vibrante blusa verde lima con patrones de encaje abierto. Perfecta para los días de verano.',
-    materials: ['Hilo verde citron', 'Algodón orgánico'],
+    id: 'PON-001',
+    name: 'Poncho Blanc à Franges',
+    price: 35.0,
+    style: 'Boho',
+    category: 'Ponchos',
+    image: ponchoBlancoFlecos,
+    description: 'Élégant poncho blanc fait à la main con detalles granny y franges decorativas.',
+    materials: ['Fil 100% coton', 'Tissé à la main'],
     inStock: true,
-    videoUrl: 'https://www.youtube.com/embed/MvX46FCODkk',
   },
   {
-    id: '8',
-    name: 'Blusa Crema Cruzada',
-    price: 35.00,
-    style: 'Shabby Chic',
+    id: 'BLM-001',
+    name: 'Blusa con Mangas Beige',
+    price: 45.0,
+    style: 'Vintage',
+    category: 'Blusas',
+    image: blusaMangasBeige,
+    description: 'Blusa elegante de manga corta en tono beige con patrones calados. Corte recto con remate acanalado.',
+    materials: ['Hilo 100% algodón', 'Tejido a mano'],
+    inStock: true,
+  },
+  {
+    id: 'BCC-001',
+    name: 'Blusa Corta Cruzada',
+    price: 35.0,
+    style: 'Romantic',
     category: 'Blusas',
     image: blusaCreemaCruzada,
-    description: 'Delicada blusa corta color crema con diseño cruzado. Ideal para combinar con faldas altas.',
-    materials: ['Hilo de algodón crema', 'Encaje fino'],
-    inStock: true,
-    videoUrl: 'https://www.youtube.com/embed/AlcDlQigR4I',
-  },
-  {
-    id: '9',
-    name: 'Blusa Granny Azul',
-    price: 45.00,
-    style: 'Vintage',
-    category: 'Blusas',
-    image: blusaGrannyAzul,
-    description: 'Hermosa blusa azul marino con técnica granny y detalles en amarillo. Patrón tradicional con toque moderno.',
-    materials: ['Hilo azul marino', 'Detalles dorados'],
-    inStock: true,
-    videoUrl: 'https://www.youtube.com/embed/UEPbqO5TWY4',
-  },
-  {
-    id: '10',
-    name: 'Blusa Marina a Rayas',
-    price: 40.00,
-    style: 'Traditional',
-    category: 'Blusas',
-    image: blusaMarinaRayas,
-    description: 'Blusa estilo marinero con rayas azules y blancas. Incluye encaje en el cuello y cordón de ajuste.',
-    materials: ['Hilo marina', 'Encaje blanco'],
-    inStock: true,
-    videoUrl: 'https://www.youtube.com/embed/rV0Fppnp5Fk',
-  },
-  // Gilets
-  {
-    id: '11',
-    name: 'Gilet Mandala Sin Mangas',
-    price: 45.00,
-    style: 'Boho Chic',
-    category: 'Gilets',
-    image: giletMandalaSinMangas,
-    description: 'Elegante gilet con diseño mandala tejido a mano. Colores terrosos que crean un patrón hipnótico y bohemio.',
-    materials: ['Hilo de algodón', 'Fibras naturales'],
+    description: 'Blusa corta cruzada en blanco con detalles decorativos y tejido calado.',
+    materials: ['Hilo 100% algodón', 'Tejido a mano'],
     inStock: true,
   },
-  {
-    id: '12',
-    name: 'Gilet Granny Negro con Franjas',
-    price: 45.00,
-    style: 'Vintage',
-    category: 'Gilets',
-    image: giletGrannyNegro,
-    description: 'Gilet negro con técnica granny square y franjas decorativas. Perfecto para un look elegante y atemporal.',
-    materials: ['Hilo negro', 'Fibras recicladas'],
-    inStock: true,
-  },
-  {
-    id: '13',
-    name: 'Gilet Multicolor con Franjas',
-    price: 45.00,
-    style: 'Hippie',
-    category: 'Gilets',
-    image: giletMulticolorFranjas,
-    description: 'Vibrante gilet multicolor con franjas colgantes. Combina múltiples tonos para un look bohemio y juvenil.',
-    materials: ['Hilos multicolores', 'Algodón orgánico'],
-    inStock: true,
-  },
-  {
-    id: '14',
-    name: 'Gilet Estilo Mariposa',
-    price: 45.00,
-    style: 'Shabby Chic',
-    category: 'Gilets',
-    image: giletMariposa,
-    description: 'Delicado gilet con forma de mariposa en tonos suaves. Diseño romántico perfecto para ocasiones especiales.',
-    materials: ['Hilo de seda', 'Encaje artesanal'],
-    inStock: true,
-  },
-  {
-    id: '15',
-    name: 'Gilet Mandala con Mangas',
-    price: 45.00,
-    style: 'Boho Chic',
-    category: 'Gilets',
-    image: giletMandalaConMangas,
-    description: 'Gilet mandala con mangas incorporadas. Diseño complejo que combina tradición y modernidad en cada puntada.',
-    materials: ['Hilo premium', 'Fibras naturales'],
-    inStock: true,
-  },
-  {
-    id: '16',
-    name: 'Gilet Mandala Verde Citron',
-    price: 45.00,
-    style: 'Hippie',
-    category: 'Gilets',
-    image: giletMandalaVerdeCitron,
-    description: 'Refrescante gilet verde citron con patrón mandala. Perfecto para primavera y verano con su color vibrante.',
-    materials: ['Hilo verde citron', 'Algodón orgánico'],
-    inStock: true,
-  },
-  {
-    id: '17',
-    name: 'Gilet Granny Café con Franjas',
-    price: 45.00,
-    style: 'Traditional',
-    category: 'Gilets',
-    image: giletGrannyCafe,
-    description: 'Gilet en tonos café con técnica granny y franjas. Diseño clásico que evoca la calidez de los tejidos tradicionales.',
-    materials: ['Hilo café', 'Lana natural'],
-    inStock: true,
-  },
-  {
-    id: '18',
-    name: 'Gilet Mandala Rosa',
-    price: 45.00,
-    style: 'Shabby Chic',
-    category: 'Gilets',
-    image: giletMandalaRosa,
-    description: 'Romántico gilet rosa con diseño mandala delicado. Combina feminidad con la fuerza del tejido artesanal.',
-    materials: ['Hilo rosa suave', 'Encaje fino'],
-    inStock: true,
-  },
-  {
-    id: '19',
-    name: 'Gilet Multicolor Especial',
-    price: 35.00,
-    style: 'Hippie',
-    category: 'Gilets',
-    image: giletMulticolorEspecial,
-    description: 'Vibrante gilet multicolor con texturas florales en azul, naranja, amarillo y rosa. Diseño único que combina múltiples colores en perfecta armonía.',
-    materials: ['Hilos multicolores', 'Fibras texturizadas'],
-    inStock: true,
-  },
-  {
-    id: '20',
-    name: 'Gilet Granny Negro Elegante',
-    price: 45.00,
-    style: 'Vintage',
-    category: 'Gilets',
-    image: giletGrannyNegroB,
-    description: 'Elegante gilet negro con patrón granny sofisticado. Perfecto para looks urbanos con toque artesanal.',
-    materials: ['Hilo negro premium', 'Fibras de alta calidad'],
-    inStock: true,
-  },
-  // Chalecos
-  {
-    id: '21',
-    name: 'Chaleco de Brillo Dorado',
-    price: 35.00,
-    style: 'Boho Chic',
-    category: 'Chalecos',
-    image: chalecoBrilloDorado,
-    description: 'Elegante chaleco largo con hilos brillantes dorados. Textura suave y esponjosa perfecta para looks sofisticados.',
-    materials: ['Hilo dorado brillante', 'Fibras sintéticas suaves'],
-    inStock: true,
-  },
-  {
-    id: '22',
-    name: 'Chaleco de Brillo con Borde Negro',
-    price: 35.00,
-    style: 'Vintage',
-    category: 'Chalecos',
-    image: chalecoBrilloDoradoNegro,
-    description: 'Chaleco largo de textura esponjosa con elegantes bordes negros. Combina sofisticación con comodidad.',
-    materials: ['Hilo texturizado', 'Bordes de hilo negro'],
-    inStock: true,
-  },
-  {
-    id: '23',
-    name: 'Chaleco Corto Vintage Azul',
-    price: 30.00,
-    style: 'Vintage',
-    category: 'Chalecos',
-    image: chalecoCortoVintage,
-    description: 'Chaleco corto azul con detalles florales multicolores. Diseño clásico con cordón de ajuste frontal.',
-    materials: ['Hilo azul turquesa', 'Detalles multicolores'],
-    inStock: true,
-  },
-  {
-    id: '24',
-    name: 'Chaleco Vintage Rosa',
-    price: 30.00,
-    style: 'Shabby Chic',
-    category: 'Chalecos',
-    image: chalecoVintageRosa,
-    description: 'Hermoso chaleco en tonos rosa y morado con técnica granny square. Diseño romántico y versátil.',
-    materials: ['Hilos en tonos rosa', 'Técnica granny square'],
-    inStock: true,
-  },
-  {
-    id: '25',
-    name: 'Chaleco Vintage con Flecos',
-    price: 30.00,
-    style: 'Traditional',
-    category: 'Chalecos',
-    image: chalecoVintageFlecos,
-    description: 'Chaleco tradicional con motivos granny square y flecos decorativos. Colores vibrantes en diseño atemporal.',
-    materials: ['Hilos multicolores', 'Flecos artesanales'],
-    inStock: true,
-  },
-  {
-    id: '26',
-    name: 'Chaleco de Brillo Negro',
-    price: 35.00,
-    style: 'Vintage',
-    category: 'Chalecos',
-    image: chalecoBrilloNegro,
-    description: 'Elegante chaleco negro con textura brillante y esponjosa. Perfecto para looks sofisticados y modernos.',
-    materials: ['Hilo negro brillante', 'Fibras texturizadas'],
-    inStock: true,
-  },
-  {
-    id: '27',
-    name: 'Chaleco Granny Vintage Floral',
-    price: 30.00,
-    style: 'Shabby Chic',
-    category: 'Chalecos',
-    image: chalecoGrannyVintage,
-    description: 'Chaleco sin mangas con hermosos motivos florales en técnica granny. Base blanca con detalles coloridos.',
-    materials: ['Hilo blanco base', 'Detalles florales multicolores'],
-    inStock: true,
-  },
-  {
-    id: '28',
-    name: 'Chaleco Boho Mandala',
-    price: 35.00,
-    style: 'Boho Chic',
-    category: 'Chalecos',
-    image: chalecoBoho,
-    description: 'Chaleco bohemio con círculos mandala coloridos sobre base negra. Diseño único con cordón de ajuste.',
-    materials: ['Base negra calada', 'Mandalas multicolores'],
-    inStock: true,
-  },
-  {
-    id: '29',
-    name: 'Chaleco Vintage Multicolor',
-    price: 45.00,
-    style: 'Hippie',
-    category: 'Chalecos',
-    image: chalecoVintageMulticolor,
-    description: 'Espectacular chaleco largo con mangas y diseños geométricos multicolores. Pieza única de arte textil.',
-    materials: ['Hilos multicolores premium', 'Técnica geométrica'],
-    inStock: true,
-  },
-  // Túnicas
-  {
-    id: '30',
-    name: 'Túnica Larga Crema con Mangas',
-    price: 50.00,
-    style: 'Boho Chic',
-    category: 'Túnicas',
-    image: tunicaCremaFrente,
-    description: 'Elegante túnica larga tejida a mano en tono crema natural. Presenta un hermoso diseño de red calada con detalles de flores en los bordes y mangas acampanadas. Esta pieza única es perfecta como vestido de playa o sobre un vestido básico. El trabajo artesanal incluye un medallón central en la espalda y terminaciones onduladas en el bajo. Solo disponible la pieza mostrada, hecha a mano por Yaritza Salgado Fina.',
-    materials: ['Hilo de algodón crema', 'Punto calado', 'Flores de crochet'],
-    inStock: true,
-    images: [tunicaCremaFrente, tunicaCremaEspalda],
-  },
-  {
-    id: '31',
-    name: 'Túnica Larga Rosa Delicada',
-    price: 50.00,
-    style: 'Shabby Chic',
-    category: 'Túnicas',
-    image: tunicaRosaFrente,
-    description: 'Romántica túnica larga en suave tono rosa degradado. El diseño calado permite ver delicados patrones de red y flores, con un hermoso medallón circular en la espalda. Las mangas cortas tipo mariposa añaden un toque femenino. Ideal para eventos especiales o como salida de playa elegante. Pieza única e irrepetible, tejida completamente a mano por Yaritza Salgado Fina.',
-    materials: ['Hilo de algodón rosa', 'Punto calado degradado', 'Medallón central'],
-    inStock: true,
-    images: [tunicaRosaFrente, tunicaRosaEspalda],
-  },
-  {
-    id: '32',
-    name: 'Túnica Larga Azul Cielo',
-    price: 50.00,
-    style: 'Boho Chic',
-    category: 'Túnicas',
-    image: tunicaAzulFrente,
-    description: 'Hermosa túnica larga en vibrante azul cielo con diseño de red muy abierta. El medallón superior y la red calada crean un efecto visual impresionante. Las mangas cortas y el bajo con ondas decorativas completan este diseño bohemio. Perfecta para la playa o eventos casuales de verano. Cada pieza es única, disponible solo la mostrada, creada a mano por Yaritza Salgado Fina.',
-    materials: ['Hilo de algodón azul cielo', 'Red calada', 'Medallón superior'],
-    inStock: true,
-    images: [tunicaAzulFrente, tunicaAzulEspalda],
-  },
-  {
-    id: '33',
-    name: 'Túnica de Punta Negra y Roja',
-    price: 50.00,
-    style: 'Hippie',
-    category: 'Túnicas',
-    image: tunicaPuntaFrente,
-    description: 'Impactante túnica asimétrica tipo poncho en negro y rojo. El diseño geométrico en zigzag combina red calada con franjas contrastantes. Los laterales caen en punta creando una silueta dramática y moderna. Las mangas cortas presentan el mismo patrón decorativo. Una pieza de arte textil única, perfecta para destacar en cualquier ocasión. Solo disponible la pieza mostrada, tejida a mano por Yaritza Salgado Fina.',
-    materials: ['Hilo negro y rojo', 'Diseño geométrico', 'Corte asimétrico'],
-    inStock: true,
-    images: [tunicaPuntaFrente, tunicaPuntaEspalda],
-  },
-  {
-    id: '34',
-    name: 'Túnica Mandala Multicolor',
-    price: 70.00,
-    style: 'Hippie',
-    category: 'Túnicas',
-    image: tunicaMandalaFrente,
-    description: 'Extraordinaria túnica sin mangas con diseño de mandala y círculos de colores vibrantes. La espalda presenta un gran mandala circular multicolor, mientras que la parte inferior combina círculos en turquesa con detalles en naranja, rosa, amarillo y verde. La base termina con un patrón en zigzag azul y amarillo. Una verdadera obra de arte textil que requiere horas de trabajo artesanal. Pieza única e irrepetible, completamente tejida a mano por Yaritza Salgado Fina.',
-    materials: ['Hilos multicolores premium', 'Técnica mandala', 'Círculos de crochet', 'Patrón zigzag'],
-    inStock: true,
-    images: [tunicaMandalaFrente, tunicaMandalaEspalda],
-  },
-  // Vestidos
-  {
-    id: '35',
-    name: 'Vestido Blanco Mandala Corto',
-    price: 60.00,
-    style: 'Boho Chic',
-    category: 'Vestidos',
-    image: vestidoBlancoFrente,
-    description: 'Hermoso vestido corto blanco con diseño de mandalas circulares en el corpiño. El escote presenta detalles de cordón decorativo y mangas cortas delicadas. La falda en punto calado crea un efecto ligero y elegante. Perfecto para eventos especiales o salidas de verano. Pieza única tejida completamente a mano.',
-    materials: ['Hilo de algodón blanco', 'Punto mandala', 'Encaje calado'],
-    inStock: true,
-    images: [vestidoBlancoFrente, vestidoBlancoEspalda],
-  },
-  {
-    id: '36',
-    name: 'Vestido Extra Largo Crema',
-    price: 80.00,
-    style: 'Shabby Chic',
-    category: 'Vestidos',
-    image: vestidoCremaLargoFrente,
-    description: 'Espectacular vestido largo en tono crema con diseño sofisticado. El corpiño presenta un tejido de red con cuello decorativo y mangas cortas. La parte media incorpora franjas colgantes que añaden movimiento, seguido de una falda larga con patrón en zigzag. Una pieza elegante perfecta para ocasiones especiales o como vestido de playa de lujo.',
-    materials: ['Hilo de algodón crema premium', 'Franjas tejidas', 'Patrón zigzag'],
-    inStock: true,
-    images: [vestidoCremaLargoFrente, vestidoCremaLargoEspalda],
-  },
-  {
-    id: '37',
-    name: 'Vestido con Franjas Multicolor',
-    price: 50.00,
-    style: 'Hippie',
-    category: 'Vestidos',
-    image: vestidoFranjasFrente,
-    description: 'Vibrante vestido halter con diseño de franjas en colores rosa, verde y blanco. El corpiño en punto calado crema contrasta hermosamente con la falda a rayas. La espalda presenta un cierre de cordón decorativo que permite ajuste personalizado. Perfecto para looks bohemios y festivales de verano.',
-    materials: ['Hilos multicolores', 'Punto calado', 'Patrón de franjas'],
-    inStock: true,
-    images: [vestidoFranjasFrente, vestidoFranjasEspalda],
-  },
-  {
-    id: '38',
-    name: 'Vestido Chocolate Elegante',
-    price: 40.00,
-    style: 'Vintage',
-    category: 'Vestidos',
-    image: vestidoChocolateFrente,
-    description: 'Elegante vestido corto en tono chocolate intenso con diseño de mandalas calados en el corpiño. Las mangas cortas presentan el mismo patrón circular delicado. La cintura está definida por un tejido acanalado, seguido de una falda con más patrones calados. Un vestido sofisticado perfecto para eventos de día o noche.',
-    materials: ['Hilo chocolate premium', 'Mandalas calados', 'Tejido acanalado'],
-    inStock: true,
-    images: [vestidoChocolateFrente, vestidoChocolateEspalda],
-  },
-  {
-    id: '39',
-    name: 'Vestido Multicolor con Mangas',
-    price: 65.00,
-    style: 'Hippie',
-    category: 'Vestidos',
-    image: vestidoMangasMulticolorFrente,
-    description: 'Espectacular vestido con mangas largas y diseño geométrico multicolor. El corpiño combina crema con detalles en rojo, negro y turquesa, creando un hermoso patrón tribal. La falda presenta franjas onduladas en colores variados: rosa, verde, negro y crema. Una verdadera obra de arte textil que destaca por su complejidad y belleza.',
-    materials: ['Hilos multicolores premium', 'Diseño geométrico', 'Patrón tribal'],
-    inStock: true,
-    images: [vestidoMangasMulticolorFrente, vestidoMangasMulticolorEspalda],
-  },
-];
-
-export const testimonials: Testimonial[] = [
-  {
-    id: '1',
-    name: 'María González',
-    message: 'Las piezas de Yaritza son simplemente extraordinarias. La calidad del tejido y la atención al detalle son incomparables.',
-    rating: 5,
-    style: 'Boho Chic',
-  },
-  {
-    id: '2',
-    name: 'Ana Rodríguez',
-    message: 'Me encanta el estilo vintage de sus creaciones. Cada vez que uso una pieza de YariCrochetFina, recibo muchos cumplidos.',
-    rating: 5,
-    style: 'Vintage',
-  },
-  {
-    id: '3',
-    name: 'Carmen López',
-    message: 'La pasión por las técnicas ancestrales se nota en cada puntada. Productos únicos que cuentan una historia.',
-    rating: 5,
-    style: 'Traditional',
-  },
-];
-
-export const artisanProcess: ArtisanProcess[] = [
-  {
-    step: 1,
-    title: 'Selección de Materiales',
-    description: 'Elijo cuidadosamente fibras naturales e hilos de la más alta calidad para cada una de mis creaciones.',
-    icon: '🧶',
-  },
-  {
-    step: 2,
-    title: 'Técnicas Ancestrales',
-    description: 'Aplico métodos tradicionales de crochet y tricot que me fueron transmitidos de generación en generación.',
-    icon: '🧵',
-  },
-  {
-    step: 3,
-    title: 'Creación Artística',
-    description: 'Cada pieza la tejo a mano con amor, creatividad y la experiencia de mis años de dedicación.',
-    icon: '🎨',
-  },
+  // Mantener otras entradas existentes si las hay
 ];
