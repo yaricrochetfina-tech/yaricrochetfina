@@ -1,15 +1,43 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+// Allowed origins for CORS - restrict to project domains only
+const allowedOrigins = [
+  'https://dlmdegdpdnxoixfophlx.lovable.app',
+  'https://yarifina.lovable.app',
+  'https://id-preview--4acc05ee-4ccd-4c88-b688-0103e7626044.lovable.app',
+];
+
+// Helper to get CORS headers for valid origins
+const getCorsHeaders = (origin: string | null): Record<string, string> | null => {
+  if (!origin || !allowedOrigins.includes(origin)) {
+    return null;
+  }
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  };
 };
 
 serve(async (req) => {
+  const origin = req.headers.get('origin');
+  const corsHeaders = getCorsHeaders(origin);
+
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
+    if (!corsHeaders) {
+      return new Response(null, { status: 204 });
+    }
     return new Response(null, { headers: corsHeaders });
+  }
+
+  // Reject requests from unauthorized origins
+  if (!corsHeaders) {
+    console.log('Rejected request from unauthorized origin:', origin);
+    return new Response(
+      JSON.stringify({ error: 'Forbidden' }),
+      { status: 403, headers: { 'Content-Type': 'application/json' } }
+    );
   }
 
   if (req.method !== 'GET') {
@@ -98,10 +126,9 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Get order error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return new Response(
       JSON.stringify({ error: 'Internal server error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
 });
