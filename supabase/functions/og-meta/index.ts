@@ -65,7 +65,7 @@ Deno.serve(async (req) => {
 
     // Construct absolute image URL for OG meta tags
     // Priority: 1) Already absolute URL, 2) OG-images bucket, 3) Default fallback
-    let absoluteImageUrl = `${siteUrl}/placeholder.svg`;
+    let absoluteImageUrl = `${siteUrl}/og-share.jpg`;
     
     if (imageUrl?.startsWith('http')) {
       // Already an absolute URL (e.g., from storage or external CDN)
