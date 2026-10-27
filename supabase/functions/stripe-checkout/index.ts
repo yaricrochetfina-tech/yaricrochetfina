@@ -157,7 +157,7 @@ serve(async (req) => {
       return { id: product.id, name: product.name, price: Number(product.price), quantity, image };
     });
 
-    const currency = (Deno.env.get('STORE_CURRENCY') || 'usd').toLowerCase();
+    const currency = (Deno.env.get('STORE_CURRENCY') || 'cad').toLowerCase();
     const shippingRate = getShippingRate(shippingCountry);
     if (shippingRate === null) throw new CheckoutError('invalidCountry');
 

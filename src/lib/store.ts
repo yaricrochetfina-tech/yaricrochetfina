@@ -19,13 +19,13 @@ export {
 export type { ShippingCountryCode };
 
 /** Moneda en la que cobra Stripe (código ISO 4217 en mayúsculas). */
-export const CURRENCY = ((import.meta.env.VITE_STORE_CURRENCY as string | undefined) || 'USD').toUpperCase();
+export const CURRENCY = ((import.meta.env.VITE_STORE_CURRENCY as string | undefined) || 'CAD').toUpperCase();
 
 /** URL pública del sitio para compartir enlaces. */
 export const getSiteUrl = (): string =>
   ((import.meta.env.VITE_SITE_URL as string | undefined) || window.location.origin).replace(/\/$/, '');
 
-/** Formatea un importe, p. ej. "$35.00 USD". */
+/** Formatea un importe, p. ej. "$35.00 CAD". */
 export const formatPrice = (amount: number): string => `$${Number(amount || 0).toFixed(2)} ${CURRENCY}`;
 
 /** Nombre localizado del país a partir de su código ISO (usa Intl, no requiere traducciones manuales). */

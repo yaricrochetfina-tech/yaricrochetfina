@@ -196,7 +196,7 @@ serve(async (req) => {
         items,
         shippingCost,
         totalAmount,
-        currency: (session.currency || 'usd').toUpperCase(),
+        currency: (session.currency || 'cad').toUpperCase(),
       });
     } catch (emailError) {
       console.error('Order emails failed (order was saved):', emailError);

@@ -34,7 +34,7 @@ Scripts útiles:
 | `VITE_SUPABASE_URL`              | URL del proyecto de Supabase                                    |
 | `VITE_SUPABASE_PUBLISHABLE_KEY`  | Clave pública (anon) de Supabase                                |
 | `VITE_SITE_URL`                  | (Opcional) URL pública del sitio, usada al compartir productos  |
-| `VITE_STORE_CURRENCY`            | (Opcional) Moneda mostrada. Por defecto `USD`                   |
+| `VITE_STORE_CURRENCY`            | (Opcional) Moneda mostrada. Por defecto `CAD`                   |
 
 ### Secretos de las Edge Functions
 
@@ -45,9 +45,9 @@ supabase secrets set \
   RESEND_API_KEY=re_... \
   RESEND_FROM_EMAIL="YariCrochetFina <pedidos@tu-dominio.com>" \
   OWNER_EMAIL=yaricrochetfina@gmail.com \
-  SITE_URL=https://www.tu-dominio.com \
-  ALLOWED_ORIGINS=https://www.tu-dominio.com \
-  STORE_CURRENCY=usd
+  SITE_URL=https://www.yaricrochet.com \
+  ALLOWED_ORIGINS=https://www.yaricrochet.com \
+  STORE_CURRENCY=cad
 ```
 
 `STORE_CURRENCY` (funciones) y `VITE_STORE_CURRENCY` (frontend) deben coincidir.

@@ -10,10 +10,9 @@ const corsHeaders = {
 const ALLOWED_DOMAINS = [
   getSiteUrl(),
   ...getAllowedOrigins(),
-  "https://id-preview--4acc05ee-4ccd-4c88-b688-0103e7626044.lovable.app",
 ].filter((value, index, all) => all.indexOf(value) === index);
 
-const CURRENCY = (Deno.env.get("STORE_CURRENCY") || "usd").toUpperCase();
+const CURRENCY = (Deno.env.get("STORE_CURRENCY") || "cad").toUpperCase();
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests

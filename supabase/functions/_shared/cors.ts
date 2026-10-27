@@ -7,9 +7,9 @@
 //   supabase secrets set SITE_URL=https://www.tu-dominio.com
 
 const DEFAULT_ORIGINS = [
-  'https://dlmdegdpdnxoixfophlx.lovable.app',
-  'https://yari-crochet-fina.lovable.app',
-  'https://yarifina.lovable.app',
+  'https://www.yaricrochet.com',
+  'https://yaricrochet.com',
+  'https://yaricrochetfina.vercel.app',
 ];
 
 const normalize = (url: string): string => url.trim().replace(/\/+$/, '');
@@ -28,7 +28,7 @@ export const getAllowedOrigins = (): string[] => {
 /** URL pública principal del sitio (para enlaces en correos y redirecciones por defecto). */
 export const getSiteUrl = (): string => {
   const siteUrl = Deno.env.get('SITE_URL');
-  return siteUrl ? normalize(siteUrl) : DEFAULT_ORIGINS[2];
+  return siteUrl ? normalize(siteUrl) : DEFAULT_ORIGINS[0];
 };
 
 export const getCorsHeaders = (origin: string | null): Record<string, string> | null => {
