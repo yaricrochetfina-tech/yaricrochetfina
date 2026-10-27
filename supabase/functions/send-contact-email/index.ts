@@ -9,7 +9,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 // Remitente y destinatario configurables (secretos RESEND_FROM_EMAIL y OWNER_EMAIL).
 // Con "onboarding@resend.dev" Resend solo entrega correos al titular de la cuenta:
 // para escribir a cualquier cliente hay que verificar un dominio propio en Resend.
-const FROM_EMAIL = Deno.env.get('RESEND_FROM_EMAIL') || 'YariCrochetFina <onboarding@resend.dev>';
+const FROM_EMAIL = Deno.env.get('RESEND_FROM_EMAIL') || 'Yari Crochet <onboarding@resend.dev>';
 const OWNER_EMAIL = Deno.env.get('OWNER_EMAIL') || 'yaricrochetfina@gmail.com';
 
 // Rate limiting configuration
@@ -46,28 +46,28 @@ const getEmailContent = (name: string, message: string, language: typeof SUPPORT
 
   const translations = {
     es: {
-      confirmSubject: "Hemos recibido tu mensaje - YariCrochetFina",
+      confirmSubject: "Hemos recibido tu mensaje - Yari Crochet",
       confirmTitle: `¡Gracias por contactarnos, ${safeName}!`,
       confirmBody: "Hemos recibido tu mensaje y te responderemos lo antes posible.",
-      confirmFooter: "Con cariño,<br>El equipo de YariCrochetFina",
+      confirmFooter: "Con cariño,<br>El equipo de Yari Crochet",
       notifySubject: `Nuevo mensaje de contacto de ${safeName}`,
       notifyTitle: "Nuevo Mensaje de Contacto",
       safeMessage,
     },
     fr: {
-      confirmSubject: "Nous avons reçu votre message - YariCrochetFina",
+      confirmSubject: "Nous avons reçu votre message - Yari Crochet",
       confirmTitle: `Merci de nous avoir contactés, ${safeName}!`,
       confirmBody: "Nous avons reçu votre message et vous répondrons dès que possible.",
-      confirmFooter: "Avec amour,<br>L'équipe YariCrochetFina",
+      confirmFooter: "Avec amour,<br>L'équipe Yari Crochet",
       notifySubject: `Nouveau message de contact de ${safeName}`,
       notifyTitle: "Nouveau Message de Contact",
       safeMessage,
     },
     en: {
-      confirmSubject: "We received your message - YariCrochetFina",
+      confirmSubject: "We received your message - Yari Crochet",
       confirmTitle: `Thank you for contacting us, ${safeName}!`,
       confirmBody: "We have received your message and will respond as soon as possible.",
-      confirmFooter: "With love,<br>The YariCrochetFina Team",
+      confirmFooter: "With love,<br>The Yari Crochet Team",
       notifySubject: `New contact message from ${safeName}`,
       notifyTitle: "New Contact Message",
       safeMessage,
@@ -138,7 +138,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     const content = getEmailContent(name, message, language);
 
-    // 1) Aviso a YariCrochetFina (lo importante: el mensaje no debe perderse aunque falle la confirmación).
+    // 1) Aviso a Yari Crochet (lo importante: el mensaje no debe perderse aunque falle la confirmación).
     const notificationEmail = await resend.emails.send({
       from: FROM_EMAIL,
       to: [OWNER_EMAIL],

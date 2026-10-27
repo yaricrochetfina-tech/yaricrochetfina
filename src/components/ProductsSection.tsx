@@ -5,27 +5,21 @@ import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
-import { supabase } from '@/integrations/supabase/client';
-import { mapDbProduct } from '@/lib/products';
+import { fetchProducts, PRODUCT_CATEGORIES } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Product, ProductCategory } from '@/types';
 
-const categories: ProductCategory[] = ['Blusas', 'Gilets', 'Chalecos', 'Túnicas', 'Vestidos', 'Abrigo', 'Ponchos', 'Tops'];
-
-const fetchProducts = async (): Promise<Product[]> => {
-  const { data, error } = await supabase
-    .from('products')
-    .select('*')
-    .order('created_at', { ascending: false });
-
-  if (error) throw error;
-  return (data ?? []).map(mapDbProduct);
-};
+const isProductCategory = (value: string | null): value is ProductCategory =>
+  !!value && PRODUCT_CATEGORIES.includes(value as ProductCategory);
 
 export const ProductsSection = () => {
   const { t } = useTranslation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>('all');
+  const categoriaParam = searchParams.get('categoria');
+  const categoryFromUrl: ProductCategory | 'all' = isProductCategory(categoriaParam)
+    ? categoriaParam
+    : 'all';
+  const [selectedCategory, setSelectedCategory] = useState<ProductCategory | 'all'>(categoryFromUrl);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const {
@@ -69,22 +63,29 @@ export const ProductsSection = () => {
 
   // Solo se muestran las categorías que tienen productos.
   const availableCategories = useMemo(
-    () => categories.filter((category) => products.some((p) => p.category === category)),
+    () => PRODUCT_CATEGORIES.filter((category) => products.some((p) => p.category === category)),
     [products]
   );
+
+  const selectCategory = (category: ProductCategory | 'all') => {
+    setSelectedCategory(category);
+    const next = new URLSearchParams(searchParams);
+    if (category === 'all') next.delete('categoria');
+    else next.set('categoria', category);
+    setSearchParams(next, { replace: true });
+  };
 
   return (
     <section id="colecciones" className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 animate-fade-in-up">
+        <div className="text-center mb-10 animate-fade-in-up">
           <h2 className="text-section-title">{t('products.title')}</h2>
-          <p className="text-warm text-lg max-w-2xl mx-auto">{t('products.description')}</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-12" role="group" aria-label={t('products.title')}>
           <button
             type="button"
-            onClick={() => setSelectedCategory('all')}
+            onClick={() => selectCategory('all')}
             aria-pressed={selectedCategory === 'all'}
             className={`filter-chip ${selectedCategory === 'all' ? 'active' : ''}`}
           >
@@ -94,7 +95,7 @@ export const ProductsSection = () => {
             <button
               type="button"
               key={category}
-              onClick={() => setSelectedCategory(category)}
+              onClick={() => selectCategory(category)}
               aria-pressed={selectedCategory === category}
               className={`filter-chip ${selectedCategory === category ? 'active' : ''}`}
             >

@@ -10,6 +10,8 @@ import { useAddToCart } from '@/hooks/useAddToCart';
 import { useShareProduct } from '@/hooks/useShareProduct';
 import { getStyleBadgeColor } from '@/lib/productStyles';
 import { formatPrice } from '@/lib/store';
+import { getProductShortUrl } from '@/lib/youtube';
+import { YouTubeShortButton } from './YouTubeShortButton';
 
 interface ProductCardProps {
   product: Product;
@@ -27,6 +29,7 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
   );
   const [isAdding, setIsAdding] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const shortUrl = getProductShortUrl(product);
 
   useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
@@ -67,6 +70,15 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
               {t('products.soldOut')}
             </Badge>
           </div>
+        )}
+
+        {shortUrl && (
+          <YouTubeShortButton
+            url={shortUrl}
+            productName={translatedProduct.name}
+            variant="overlay"
+            className="absolute bottom-3 left-3 right-3 z-10"
+          />
         )}
       </div>
 

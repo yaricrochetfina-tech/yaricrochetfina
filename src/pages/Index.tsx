@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { HeroSection } from '@/components/HeroSection';
-import { ProductsSection } from '@/components/ProductsSection';
-import { GallerySection } from '@/components/GallerySection';
-import { ProcessSection } from '@/components/ProcessSection';
+import { VisualBurstSection } from '@/components/VisualBurstSection';
+import { CollectionsExploreSection } from '@/components/CollectionsExploreSection';
 import { AboutSection } from '@/components/AboutSection';
-import { TestimonialsSection } from '@/components/TestimonialsSection';
-import { NewsletterSection } from '@/components/NewsletterSection';
-import { ContactSection } from '@/components/ContactSection';
 import { Footer } from '@/components/Footer';
 
 const Index = () => {
   const { hash } = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
-  // Permite enlaces como /#contacto, también al llegar desde otras páginas.
+  useEffect(() => {
+    const product = searchParams.get('product');
+    if (!product) return;
+    navigate(`/colecciones?product=${encodeURIComponent(product)}`, { replace: true });
+  }, [navigate, searchParams]);
+
   useEffect(() => {
     if (!hash) return;
     const id = decodeURIComponent(hash.slice(1));
@@ -24,15 +27,11 @@ const Index = () => {
   }, [hash]);
 
   return (
-    <main className="pt-20">
+    <main>
       <HeroSection />
-      <ProductsSection />
-      <GallerySection />
-      <ProcessSection />
+      <VisualBurstSection />
+      <CollectionsExploreSection />
       <AboutSection />
-      <TestimonialsSection />
-      <NewsletterSection />
-      <ContactSection />
       <Footer />
     </main>
   );

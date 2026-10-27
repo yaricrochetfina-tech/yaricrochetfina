@@ -80,9 +80,9 @@ Deno.serve(async (req) => {
     }
 
     // Prepare meta content
-    const title = `${product.name} - YariCrochetFina`;
+    const title = `${product.name} - Yari Crochet`;
     const description = product.description?.substring(0, 160) || `Pieza única de crochet: ${product.name}. $${product.price} ${CURRENCY}`;
-    const productUrl = `${siteUrl}/?product=${product.id}`;
+    const productUrl = `${siteUrl}/colecciones?product=${product.id}`;
 
     // Return meta tags as JSON for the frontend to use
     // Or return HTML for crawlers
@@ -107,7 +107,7 @@ Deno.serve(async (req) => {
   <meta property="og:image" content="${escapeHtml(absoluteImageUrl)}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:site_name" content="YariCrochetFina">
+  <meta property="og:site_name" content="Yari Crochet">
   <meta property="product:price:amount" content="${product.price}">
   <meta property="product:price:currency" content="${CURRENCY}">
   

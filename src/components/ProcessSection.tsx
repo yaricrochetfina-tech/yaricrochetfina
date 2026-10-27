@@ -13,11 +13,8 @@ export const ProcessSection = () => {
   return (
     <section id="proceso" className="py-20 bg-texture-warm">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16 animate-fade-in-up">
+        <div className="text-center mb-12 animate-fade-in-up">
           <h2 className="text-section-title">{t('process.title')}</h2>
-          <p className="text-warm text-lg max-w-3xl mx-auto">
-            {t('process.description')}
-          </p>
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
@@ -59,35 +56,6 @@ export const ProcessSection = () => {
           ))}
         </div>
 
-        {/* Quality assurance section */}
-        <div className="mt-16 text-center">
-          <div className="card-warm max-w-4xl mx-auto">
-            <h3 className="font-playfair text-2xl font-semibold mb-4 text-foreground">
-              {t('process.qualityTitle')}
-            </h3>
-            <p className="text-warm text-lg leading-relaxed mb-6">
-              {t('process.qualityDescription')}
-            </p>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-              <div>
-                <div className="text-3xl font-bold text-primary mb-1">100%</div>
-                <div className="text-sm text-muted-foreground">{t('process.handmade')}</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-1">15+</div>
-                <div className="text-sm text-muted-foreground">{t('process.yearsExperience')}</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-1">500+</div>
-                <div className="text-sm text-muted-foreground">{t('process.piecesCreated')}</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-primary mb-1">98%</div>
-                <div className="text-sm text-muted-foreground">{t('process.satisfiedClients')}</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

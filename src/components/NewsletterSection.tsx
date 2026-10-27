@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Mail, Gift, Sparkles, Lightbulb } from 'lucide-react';
+import { Mail } from 'lucide-react';
 import { z } from 'zod';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
@@ -75,35 +75,14 @@ export const NewsletterSection = () => {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-4xl mx-auto text-center animate-fade-in-up">
-          <div className="mb-12">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-6">
+          <div className="mb-10">
+            <div className="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-white/20">
               <Mail className="h-8 w-8 text-white" aria-hidden="true" />
             </div>
-
-            <h2 className="text-4xl md:text-5xl font-playfair font-bold text-white mb-4">
+            <h2 className="mb-3 font-playfair text-4xl font-bold text-white md:text-5xl">
               {t('newsletter.title')}
             </h2>
-            <p className="text-white/80 text-lg max-w-2xl mx-auto">{t('newsletter.description')}</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
-              <Gift className="h-8 w-8 mx-auto mb-3" aria-hidden="true" />
-              <h3 className="font-semibold mb-2">{t('newsletter.offersTitle')}</h3>
-              <p className="text-sm text-white/80">{t('newsletter.offersDescription')}</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
-              <Sparkles className="h-8 w-8 mx-auto mb-3" aria-hidden="true" />
-              <h3 className="font-semibold mb-2">{t('newsletter.newTitle')}</h3>
-              <p className="text-sm text-white/80">{t('newsletter.newDescription')}</p>
-            </div>
-
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-white">
-              <Lightbulb className="h-8 w-8 mx-auto mb-3" aria-hidden="true" />
-              <h3 className="font-semibold mb-2">{t('newsletter.secretsTitle')}</h3>
-              <p className="text-sm text-white/80">{t('newsletter.secretsDescription')}</p>
-            </div>
+            <p className="mx-auto max-w-xl text-lg text-white/80">{t('newsletter.description')}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto" noValidate>

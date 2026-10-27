@@ -224,16 +224,10 @@ export const ShoppingCart = () => {
               <ShoppingBag className="h-16 w-16 text-muted-foreground" aria-hidden="true" />
               <h3 className="font-playfair text-xl">{t('cart.empty')}</h3>
               <p className="text-warm">{t('cart.emptyDescription')}</p>
-              <Button
-                onClick={() => {
-                  closeCart();
-                  document
-                    .getElementById('colecciones')
-                    ?.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="btn-hero"
-              >
-                {t('hero.cta')}
+              <Button asChild className="btn-hero">
+                <Link to="/colecciones" onClick={closeCart}>
+                  {t('hero.cta')}
+                </Link>
               </Button>
             </div>
           ) : (

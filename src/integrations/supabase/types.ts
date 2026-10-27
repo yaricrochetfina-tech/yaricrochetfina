@@ -212,6 +212,7 @@ export type Database = {
           style: string
           updated_at: string
           video_url: string | null
+          youtube_short_url: string | null
         }
         Insert: {
           category: string
@@ -228,6 +229,7 @@ export type Database = {
           style: string
           updated_at?: string
           video_url?: string | null
+          youtube_short_url?: string | null
         }
         Update: {
           category?: string
@@ -244,6 +246,34 @@ export type Database = {
           style?: string
           updated_at?: string
           video_url?: string | null
+          youtube_short_url?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          author_name: string
+          comment: string
+          created_at: string
+          id: string
+          photo_url: string | null
+          rating: number
+        }
+        Insert: {
+          author_name: string
+          comment: string
+          created_at?: string
+          id?: string
+          photo_url?: string | null
+          rating?: number
+        }
+        Update: {
+          author_name?: string
+          comment?: string
+          created_at?: string
+          id?: string
+          photo_url?: string | null
+          rating?: number
         }
         Relationships: []
       }

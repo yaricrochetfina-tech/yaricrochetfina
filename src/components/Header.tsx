@@ -9,14 +9,12 @@ import { useSectionNavigation } from '@/hooks/useSectionNavigation';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { LanguageSelector } from '@/components/LanguageSelector';
-import logoYariCrochetFina from '@/assets/logo-yari-crochet-fina.png';
+import { BrandMark } from '@/components/BrandMark';
 
 const NAV_ITEMS = [
-  { id: 'colecciones', labelKey: 'header.products' },
-  { id: 'galeria', labelKey: 'header.gallery' },
-  { id: 'proceso', labelKey: 'header.process' },
-  { id: 'sobre-yaritza', labelKey: 'header.about' },
-  { id: 'contacto', labelKey: 'header.contact' },
+  { type: 'route', to: '/colecciones', labelKey: 'header.products' },
+  { type: 'section', id: 'sobre-yaritza', labelKey: 'header.about' },
+  { type: 'section', id: 'contacto', labelKey: 'header.contact' },
 ] as const;
 
 export const Header = () => {
@@ -50,35 +48,42 @@ export const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-background/90 backdrop-blur-md border-b border-border">
-      <div className="container mx-auto px-4 py-3 md:py-4">
+    <header className="fixed top-0 left-0 right-0 z-40 border-b border-white/10 bg-background/55 backdrop-blur-md">
+      <div className="container mx-auto px-4 py-2.5 md:py-3">
         <div className="flex items-center justify-between">
           <Link
             to="/"
             onClick={handleLogoClick}
             aria-label={t('header.home')}
-            className="flex items-center"
+            className="flex items-center gap-3"
           >
-            <div className="w-14 h-14 md:w-16 md:h-16 rounded-full overflow-hidden bg-background border-2 border-primary/20">
-              <img
-                src={logoYariCrochetFina}
-                alt={t('header.logoAlt')}
-                className="w-full h-full object-cover"
-              />
-            </div>
+            <BrandMark alt={t('header.logoAlt')} className="h-11 w-11 md:h-14 md:w-14" />
+            <span className="font-playfair text-lg font-semibold tracking-tight sm:text-xl md:text-2xl">
+              {t('header.brandName')}
+            </span>
           </Link>
 
           <nav className="hidden md:flex items-center space-x-8" aria-label={t('header.mainNav')}>
-            {NAV_ITEMS.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => handleNavigate(item.id)}
-                className="text-foreground hover:text-primary transition-colors duration-300"
-              >
-                {t(item.labelKey)}
-              </button>
-            ))}
+            {NAV_ITEMS.map((item) =>
+              item.type === 'route' ? (
+                <Link
+                  key={item.to}
+                  to={item.to}
+                  className="text-foreground hover:text-primary transition-colors duration-300"
+                >
+                  {t(item.labelKey)}
+                </Link>
+              ) : (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => handleNavigate(item.id)}
+                  className="text-foreground hover:text-primary transition-colors duration-300"
+                >
+                  {t(item.labelKey)}
+                </button>
+              )
+            )}
           </nav>
 
           <div className="flex items-center space-x-1 sm:space-x-2">
@@ -142,16 +147,27 @@ export const Header = () => {
             aria-label={t('header.mainNav')}
           >
             <div className="flex flex-col space-y-4">
-              {NAV_ITEMS.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => handleNavigate(item.id)}
-                  className="text-left text-foreground hover:text-primary transition-colors duration-300 py-1"
-                >
-                  {t(item.labelKey)}
-                </button>
-              ))}
+              {NAV_ITEMS.map((item) =>
+                item.type === 'route' ? (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    onClick={() => setIsMenuOpen(false)}
+                    className="text-left text-foreground hover:text-primary transition-colors duration-300 py-1"
+                  >
+                    {t(item.labelKey)}
+                  </Link>
+                ) : (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => handleNavigate(item.id)}
+                    className="text-left text-foreground hover:text-primary transition-colors duration-300 py-1"
+                  >
+                    {t(item.labelKey)}
+                  </button>
+                )
+              )}
             </div>
           </nav>
         )}

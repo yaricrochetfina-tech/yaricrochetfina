@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "match:shorts": "node scripts/match-youtube-shorts.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

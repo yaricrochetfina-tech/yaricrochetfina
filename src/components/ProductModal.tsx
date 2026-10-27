@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, Play, Share2, Check, Zap } from 'lucide-react';
+import { ShoppingCart, Share2, Check, Zap } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
@@ -20,15 +20,14 @@ import { useShareProduct } from '@/hooks/useShareProduct';
 import { resolveProductImage } from '@/lib/imageResolver';
 import { getStyleBadgeColor } from '@/lib/productStyles';
 import { formatPrice } from '@/lib/store';
+import { getProductShortUrl } from '@/lib/youtube';
+import { YouTubeShortButton } from './YouTubeShortButton';
 
 interface ProductModalProps {
   product: Product;
   isOpen: boolean;
   onClose: () => void;
 }
-
-/** Los vídeos se guardan como URL de incrustación (/embed/); para abrirlos en otra pestaña usamos la URL de visualización. */
-const toWatchUrl = (url: string) => url.replace('youtube.com/embed/', 'youtube.com/watch?v=');
 
 export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
   const { t } = useTranslation();
@@ -42,6 +41,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
     translatedProduct.description
   );
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const shortUrl = getProductShortUrl(product);
 
   const displayImages =
     product.images && product.images.length > 0 ? product.images : [product.image];
@@ -126,23 +126,18 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {product.videoUrl && (
-                <Button
-                  onClick={() =>
-                    window.open(toWatchUrl(product.videoUrl!), '_blank', 'noopener,noreferrer')
-                  }
-                  variant="outline"
+              {shortUrl && (
+                <YouTubeShortButton
+                  url={shortUrl}
+                  productName={translatedProduct.name}
                   className="w-full"
-                >
-                  <Play className="h-4 w-4 mr-2" aria-hidden="true" />
-                  {t('products.watchVideo')}
-                </Button>
+                />
               )}
               <Button
                 variant="outline"
                 onClick={share}
                 className={`w-full text-muted-foreground hover:text-primary ${
-                  product.videoUrl ? '' : 'sm:col-span-2'
+                  shortUrl ? '' : 'sm:col-span-2'
                 }`}
               >
                 {linkCopied ? (

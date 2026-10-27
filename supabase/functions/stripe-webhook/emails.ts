@@ -29,7 +29,7 @@ type Lang = 'es' | 'fr' | 'en';
 
 const TEXTS: Record<Lang, Record<string, string>> = {
   es: {
-    subject: 'Confirmación de tu pedido #{n} - YariCrochetFina',
+    subject: 'Confirmación de tu pedido #{n} - Yari Crochet',
     title: '¡Gracias por tu compra, {name}!',
     intro: 'Hemos recibido tu pago y estamos preparando tu pedido con mucho cariño.',
     order: 'Pedido',
@@ -41,11 +41,11 @@ const TEXTS: Record<Lang, Record<string, string>> = {
     shipTo: 'Dirección de envío',
     delivery: 'Plazo estimado de entrega: 7 a 14 días hábiles, con número de seguimiento.',
     view: 'Ver mi pedido',
-    footer: 'Con cariño,<br>El equipo de YariCrochetFina',
+    footer: 'Con cariño,<br>El equipo de Yari Crochet',
     friend: 'amiga',
   },
   fr: {
-    subject: 'Confirmation de votre commande #{n} - YariCrochetFina',
+    subject: 'Confirmation de votre commande #{n} - Yari Crochet',
     title: 'Merci pour votre achat, {name} !',
     intro: 'Nous avons bien reçu votre paiement et préparons votre commande avec soin.',
     order: 'Commande',
@@ -57,11 +57,11 @@ const TEXTS: Record<Lang, Record<string, string>> = {
     shipTo: 'Adresse de livraison',
     delivery: 'Délai de livraison estimé : 7 à 14 jours ouvrables, avec numéro de suivi.',
     view: 'Voir ma commande',
-    footer: 'Avec amour,<br>L\'équipe YariCrochetFina',
+    footer: 'Avec amour,<br>L\'équipe Yari Crochet',
     friend: 'chère cliente',
   },
   en: {
-    subject: 'Your order #{n} is confirmed - YariCrochetFina',
+    subject: 'Your order #{n} is confirmed - Yari Crochet',
     title: 'Thank you for your purchase, {name}!',
     intro: 'We have received your payment and are lovingly preparing your order.',
     order: 'Order',
@@ -73,7 +73,7 @@ const TEXTS: Record<Lang, Record<string, string>> = {
     shipTo: 'Shipping address',
     delivery: 'Estimated delivery: 7 to 14 business days, with a tracking number.',
     view: 'View my order',
-    footer: 'With love,<br>The YariCrochetFina Team',
+    footer: 'With love,<br>The Yari Crochet Team',
     friend: 'friend',
   },
 };
@@ -143,7 +143,7 @@ export const sendOrderEmails = async (data: OrderEmailData): Promise<OrderEmailR
   }
 
   const resend = new Resend(apiKey);
-  const from = Deno.env.get('RESEND_FROM_EMAIL') || 'YariCrochetFina <onboarding@resend.dev>';
+  const from = Deno.env.get('RESEND_FROM_EMAIL') || 'Yari Crochet <onboarding@resend.dev>';
   const ownerEmail = Deno.env.get('OWNER_EMAIL') || 'yaricrochetfina@gmail.com';
   const lang: Lang = (['es', 'fr', 'en'] as const).includes(data.language as Lang)
     ? (data.language as Lang)

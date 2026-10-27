@@ -4,7 +4,7 @@
     "gallery": "Galería",
     "process": "Proceso",
     "about": "Acerca de",
-    "testimonials": "Testimonios",
+    "reviews": "Reseñas",
     "contact": "Contacto",
     "cart": "Carrito",
     "home": "Ir al inicio",
@@ -14,7 +14,8 @@
     "openMenu": "Abrir menú",
     "closeMenu": "Cerrar menú",
     "language": "Cambiar idioma",
-    "logoAlt": "Logotipo de YariCrochetFina",
+    "logoAlt": "Logotipo de Yari Crochet",
+    "brandName": "Yari Crochet",
     "loggedOut": "Has cerrado sesión",
     "mainNav": "Navegación principal"
   },
@@ -22,14 +23,15 @@
     "title": "La Moda Audaz en Crochet",
     "subtitle": "Creaciones Únicas Hechas a Mano",
     "description": "Descubre piezas únicas de crochet que combinan tradición y diseño contemporáneo. Cada creación cuenta una historia de pasión y artesanía.",
-    "cta": "Descubrir Colecciones",
+    "cta": "Ver las colecciones",
+    "tagline": "Color, alegría y piezas únicas",
     "uniquePieces": "Piezas Únicas",
     "handmade": "Hechas a mano con amor",
     "ancestralTechniques": "Técnicas Ancestrales",
     "tradition": "Tradición en cada puntada",
     "everyPiece": "Cada Pieza Cuenta",
     "uniqueStory": "Una historia única",
-    "imageAlt": "Yaritza Salgado Fina - YariCrochetFina"
+    "imageAlt": "Yaritza Salgado Fina - Yari Crochet"
   },
   "products": {
     "title": "Nuestras colecciones",
@@ -62,6 +64,9 @@
     "backView": "Espalda",
     "total": "Total",
     "watchVideo": "Ver video",
+    "watchShort": "Ver Short",
+    "watchShortAria": "Ver el Short de YouTube de {{name}}",
+    "keepShopping": "Seguir viendo las colecciones",
     "viewImages": "Ver imágenes",
     "copyLink": "Copiar enlace",
     "linkCopied": "¡Enlace copiado!",
@@ -85,7 +90,7 @@
     "allFilter": "Todas",
     "editorialFilter": "Editoriales",
     "runwayFilter": "Pasarelas",
-    "inMediaTitle": "YariCrochetFina en los Medios",
+    "inMediaTitle": "Yari Crochet en los Medios",
     "inMediaDescription": "Nuestras creaciones han sido destacadas en importantes revistas de moda y desfiles internacionales en Montreal, demostrando que el crochet artesanal puede competir en las más altas esferas de la moda contemporánea.",
     "imageDetail": "Ver imagen",
     "items": {
@@ -159,7 +164,7 @@
     "satisfiedClients": "Clientes Satisfechos"
   },
   "about": {
-    "title": "Acerca de YariCrochetFina",
+    "title": "Acerca de Yari Crochet",
     "subtitle": "El Arte del Crochet Hecho a Mano",
     "description": "Bienvenidos a mi mundo de creaciones únicas en crochet y tricot. Soy Yaritza Salgado Fina, artesana apasionada que transforma cada hilo en una obra de arte portable. Cada pieza que creo cuenta una historia, combinando técnicas ancestrales con diseño contemporáneo.",
     "passion": {
@@ -169,6 +174,9 @@
     "quality": "Me comprometo a usar solo materiales de primera calidad y mantener los más altos estándares de confección. Cada pieza es única y hecha con amor, especialmente para ti.",
     "cta": "Descubre Nuestra Historia",
     "meetYaritza": "Conoce a Yaritza Salgado Fina",
+    "portraitAlt": "Retrato de Yaritza Salgado Fina, creadora de Yari Crochet",
+    "cardLead": "Yari Crochet se consagra a revivir las técnicas más antiguas del crochet y del tricot, y las tendencias retro de la moda.",
+    "cardBody": "Con creaciones audaces de estilos boho chic, hippie, vintage y shabby chic, la marca crea nuevas tendencias y valora la creatividad, la imaginación y la destreza manual.",
     "artisanTitle": "Artesana de Corazón, Creadora de Sueños",
     "paragraph1": "Desde pequeña, encontré en el tejido no solo una pasión, sino una forma de conectar con las tradiciones familiares que pasaron de generación en generación. Con más de 15 años de experiencia, he perfeccionado técnicas ancestrales que parecían perderse en el tiempo.",
     "paragraph2": "Mi misión va más allá de crear hermosas piezas de crochet y tricot: busco revivir el valor del trabajo artesanal en una época donde lo hecho a mano se vuelve cada vez más preciado y significativo.",
@@ -188,17 +196,32 @@
     "quote": "En cada puntada hay un latido, en cada creación hay un alma. Esto es más que crochet, es arte que abraza.",
     "quoteAuthor": "Yaritza Salgado Fina"
   },
-  "testimonials": {
-    "title": "Lo Que Dicen Nuestras Clientas",
-    "subtitle": "Opiniones Auténticas",
-    "description": "Cada testimonio es una historia de satisfacción, una sonrisa tejida en palabras. Estas son las voces de quienes han encontrado en nuestras creaciones algo especial.",
-    "verifiedCustomer": "Clienta verificada",
-    "collection": "Colección",
-    "satisfactionTitle": "Nuestra Promesa de Satisfacción",
-    "averageRating": "Calificación Promedio",
-    "happyCustomers": "Clientes Felices",
-    "returningCustomers": "Clientes Recurrentes",
-    "recommend": "Recomiendan la Marca"
+  "visualBurst": {
+    "label": "Tejidos y pasarela",
+    "alt": "Creación de Yari Crochet"
+  },
+  "reviews": {
+    "title": "Tus fotos, tus piezas",
+    "subtitle": "Comparte cómo se ve tu tejido en la vida real.",
+    "formTitle": "Deja tu reseña",
+    "name": "Tu nombre",
+    "rating": "Valoración",
+    "comment": "Tu opinión",
+    "photo": "Subir una foto de la prenda",
+    "photoHint": "JPG, PNG o WebP. Máximo 5 MB.",
+    "photoAlt": "Foto compartida por {{name}}",
+    "submit": "Publicar reseña",
+    "sending": "Publicando...",
+    "success": "¡Gracias! Tu reseña ya está visible.",
+    "error": "No se pudo publicar. Inténtalo de nuevo.",
+    "loading": "Cargando reseñas...",
+    "empty": "Todavía no hay fotos. ¡Sé la primera en compartir la tuya!",
+    "validationTitle": "Revisa el formulario",
+    "nameMin": "El nombre debe tener al menos 2 caracteres",
+    "nameMax": "El nombre no puede superar los 80 caracteres",
+    "commentMin": "Cuéntanos un poco más (mínimo 10 caracteres)",
+    "commentMax": "El comentario no puede superar los 600 caracteres",
+    "photoError": "Usa una imagen JPG, PNG o WebP de hasta 5 MB"
   },
   "newsletter": {
     "title": "Únete a nuestra comunidad",
@@ -234,8 +257,8 @@
     "send": "Enviar mensaje",
     "success": "Mensaje enviado",
     "error": "Error al enviar",
-    "heading": "Hablemos de tu próxima pieza",
-    "intro": "¿Tienes una idea especial? ¿Quieres un diseño personalizado? ¿Necesitas más información? Escríbenos.",
+    "heading": "Escríbenos",
+    "intro": "Pedidos, medidas o una pieza a medida: te respondemos pronto.",
     "formTitle": "Envíanos un mensaje",
     "namePlaceholder": "Tu nombre",
     "emailPlaceholder": "tu@correo.com",
@@ -461,22 +484,8 @@
       "tribalPattern": "Patrón tribal"
     }
   },
-  "testimonialsData": {
-    "maria": {
-      "message": "Las piezas de Yaritza son simplemente extraordinarias. La calidad del tejido y la atención al detalle son incomparables.",
-      "name": "María García"
-    },
-    "ana": {
-      "message": "Me encanta el estilo vintage de sus creaciones. Cada vez que uso una pieza de YariCrochetFina, recibo muchos cumplidos.",
-      "name": "Ana Rodríguez"
-    },
-    "carmen": {
-      "message": "La pasión por las técnicas ancestrales se nota en cada puntada. Productos únicos que cuentan una historia.",
-      "name": "Carmen López"
-    }
-  },
   "meta": {
-    "title": "YariCrochetFina - La moda audaz en crochet | Tejidos artesanales únicos",
+    "title": "Yari Crochet - La moda audaz en crochet | Tejidos artesanales únicos",
     "description": "Descubre piezas únicas de crochet y tricot hechas a mano por Yaritza Salgado Fina. Estilos boho chic, hippie, vintage y shabby chic. Técnicas ancestrales y trabajo manual de calidad."
   },
   "common": {
@@ -551,11 +560,11 @@
   },
   "terms": {
     "title": "Términos y Condiciones y Política de Devoluciones",
-    "subtitle": "Yari Crochet Fina",
+    "subtitle": "Yari Crochet",
     "sections": {
       "1": {
         "title": "Información General",
-        "body": "Yari Crochet Fina es una tienda en línea dedicada a la comercialización de piezas de crochet artesanales y únicas. Al realizar una compra en nuestro sitio web, aceptas los presentes términos y condiciones."
+        "body": "Yari Crochet es una tienda en línea dedicada a la comercialización de piezas de crochet artesanales y únicas. Al realizar una compra en nuestro sitio web, aceptas los presentes términos y condiciones."
       },
       "2": {
         "title": "Naturaleza Artesanal y Disponibilidad",

@@ -27,7 +27,7 @@ await page.locator('#cardCvc').fill('123');
 await page.screenshot({ path: '/tmp/e2e-checkout-filled.png', fullPage: true });
 
 await page.getByRole('button', { name: /^Pagar/ }).click();
-await page.waitForURL(/localhost:8080\/payment\/success/, { timeout: 60000 }).catch(() => {});
+await page.waitForURL(/yaricrochet\.com\/payment\/success|localhost:8080\/payment\/success/, { timeout: 60000 }).catch(() => {});
 console.log('URL final:', page.url().replace(/session_id=.*/, 'session_id=…'));
 await page.screenshot({ path: '/tmp/e2e-after-pay.png', fullPage: true });
 await browser.close();

@@ -88,9 +88,8 @@ export const GallerySection = () => {
   return (
     <section id="galeria" className="py-20 bg-muted">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 animate-fade-in-up">
+        <div className="text-center mb-10 animate-fade-in-up">
           <h2 className="text-section-title">{t('gallery.title')}</h2>
-          <p className="text-warm text-lg max-w-3xl mx-auto">{t('gallery.description')}</p>
         </div>
 
         <div className="flex flex-wrap justify-center gap-3 mb-12" role="group" aria-label={t('gallery.title')}>
@@ -151,12 +150,6 @@ export const GallerySection = () => {
           })}
         </div>
 
-        <div className="text-center mt-16">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-xl font-semibold text-foreground mb-4">{t('gallery.inMediaTitle')}</h3>
-            <p className="text-warm leading-relaxed">{t('gallery.inMediaDescription')}</p>
-          </div>
-        </div>
       </div>
 
       <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>

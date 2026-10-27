@@ -151,6 +151,10 @@
     @apply border-2 border-primary text-primary bg-transparent px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-warm;
   }
 
+  .btn-youtube-short-overlay {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-full bg-secondary/90 text-secondary-foreground px-3.5 py-2 text-xs font-semibold tracking-wide shadow-earth backdrop-blur-sm transition-all duration-300 hover:bg-primary hover:text-primary-foreground hover:shadow-warm;
+  }
+
   /* Artisanal Cards */
   .card-warm {
     @apply bg-card-warm border border-border rounded-xl p-6 shadow-soft transition-all duration-300 hover:shadow-warm hover:-translate-y-1;
@@ -222,6 +226,15 @@
   .cart-badge {
     @apply absolute -top-2 -right-2 bg-secondary text-secondary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-semibold shadow-earth;
   }
+
+  .brand-mark {
+    @apply relative inline-flex shrink-0 items-center justify-center bg-transparent;
+  }
+
+  .brand-mark img {
+    @apply h-full w-full object-contain;
+    filter: drop-shadow(0 6px 14px hsl(30 40% 20% / 0.18));
+  }
 }
 
 @layer utilities {
@@ -273,5 +286,61 @@
   }
   50% {
     opacity: 0.7;
+  }
+}
+
+section[id] {
+  scroll-margin-top: 5.5rem;
+}
+
+.hero-video-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: hsl(var(--secondary));
+}
+
+.hero-video-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw;
+  min-height: 100%;
+  min-width: 177.78vh;
+  transform: translate(-50%, -50%) scale(1.55);
+  border: 0;
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  gap: 0.75rem;
+  padding-inline: 0.5rem;
+  animation: marquee-left 42s linear infinite;
+}
+
+.marquee-track.reverse {
+  animation-name: marquee-right;
+}
+
+@keyframes marquee-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes marquee-right {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-frame {
+    display: none;
+  }
+  .marquee-track,
+  .marquee-track.reverse {
+    animation: none;
   }
 }

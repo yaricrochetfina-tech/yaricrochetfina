@@ -10,6 +10,7 @@ const PaymentSuccess = lazy(() => import("./pages/PaymentSuccess"));
 const PaymentCancel = lazy(() => import("./pages/PaymentCancel"));
 const ShippingPolicy = lazy(() => import("./pages/ShippingPolicy"));
 const Terms = lazy(() => import("./pages/Terms"));
+const Collections = lazy(() => import("./pages/Collections"));
 import { Header } from "@/components/Header";
 import { ShoppingCart } from "@/components/ShoppingCart";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
@@ -47,6 +48,7 @@ const App = () => (
             <Suspense fallback={<div className="min-h-screen" aria-busy="true" />}>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/colecciones" element={<Collections />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/envios" element={<ShippingPolicy />} />
               <Route path="/terminos" element={<Terms />} />

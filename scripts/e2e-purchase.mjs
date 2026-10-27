@@ -45,7 +45,7 @@ if (mode === 'create') {
       'Content-Type': 'application/json',
       apikey: env.VITE_SUPABASE_PUBLISHABLE_KEY,
       Authorization: `Bearer ${env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-      Origin: 'http://localhost:8080',
+      Origin: process.env.E2E_ORIGIN || 'https://www.yaricrochet.com',
     },
     body: JSON.stringify({
       items: [{ id: product.id, quantity: 1, image: '' }],
@@ -86,7 +86,7 @@ if (mode === 'verify') {
   // Idempotencia: la API de get-order devuelve el pedido con el token
   const r = await fetch(`${BASE}/functions/v1/get-order`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', apikey: env.VITE_SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${env.VITE_SUPABASE_PUBLISHABLE_KEY}`, Origin: 'http://localhost:8080' },
+    headers: { 'Content-Type': 'application/json', apikey: env.VITE_SUPABASE_PUBLISHABLE_KEY, Authorization: `Bearer ${env.VITE_SUPABASE_PUBLISHABLE_KEY}`, Origin: process.env.E2E_ORIGIN || 'https://www.yaricrochet.com' },
     body: JSON.stringify({ session_id: st.sessionId }),
   });
   ok(r.status === 200, `get-order por session_id respondió ${r.status}`);

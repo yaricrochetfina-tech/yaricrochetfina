@@ -12,6 +12,7 @@ export interface Product {
   stockQuantity?: number;
   images?: string[];
   videoUrl?: string;
+  youtubeShortUrl?: string;
 }
 
 export type ProductStyle = 'Boho Chic' | 'Hippie' | 'Vintage' | 'Shabby Chic' | 'Traditional';

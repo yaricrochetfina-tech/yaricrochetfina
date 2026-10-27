@@ -12,7 +12,7 @@ export const useShareProduct = (productId: string, title: string, text: string) 
   useEffect(() => () => clearTimeout(timeoutRef.current), []);
 
   const share = useCallback(async () => {
-    const url = `${getSiteUrl()}/?product=${encodeURIComponent(productId)}`;
+    const url = `${getSiteUrl()}/colecciones?product=${encodeURIComponent(productId)}`;
     const shareData = { title, text, url };
 
     if (navigator.share && navigator.canShare?.(shareData)) {

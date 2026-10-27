@@ -3,6 +3,7 @@ import { Facebook, Instagram, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useSectionNavigation } from '@/hooks/useSectionNavigation';
 import { CONTACT_EMAIL } from '@/lib/store';
+import { BrandMark } from '@/components/BrandMark';
 
 const SOCIAL_LINKS = [
   { key: 'facebook', href: 'https://facebook.com/yaricrochetfina', icon: <Facebook className="h-5 w-5" aria-hidden="true" /> },
@@ -21,11 +22,9 @@ export const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-2">
             <div className="flex items-center space-x-3 mb-6">
-              <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center" aria-hidden="true">
-                <span className="text-2xl">🌸</span>
-              </div>
+              <BrandMark alt="" className="h-12 w-12" />
               <div>
-                <h3 className="font-playfair text-2xl font-bold">YariCrochetFina</h3>
+                <h3 className="font-playfair text-2xl font-bold">{t('header.brandName')}</h3>
                 <p className="text-sm opacity-90">{t('footer.tagline')}</p>
               </div>
             </div>
@@ -50,7 +49,7 @@ export const Footer = () => {
             </div>
           </div>
 
-          <div className="md:col-span-2 md:pl-12">
+          <div id="contacto" className="md:col-span-2 md:pl-12">
             <h4 className="font-semibold mb-4 text-lg">{t('footer.support')}</h4>
             <ul className="space-y-3">
               <li>
@@ -117,7 +116,7 @@ export const Footer = () => {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
             <div className="text-sm text-secondary-foreground/70">
-              © {new Date().getFullYear()} YariCrochetFina. {t('footer.rights')}
+              © {new Date().getFullYear()} {t('header.brandName')}. {t('footer.rights')}
             </div>
 
             <div className="flex items-center space-x-2 text-sm text-secondary-foreground/70">

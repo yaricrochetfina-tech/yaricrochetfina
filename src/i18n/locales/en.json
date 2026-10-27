@@ -4,7 +4,7 @@
     "gallery": "Gallery",
     "process": "Process",
     "about": "About",
-    "testimonials": "Testimonials",
+    "reviews": "Reviews",
     "contact": "Contact",
     "cart": "Cart",
     "home": "Go to home page",
@@ -14,7 +14,8 @@
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
     "language": "Change language",
-    "logoAlt": "YariCrochetFina logo",
+    "logoAlt": "Yari Crochet logo",
+    "brandName": "Yari Crochet",
     "loggedOut": "You have been logged out",
     "mainNav": "Main navigation"
   },
@@ -22,14 +23,15 @@
     "title": "Bold Fashion in Crochet",
     "subtitle": "Unique Handmade Creations",
     "description": "Discover unique crochet pieces that combine tradition with contemporary design. Each creation tells a story of passion and artisanal craftsmanship.",
-    "cta": "Explore Collections",
+    "cta": "See the collections",
+    "tagline": "Color, joy and one-of-a-kind pieces",
     "uniquePieces": "Unique Pieces",
     "handmade": "Handmade with love",
     "ancestralTechniques": "Ancestral Techniques",
     "tradition": "Tradition in every stitch",
     "everyPiece": "Every Piece Counts",
     "uniqueStory": "A unique story",
-    "imageAlt": "Yaritza Salgado Fina - YariCrochetFina"
+    "imageAlt": "Yaritza Salgado Fina - Yari Crochet"
   },
   "products": {
     "title": "Our Collections",
@@ -62,6 +64,9 @@
     "backView": "Back",
     "total": "Total",
     "watchVideo": "Watch video",
+    "watchShort": "Watch Short",
+    "watchShortAria": "Watch the YouTube Short of {{name}}",
+    "keepShopping": "Keep browsing the collections",
     "viewImages": "View images",
     "copyLink": "Copy link",
     "linkCopied": "Link copied!",
@@ -85,7 +90,7 @@
     "allFilter": "All",
     "editorialFilter": "Editorials",
     "runwayFilter": "Runway",
-    "inMediaTitle": "YariCrochetFina in the Media",
+    "inMediaTitle": "Yari Crochet in the Media",
     "inMediaDescription": "Our creations have been featured in major fashion magazines and international runway shows in Montreal, proving that artisanal crochet can compete in the highest spheres of contemporary fashion.",
     "imageDetail": "View image",
     "items": {
@@ -159,7 +164,7 @@
     "satisfiedClients": "Satisfied Customers"
   },
   "about": {
-    "title": "About YariCrochetFina",
+    "title": "About Yari Crochet",
     "subtitle": "The Art of Handmade Crochet",
     "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms every thread into wearable art. Each piece I create tells a story, blending ancestral techniques with contemporary design.",
     "passion": {
@@ -169,6 +174,9 @@
     "quality": "I'm committed to using only premium materials and maintaining the highest craftsmanship standards. Each piece is unique and made with love, especially for you.",
     "cta": "Discover Our Story",
     "meetYaritza": "Meet Yaritza Salgado Fina",
+    "portraitAlt": "Portrait of Yaritza Salgado Fina, creator of Yari Crochet",
+    "cardLead": "Yari Crochet is devoted to reviving the oldest crochet and knitting techniques, and retro fashion trends.",
+    "cardBody": "With bold creations in boho chic, hippie, vintage and shabby chic styles, the brand sets new trends and celebrates creativity, imagination and handmade skill.",
     "artisanTitle": "Artisan at Heart, Creator of Dreams",
     "paragraph1": "Since childhood, I found in weaving not just a passion, but a way to connect with family traditions passed down through generations. With over 15 years of experience, I've perfected ancestral techniques that seemed to be lost in time.",
     "paragraph2": "My mission goes beyond creating beautiful crochet and knit pieces: I seek to revive the value of artisanal work in an era where handmade items are becoming increasingly precious and meaningful.",
@@ -188,17 +196,32 @@
     "quote": "In every stitch there is a heartbeat, in every creation there is a soul. This is more than crochet, it's art that embraces.",
     "quoteAuthor": "Yaritza Salgado Fina"
   },
-  "testimonials": {
-    "title": "What Our Customers Say",
-    "subtitle": "Authentic Reviews",
-    "description": "Each testimonial is a story of satisfaction, a smile woven into words. These are the voices of those who have found something special in our creations.",
-    "verifiedCustomer": "Verified customer",
-    "collection": "Collection",
-    "satisfactionTitle": "Our Satisfaction Promise",
-    "averageRating": "Average Rating",
-    "happyCustomers": "Happy Customers",
-    "returningCustomers": "Returning Customers",
-    "recommend": "Recommend the Brand"
+  "visualBurst": {
+    "label": "Textiles and runway",
+    "alt": "Yari Crochet creation"
+  },
+  "reviews": {
+    "title": "Your photos, your pieces",
+    "subtitle": "Share how your textile looks in real life.",
+    "formTitle": "Leave a review",
+    "name": "Your name",
+    "rating": "Rating",
+    "comment": "Your review",
+    "photo": "Upload a photo of the piece",
+    "photoHint": "JPG, PNG or WebP. 5 MB max.",
+    "photoAlt": "Photo shared by {{name}}",
+    "submit": "Publish review",
+    "sending": "Publishing...",
+    "success": "Thank you! Your review is now live.",
+    "error": "Could not publish. Please try again.",
+    "loading": "Loading reviews...",
+    "empty": "No photos yet. Be the first to share yours!",
+    "validationTitle": "Check the form",
+    "nameMin": "Name must be at least 2 characters",
+    "nameMax": "Name cannot exceed 80 characters",
+    "commentMin": "Tell us a little more (10 characters min)",
+    "commentMax": "The comment cannot exceed 600 characters",
+    "photoError": "Use a JPG, PNG or WebP image up to 5 MB"
   },
   "newsletter": {
     "title": "Join our community",
@@ -234,8 +257,8 @@
     "send": "Send message",
     "success": "Message sent",
     "error": "Error sending message",
-    "heading": "Let's talk about your next piece",
-    "intro": "Do you have a special idea? Want a custom design? Need more information? Write to us.",
+    "heading": "Write to us",
+    "intro": "Orders, sizing or a custom piece — we reply soon.",
     "formTitle": "Send us a message",
     "namePlaceholder": "Your name",
     "emailPlaceholder": "you@email.com",
@@ -461,22 +484,8 @@
       "tribalPattern": "Tribal pattern"
     }
   },
-  "testimonialsData": {
-    "maria": {
-      "message": "Yaritza's pieces are simply extraordinary. The quality of the weaving and attention to detail are unmatched.",
-      "name": "María García"
-    },
-    "ana": {
-      "message": "I love the vintage style of her creations. Every time I wear a YariCrochetFina piece, I receive many compliments.",
-      "name": "Ana Rodríguez"
-    },
-    "carmen": {
-      "message": "The passion for ancestral techniques shows in every stitch. Unique products that tell a story.",
-      "name": "Carmen López"
-    }
-  },
   "meta": {
-    "title": "YariCrochetFina - Bold crochet fashion | Unique handmade knitwear",
+    "title": "Yari Crochet - Bold crochet fashion | Unique handmade knitwear",
     "description": "Discover unique handmade crochet and knit pieces by Yaritza Salgado Fina. Boho chic, hippie, vintage and shabby chic styles. Ancestral techniques and quality handwork."
   },
   "common": {
@@ -551,11 +560,11 @@
   },
   "terms": {
     "title": "Terms & Conditions and Returns Policy",
-    "subtitle": "Yari Crochet Fina",
+    "subtitle": "Yari Crochet",
     "sections": {
       "1": {
         "title": "General Information",
-        "body": "Yari Crochet Fina is an online store dedicated to selling handmade, one-of-a-kind crochet pieces. By placing an order on our website, you agree to these terms and conditions."
+        "body": "Yari Crochet is an online store dedicated to selling handmade, one-of-a-kind crochet pieces. By placing an order on our website, you agree to these terms and conditions."
       },
       "2": {
         "title": "Handmade Nature and Availability",
