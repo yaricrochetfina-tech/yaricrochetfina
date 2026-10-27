@@ -25,7 +25,7 @@ export const HeroSection = () => {
           <div className="mb-12">
             <img 
               src={heroCard} 
-              alt="Yaritza Salgado Fina - Yari Crochet" 
+              alt={t('hero.imageAlt')} 
               className="w-full rounded-2xl shadow-2xl"
             />
           </div>

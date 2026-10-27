@@ -74,6 +74,7 @@ export const GuestCheckoutDialog = ({
                 }}
                 className="pl-10"
                 disabled={isProcessing}
+                autoComplete="email"
                 autoFocus
               />
             </div>
@@ -88,7 +89,7 @@ export const GuestCheckoutDialog = ({
             disabled={isProcessing || !email}
           >
             {isProcessing && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {isProcessing ? 'Procesando...' : t('cart.guestCheckout.continue')}
+            {isProcessing ? t('common.processing') : t('cart.guestCheckout.continue')}
           </Button>
 
           <div className="text-center text-sm text-muted-foreground">

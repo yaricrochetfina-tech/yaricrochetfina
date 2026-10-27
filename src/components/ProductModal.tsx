@@ -1,16 +1,25 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ShoppingCart, Play, Share2, Check, Zap } from 'lucide-react';
 import { Product } from '@/types';
 import { useCart } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { ShoppingCart, X, Play, Share2, Check } from 'lucide-react';
-import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { ShippingCalculator } from './ShippingCalculator';
 import { OptimizedImage } from './ImageOptimization';
 import { useProductTranslation } from '@/hooks/useProductTranslation';
+import { useAddToCart } from '@/hooks/useAddToCart';
+import { useShareProduct } from '@/hooks/useShareProduct';
 import { resolveProductImage } from '@/lib/imageResolver';
-import { toast } from 'sonner';
+import { getStyleBadgeColor } from '@/lib/productStyles';
+import { formatPrice } from '@/lib/store';
 
 interface ProductModalProps {
   product: Product;
@@ -18,240 +27,196 @@ interface ProductModalProps {
   onClose: () => void;
 }
 
+/** Los vídeos se guardan como URL de incrustación (/embed/); para abrirlos en otra pestaña usamos la URL de visualización. */
+const toWatchUrl = (url: string) => url.replace('youtube.com/embed/', 'youtube.com/watch?v=');
+
 export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) => {
   const { t } = useTranslation();
-  const { addItem } = useCart();
+  const addToCart = useAddToCart();
+  const addItem = useCart((state) => state.addItem);
+  const openCart = useCart((state) => state.openCart);
   const translatedProduct = useProductTranslation(product);
-  const [isAdding, setIsAdding] = useState(false);
-  const [shippingCost, setShippingCost] = useState<number>(0);
-  const [selectedCountry, setSelectedCountry] = useState<string>('');
+  const { share, linkCopied } = useShareProduct(
+    product.id,
+    translatedProduct.name,
+    translatedProduct.description
+  );
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-  
-  const [linkCopied, setLinkCopied] = useState(false);
-  
-  // Stripe payment link for this product
-  const stripePaymentLink = 'https://buy.stripe.com/3cI00i81t0vM6AJ2T2bfO00';
 
-  const handleShare = async () => {
-    // Use the visual store URL for sharing - og-meta function will redirect here after crawlers get meta tags
-    const siteUrl = 'https://yarifina.lovable.app';
-    const shareUrl = `${siteUrl}/?product=${product.id}`;
-    const shareData = {
-      title: translatedProduct.name,
-      text: translatedProduct.description,
-      url: shareUrl,
-    };
+  const displayImages =
+    product.images && product.images.length > 0 ? product.images : [product.image];
 
-    // Try Web Share API first (mobile-friendly native share)
-    if (navigator.share && navigator.canShare?.(shareData)) {
-      try {
-        await navigator.share(shareData);
-        return;
-      } catch (error) {
-        // User cancelled or share failed, fallback to clipboard
-        if ((error as Error).name !== 'AbortError') {
-          console.log('Share failed, falling back to clipboard');
-        } else {
-          return; // User cancelled, don't show toast
-        }
-      }
-    }
-
-    // Fallback: Copy to clipboard
-    try {
-      await navigator.clipboard.writeText(shareUrl);
-      setLinkCopied(true);
-      toast.success(t('products.linkCopied'));
-      setTimeout(() => setLinkCopied(false), 2000);
-    } catch (error) {
-      toast.error(t('products.copyError') || 'Error copying link');
-    }
-  };
-  
-  const displayImages = product.images && product.images.length > 0 ? product.images : [product.image];
-
-  const handleAddToCart = async () => {
-    setIsAdding(true);
-    addItem(product);
-    
-    setTimeout(() => {
-      setIsAdding(false);
+  const handleAddToCart = () => {
+    if (addToCart(product, translatedProduct.name)) {
       onClose();
-    }, 500);
+    }
   };
 
-  const getStyleColor = (style: string) => {
-    const colors = {
-      'Boho Chic': 'bg-primary/10 text-primary',
-      'Hippie': 'bg-accent/10 text-accent',
-      'Vintage': 'bg-secondary/10 text-secondary',
-      'Shabby Chic': 'bg-pink-100 text-pink-700',
-      'Traditional': 'bg-amber-100 text-amber-700',
-    };
-    return colors[style as keyof typeof colors] || 'bg-muted text-muted-foreground';
+  const handleBuyNow = () => {
+    // "Comprar ahora": añade la pieza (si ya estaba en el carrito, se mantiene) y abre el carrito para pagar.
+    if (addItem(product) !== 'unavailable') {
+      onClose();
+      openCart();
+    }
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="font-playfair text-2xl">
-            {translatedProduct.name}
-          </DialogTitle>
+          <DialogTitle className="font-playfair text-2xl pr-6">{translatedProduct.name}</DialogTitle>
+          <DialogDescription className="sr-only">{translatedProduct.description}</DialogDescription>
         </DialogHeader>
 
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Product Image Gallery */}
-          <div className="space-y-4">
+          {/* Galería */}
+          <div className="space-y-4 min-w-0">
             <div className="relative">
               <OptimizedImage
                 src={displayImages[selectedImageIndex]}
-                alt={`${translatedProduct.name} - Vista ${selectedImageIndex + 1}`}
+                alt={t('products.imageAlt', {
+                  name: translatedProduct.name,
+                  index: selectedImageIndex + 1,
+                })}
                 thumbnailClassName="w-full h-96 object-cover rounded-lg"
                 enableFullView={true}
               />
-              <Badge 
-                className={`absolute top-4 left-4 ${getStyleColor(product.style)}`}
+              <Badge
+                className={`absolute top-4 left-4 pointer-events-none ${getStyleBadgeColor(product.style)}`}
               >
-                {product.style}
+                {t(`styles.${product.style}`, product.style)}
               </Badge>
               {!product.inStock && (
-                <Badge 
-                  variant="secondary" 
-                  className="absolute top-4 right-4 bg-red-500 text-white"
+                <Badge
+                  variant="secondary"
+                  className="absolute top-4 right-4 bg-red-500 text-white pointer-events-none"
                 >
                   {t('products.soldOut')}
                 </Badge>
               )}
             </div>
-            
-            {/* Video Button - Opens in new tab */}
-            {product.videoUrl && (
-              <Button
-                onClick={() => window.open(product.videoUrl, '_blank', 'noopener,noreferrer')}
-                className="w-full btn-hero"
-                variant="outline"
-              >
-                <Play className="h-4 w-4 mr-2" />
-                {t('products.watchVideo')}
-              </Button>
-            )}
 
-            {/* Share Button */}
-            <Button
-              variant="outline"
-              onClick={handleShare}
-              className="w-full text-muted-foreground hover:text-primary"
-            >
-              {linkCopied ? (
-                <>
-                  <Check className="h-4 w-4 mr-2 text-green-500" />
-                  {t('products.linkCopied')}
-                </>
-              ) : (
-                <>
-                  <Share2 className="h-4 w-4 mr-2" />
-                  {t('products.share')}
-                </>
-              )}
-            </Button>
-            
-            {/* Thumbnail Gallery */}
             {displayImages.length > 1 && (
-              <div className="flex gap-2 overflow-x-auto">
+              <div className="flex gap-2 overflow-x-auto pb-1">
                 {displayImages.map((img, index) => (
                   <button
                     key={index}
+                    type="button"
                     onClick={() => setSelectedImageIndex(index)}
+                    aria-label={t('products.imageView', { index: index + 1 })}
+                    aria-pressed={selectedImageIndex === index}
                     className={`flex-shrink-0 relative rounded-lg overflow-hidden border-2 transition-all ${
-                      selectedImageIndex === index 
-                        ? 'border-primary shadow-lg scale-105' 
+                      selectedImageIndex === index
+                        ? 'border-primary shadow-lg'
                         : 'border-transparent hover:border-primary/50'
                     }`}
                   >
                     <img
                       src={resolveProductImage(img)}
-                      alt={`${t('products.view')} ${index + 1}`}
+                      alt=""
                       className="w-20 h-20 object-cover"
+                      loading="lazy"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1 text-center">
-                      {index === 0 ? t('products.frontView') : t('products.backView')}
+                      {t('products.imageView', { index: index + 1 })}
                     </div>
                   </button>
                 ))}
               </div>
             )}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              {product.videoUrl && (
+                <Button
+                  onClick={() =>
+                    window.open(toWatchUrl(product.videoUrl!), '_blank', 'noopener,noreferrer')
+                  }
+                  variant="outline"
+                  className="w-full"
+                >
+                  <Play className="h-4 w-4 mr-2" aria-hidden="true" />
+                  {t('products.watchVideo')}
+                </Button>
+              )}
+              <Button
+                variant="outline"
+                onClick={share}
+                className={`w-full text-muted-foreground hover:text-primary ${
+                  product.videoUrl ? '' : 'sm:col-span-2'
+                }`}
+              >
+                {linkCopied ? (
+                  <>
+                    <Check className="h-4 w-4 mr-2 text-green-600" aria-hidden="true" />
+                    {t('products.linkCopied')}
+                  </>
+                ) : (
+                  <>
+                    <Share2 className="h-4 w-4 mr-2" aria-hidden="true" />
+                    {t('products.share')}
+                  </>
+                )}
+              </Button>
+            </div>
           </div>
 
-          {/* Product Details */}
-          <div className="space-y-6">
-            {/* Price */}
-            <div className="text-3xl font-bold text-primary">
-              ${product.price.toFixed(2)}
+          {/* Detalles */}
+          <div className="space-y-6 min-w-0">
+            <div>
+              <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+                {t(`categories.${product.category}`, product.category)}
+              </div>
+              <div className="text-3xl font-bold text-primary">{formatPrice(product.price)}</div>
             </div>
 
-            {/* Description */}
             <div>
               <h3 className="font-semibold text-lg mb-2">{t('products.descriptionLabel')}</h3>
-              <p className="text-warm leading-relaxed">
-                {translatedProduct.description}
-              </p>
+              <p className="text-warm leading-relaxed">{translatedProduct.description}</p>
             </div>
 
-            {/* Materials */}
             <div>
               <h3 className="font-semibold text-lg mb-2">{t('products.materials')}</h3>
               <div className="flex flex-wrap gap-2">
                 {translatedProduct.materials.map((material, index) => (
-                  <Badge
-                    key={index}
-                    variant="outline"
-                    className="text-muted-foreground"
-                  >
+                  <Badge key={index} variant="outline" className="text-muted-foreground">
                     {material}
                   </Badge>
                 ))}
               </div>
             </div>
 
-            {/* Unique Piece Info and Add to Cart */}
-            {product.inStock && (
+            {product.inStock ? (
               <div className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Button onClick={handleAddToCart} variant="outline" size="lg" className="w-full">
+                    <ShoppingCart className="h-5 w-5 mr-2" aria-hidden="true" />
+                    {t('products.addToCart')}
+                  </Button>
+                  <Button
+                    onClick={handleBuyNow}
+                    size="lg"
+                    className="w-full btn-hero !px-4 !py-2 hover:!scale-100"
+                  >
+                    <Zap className="h-5 w-5 mr-2" aria-hidden="true" />
+                    {t('products.buy')}
+                  </Button>
+                </div>
+
                 <div className="bg-primary/5 border border-primary/20 rounded-lg p-4">
-                  <h3 className="font-semibold text-lg mb-2 text-primary">✨ {t('products.uniquePieceTitle')}</h3>
+                  <h3 className="font-semibold text-lg mb-2 text-primary">
+                    ✨ {t('products.uniquePieceTitle')}
+                  </h3>
                   <p className="text-warm text-sm leading-relaxed">
                     {t('products.uniquePieceDescription')}
                   </p>
-                  <p className="text-xs text-muted-foreground mt-2 italic">
-                    {t('products.madeIn')}
-                  </p>
+                  <p className="text-xs text-muted-foreground mt-2 italic">{t('products.madeIn')}</p>
                 </div>
 
-                {/* Shipping Calculator */}
-                <ShippingCalculator 
-                  productPrice={product.price}
-                  stripePaymentLink={stripePaymentLink}
-                  onShippingCalculated={(cost, country) => {
-                    setShippingCost(cost);
-                    setSelectedCountry(country);
-                  }}
-                />
-
-                {!shippingCost && (
-                  <div className="bg-accent/10 border border-accent/20 rounded-lg p-4">
-                    <p className="text-sm text-accent-foreground text-center">
-                      👆 Selecciona tu país para calcular el envío y proceder a la compra
-                    </p>
-                  </div>
-                )}
+                <ShippingCalculator productPrice={product.price} />
               </div>
-            )}
-
-            {!product.inStock && (
+            ) : (
               <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700 font-medium">
-                  {t('products.temporarilyOutOfStock')}
-                </p>
+                <p className="text-red-700 font-medium">{t('products.temporarilyOutOfStock')}</p>
               </div>
             )}
           </div>

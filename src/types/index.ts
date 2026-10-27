@@ -8,6 +8,8 @@ export interface Product {
   description: string;
   materials: string[];
   inStock: boolean;
+  /** Unidades disponibles (las piezas únicas tienen 1). */
+  stockQuantity?: number;
   images?: string[];
   videoUrl?: string;
 }
@@ -19,19 +21,4 @@ export type ProductCategory = 'Blusas' | 'Gilets' | 'Chalecos' | 'Túnicas' | 'V
 export interface CartItem {
   product: Product;
   quantity: number;
-}
-
-export interface Testimonial {
-  id: string;
-  name: string;
-  message: string;
-  rating: number;
-  style: ProductStyle;
-}
-
-export interface ArtisanProcess {
-  step: number;
-  title: string;
-  description: string;
-  icon: string;
 }

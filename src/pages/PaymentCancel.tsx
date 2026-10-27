@@ -16,7 +16,7 @@ const PaymentCancel = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-background via-background to-destructive/5">
+    <main className="min-h-screen flex items-center justify-center px-4 pt-28 pb-12 bg-gradient-to-br from-background via-background to-destructive/5">
       <Card className="max-w-2xl w-full shadow-2xl border-destructive/20">
         <CardContent className="pt-12 pb-8 px-6 md:px-12">
           <div className="text-center space-y-6">
@@ -81,7 +81,7 @@ const PaymentCancel = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </main>
   );
 };
 

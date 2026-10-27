@@ -6,7 +6,17 @@
     "about": "About",
     "testimonials": "Testimonials",
     "contact": "Contact",
-    "cart": "Cart"
+    "cart": "Cart",
+    "home": "Go to home page",
+    "login": "Log in",
+    "logout": "Log out",
+    "openCart": "Open cart",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "language": "Change language",
+    "logoAlt": "YariCrochetFina logo",
+    "loggedOut": "You have been logged out",
+    "mainNav": "Main navigation"
   },
   "hero": {
     "title": "Bold Fashion in Crochet",
@@ -18,26 +28,27 @@
     "ancestralTechniques": "Ancestral Techniques",
     "tradition": "Tradition in every stitch",
     "everyPiece": "Every Piece Counts",
-    "uniqueStory": "A unique story"
+    "uniqueStory": "A unique story",
+    "imageAlt": "Yaritza Salgado Fina - YariCrochetFina"
   },
   "products": {
     "title": "Our Collections",
-    "subtitle": "Unique Handmade Pieces",
+    "subtitle": "Unique handmade pieces",
     "description": "Each creation is a unique work of art, crafted with love and attention to detail",
     "allStyles": "All Styles",
     "allCategories": "All Collections",
     "noProducts": "No products match the selected filters",
-    "viewDetails": "View Details",
-    "addToCart": "Add to Cart",
+    "viewDetails": "View details",
+    "addToCart": "Add to cart",
     "inStock": "In Stock",
     "outOfStock": "Out of Stock",
     "materials": "Materials",
     "price": "Price",
-    "soldOut": "Sold Out",
+    "soldOut": "Sold out",
     "view": "View",
-    "buy": "Buy",
+    "buy": "Buy now",
     "adding": "Adding...",
-    "uniquePiece": "Unique Piece",
+    "uniquePiece": "Unique piece",
     "more": "more",
     "descriptionLabel": "Description",
     "uniquePieceTitle": "Unique and Irreplaceable Piece",
@@ -46,7 +57,7 @@
     "productLabel": "Product",
     "shippingLabel": "Shipping",
     "buyUniquePiece": "Buy Unique Piece",
-    "temporarilyOutOfStock": "This product is temporarily out of stock. Come back soon to see new designs!",
+    "temporarilyOutOfStock": "This product is currently sold out. Come back soon to discover new designs!",
     "frontView": "Front",
     "backView": "Back",
     "total": "Total",
@@ -55,7 +66,17 @@
     "copyLink": "Copy link",
     "linkCopied": "Link copied!",
     "share": "Share",
-    "copyError": "Error copying link"
+    "copyError": "The link could not be copied",
+    "loading": "Loading products...",
+    "errorLoading": "Products could not be loaded. Please reload the page.",
+    "addedToCart": "\"{{name}}\" was added to your cart",
+    "limitReached": "This is a one-of-a-kind piece: only {{count}} available.",
+    "unavailable": "This product is no longer available.",
+    "imageView": "View {{index}}",
+    "imageAlt": "{{name}} - view {{index}}",
+    "viewCart": "View cart",
+    "inCart": "In cart",
+    "shippingHint": "Choose your country to estimate shipping; you can also change it in the cart."
   },
   "gallery": {
     "title": "Creations Gallery",
@@ -65,7 +86,50 @@
     "editorialFilter": "Editorials",
     "runwayFilter": "Runway",
     "inMediaTitle": "YariCrochetFina in the Media",
-    "inMediaDescription": "Our creations have been featured in major fashion magazines and international runway shows in Montreal, proving that artisanal crochet can compete in the highest spheres of contemporary fashion."
+    "inMediaDescription": "Our creations have been featured in major fashion magazines and international runway shows in Montreal, proving that artisanal crochet can compete in the highest spheres of contemporary fashion.",
+    "imageDetail": "View image",
+    "items": {
+      "1": {
+        "title": "Magazine editorial - Montreal",
+        "alt": "Model wearing an orange crochet top in an editorial shoot"
+      },
+      "2": {
+        "title": "Fashion editorial",
+        "alt": "Model wearing a white crochet poncho in a fashion shoot"
+      },
+      "3": {
+        "title": "Editorial dress",
+        "alt": "White crochet dress in an editorial shoot"
+      },
+      "4": {
+        "title": "Boho chic session",
+        "alt": "White crochet top with a yellow kimono"
+      },
+      "5": {
+        "title": "Street style editorial",
+        "alt": "Yellow crochet vest in an urban shoot"
+      },
+      "6": {
+        "title": "Montreal Fashion Week show",
+        "alt": "Model on the runway wearing a crochet vest"
+      },
+      "7": {
+        "title": "Kimono collection",
+        "alt": "Pink crochet kimono in a fashion shoot"
+      },
+      "8": {
+        "title": "Golden hour session",
+        "alt": "Crochet cardigan in a sunset shoot"
+      },
+      "9": {
+        "title": "Montreal runway show",
+        "alt": "Crochet halter top on the runway"
+      },
+      "10": {
+        "title": "Urban fashion editorial",
+        "alt": "Crochet shorts with a turquoise blazer"
+      }
+    }
   },
   "process": {
     "title": "Our Artisanal Process",
@@ -98,7 +162,10 @@
     "title": "About YariCrochetFina",
     "subtitle": "The Art of Handmade Crochet",
     "description": "Welcome to my world of unique crochet and knit creations. I'm Yaritza Salgado Fina, a passionate artisan who transforms every thread into wearable art. Each piece I create tells a story, blending ancestral techniques with contemporary design.",
-    "passion": "My passion for crochet began years ago and has become my true calling. Each creation results from countless hours of meticulous work, love for the craft, and unwavering commitment to quality.",
+    "passion": {
+      "title": "Passion",
+      "description": "Ancestral techniques with modern love"
+    },
     "quality": "I'm committed to using only premium materials and maintaining the highest craftsmanship standards. Each piece is unique and made with love, especially for you.",
     "cta": "Discover Our Story",
     "meetYaritza": "Meet Yaritza Salgado Fina",
@@ -113,10 +180,6 @@
     "vision": {
       "title": "Vision",
       "description": "Where vintage meets contemporary"
-    },
-    "passion": {
-      "title": "Passion",
-      "description": "Ancestral techniques with modern love"
     },
     "promise": {
       "title": "Promise",
@@ -138,90 +201,187 @@
     "recommend": "Recommend the Brand"
   },
   "newsletter": {
-    "title": "Stay Informed",
-    "subtitle": "Receive Our News and Exclusive Offers",
-    "description": "Subscribe to our newsletter to discover our new creations first and benefit from special offers.",
+    "title": "Join our community",
+    "subtitle": "Get news and exclusive offers",
+    "description": "Subscribe to our newsletter to be the first to see our new creations and enjoy special offers.",
     "placeholder": "Your email",
     "button": "Subscribe",
-    "success": "Thank you for subscribing!",
-    "error": "Please enter a valid email"
+    "success": "Subscription successful!",
+    "error": "Please enter a valid email address",
+    "subscribing": "Subscribing...",
+    "successDescription": "You will soon receive our news and special offers.",
+    "errorTitle": "Subscription error",
+    "errorDescription": "We could not complete your subscription. Please try again.",
+    "alreadyTitle": "You are already subscribed",
+    "alreadyDescription": "This email is already on our subscriber list.",
+    "invalidTitle": "Invalid email",
+    "emailMax": "The email cannot exceed 255 characters",
+    "offersTitle": "Exclusive offers",
+    "offersDescription": "Special discounts for subscribers only",
+    "newTitle": "New creations",
+    "newDescription": "Be the first to see my unique designs",
+    "secretsTitle": "Secrets of the craft",
+    "secretsDescription": "Learn my ancestral techniques and personal tricks",
+    "noSpam": "We promise not to spam you: only valuable content about handmade crochet."
   },
   "contact": {
     "title": "Contact Us",
     "subtitle": "We're Here For You",
     "description": "Have a question about our creations? Want a custom piece? Contact us, we'd be delighted to help.",
-    "name": "Name",
+    "name": "Full name",
     "email": "Email",
     "message": "Message",
-    "send": "Send",
-    "success": "Message sent successfully!",
-    "error": "Error sending message"
+    "send": "Send message",
+    "success": "Message sent",
+    "error": "Error sending message",
+    "heading": "Let's talk about your next piece",
+    "intro": "Do you have a special idea? Want a custom design? Need more information? Write to us.",
+    "formTitle": "Send us a message",
+    "namePlaceholder": "Your name",
+    "emailPlaceholder": "you@email.com",
+    "messagePlaceholder": "Tell us about your project, your questions or anything else...",
+    "sending": "Sending...",
+    "successDescription": "Thank you for contacting us. We will reply soon.",
+    "errorDescription": "We could not send your message. Please try again.",
+    "validationTitle": "Please check the form",
+    "nameRequired": "Name is required",
+    "nameMax": "Name cannot exceed 100 characters",
+    "emailInvalid": "Invalid email address",
+    "emailMax": "Email cannot exceed 255 characters",
+    "messageRequired": "Message is required",
+    "messageMax": "Message cannot exceed 1000 characters",
+    "infoTitle": "Contact details",
+    "location": "Montreal, Canada",
+    "responseTime": "We reply as soon as possible."
   },
   "footer": {
     "description": "Dedicated to reviving ancestral crochet techniques, we create unique pieces that tell stories and embrace traditions. Each stitch is a heartbeat, each creation is a soul.",
     "quickLinks": "Quick Links",
     "followUs": "Follow Us",
     "rights": "All rights reserved.",
-    "support": "Support"
+    "support": "Help",
+    "tagline": "Bold crochet fashion",
+    "shippingPolicy": "Shipping policy",
+    "contactUs": "Contact us",
+    "backToTop": "Back to top",
+    "handmade": "100% handmade",
+    "handmadeDescription": "Every piece is handwoven using ancestral techniques.",
+    "natural": "Natural materials",
+    "naturalDescription": "High-quality organic and sustainable fibers.",
+    "satisfaction": "Satisfaction guaranteed",
+    "satisfactionDescription": "A commitment to excellence in every creation.",
+    "madeWith": "Made with",
+    "by": "by Yaritza Salgado Fina",
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "pinterest": "Pinterest",
+      "etsy": "Etsy"
+    },
+    "followOn": "Follow us on {{network}}",
+    "terms": "Terms & conditions"
   },
   "cart": {
-    "title": "Your Cart",
+    "title": "Your cart",
     "empty": "Your cart is empty",
     "subtotal": "Subtotal",
     "shipping": "Shipping",
     "total": "Total",
-    "checkout": "Proceed to Checkout",
-    "continueShopping": "Continue Shopping",
-    "clearCart": "Clear Cart",
+    "checkout": "Proceed to checkout",
+    "continueShopping": "Continue shopping",
+    "clearCart": "Clear cart",
     "itemAdded": "Item added to cart",
     "itemRemoved": "Item removed from cart",
     "calculateShipping": "Calculate Shipping",
-    "checkoutError": "Could not process payment. Please try again.",
+    "checkoutError": "The payment could not be processed. Please try again.",
     "shippingCalculator": {
-      "title": "Shipping Calculator",
-      "country": "Country",
+      "title": "Shipping calculator from Montreal",
+      "country": "Destination country",
       "province": "Province/State",
       "postalCode": "Postal Code",
       "calculate": "Calculate",
-      "estimatedShipping": "Estimated shipping"
+      "estimatedShipping": "Estimated shipping",
+      "productPrice": "Product price",
+      "shippingTo": "Shipping to {{country}}",
+      "total": "Estimated total",
+      "delivery": "Estimated delivery time: {{min}} to {{max}} business days. Tracked shipping included.",
+      "insured": "All shipments include insurance and a tracking number.",
+      "worldwide": "We ship to several countries from Montreal, Canada.",
+      "packaging": "Special packaging to protect every handmade piece.",
+      "otherCountry": "Your country is not on the list? Write to us and we will sort it out.",
+      "addToCartHint": "Add the piece to your cart to continue to secure payment."
     },
     "guestCheckout": {
-      "title": "Continue as Guest",
-      "description": "Enter your email to receive your order confirmation",
+      "title": "Continue as guest",
+      "description": "Enter your email to receive your order confirmation.",
       "emailPlaceholder": "you@email.com",
-      "continue": "Continue to Payment",
+      "continue": "Continue to payment",
       "orLogin": "Already have an account?",
       "loginLink": "Log in",
-      "invalidEmail": "Please enter a valid email"
-    }
+      "invalidEmail": "Please enter a valid email address"
+    },
+    "description": "Review your pieces, choose your shipping country and continue to secure payment.",
+    "emptyDescription": "Discover our unique handmade pieces.",
+    "shippingTo": "Shipping country",
+    "selectCountry": "Select your country",
+    "shippingNote": "Shipping is charged once per order.",
+    "delivery": "Estimated delivery: {{min}} to {{max}} business days, with tracking.",
+    "securePayment": "Secure card payment through Stripe.",
+    "remove": "Remove {{name}} from cart",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "quantity": "Quantity",
+    "uniqueLimit": "Unique piece",
+    "removedUnavailable": "We removed pieces that are no longer available from your cart: {{names}}.",
+    "errors": {
+      "generic": "Checkout could not be started. Please try again.",
+      "emptyCart": "Your cart is empty.",
+      "invalidCart": "There is a problem with the products in your cart. Please review it and try again.",
+      "outOfStock": "One of the pieces is no longer available. We have updated your cart.",
+      "invalidCountry": "We cannot ship to that country from the store. Write to us and we will find a solution.",
+      "rateLimited": "Too many attempts. Please wait a minute and try again.",
+      "invalidOrigin": "This web address is not authorized to make purchases.",
+      "config": "The payment system is currently unavailable. Please try again later.",
+      "network": "We could not reach the server. Check your connection and try again."
+    },
+    "termsNotice": "By proceeding to payment you agree to our <termsLink>Terms & Conditions and Returns Policy</termsLink>."
   },
   "payment": {
     "success": {
-      "title": "Payment Successful!",
+      "title": "Payment successful!",
       "subtitle": "Your order has been confirmed",
-      "orderNumber": "Order Number",
-      "emailSent": "We've sent you a confirmation email",
-      "processing": "We're processing your order",
-      "continueShopping": "Continue Shopping",
-      "thankYou": "Thank you for your purchase! You'll receive your order soon."
+      "orderNumber": "Order number",
+      "emailSent": "We sent you a confirmation email",
+      "processing": "We are preparing your order",
+      "continueShopping": "Continue shopping",
+      "thankYou": "Thank you for your purchase! You will receive your order soon.",
+      "confirming": "We are confirming your order...",
+      "confirmingHint": "This may take a few seconds. You can close this page: we will email you a confirmation.",
+      "details": "Order summary",
+      "quantityShort": "Qty",
+      "subtotal": "Subtotal",
+      "shipping": "Shipping",
+      "total": "Total",
+      "shippingCountry": "Shipping country",
+      "invalidLink": "We could not find the details of this order. If you made a purchase, check your confirmation email."
     },
     "cancel": {
-      "title": "Payment Cancelled",
+      "title": "Payment cancelled",
       "subtitle": "Your order was not completed",
-      "message": "Don't worry, your cart is still saved and you can try again when you're ready.",
-      "cartPreserved": "Your cart is saved and ready for when you decide to continue",
-      "backToCart": "Back to Cart",
-      "continueShopping": "Continue Shopping",
-      "needHelp": "Need help? Contact us and we'll be happy to assist you."
+      "message": "Don't worry: your cart is still saved and you can try again whenever you like.",
+      "cartPreserved": "Your cart is saved and ready for when you decide to continue.",
+      "backToCart": "Back to cart",
+      "continueShopping": "Continue shopping",
+      "needHelp": "Need help? Write to us and we will be happy to assist you."
     }
   },
   "categories": {
-    "Blusas": "Blusas",
+    "Blusas": "Blouses",
     "Gilets": "Gilets",
-    "Chalecos": "Chalecos",
-    "Túnicas": "Túnicas",
-    "Vestidos": "Vestidos",
-    "Abrigo": "Abrigo",
+    "Chalecos": "Vests",
+    "Túnicas": "Tunics",
+    "Vestidos": "Dresses",
+    "Abrigo": "Coats",
     "Ponchos": "Ponchos",
     "Tops": "Tops"
   },
@@ -275,10 +435,8 @@
       "multicolorMandalas": "Multicolor mandalas",
       "premiumMulticolorYarns": "Premium multicolor yarns",
       "geometricTechnique": "Geometric technique",
-      "creamCottonYarn": "Cream cotton yarn",
       "openworkStitch": "Openwork stitch",
       "crochetFlowers": "Crochet flowers",
-      "pinkCottonYarn": "Pink cotton yarn",
       "gradedOpenworkStitch": "Graded openwork stitch",
       "centralMedallion": "Central medallion",
       "skyBlueCottonYarn": "Sky blue cotton yarn",
@@ -305,13 +463,119 @@
   },
   "testimonialsData": {
     "maria": {
-      "message": "Yaritza's pieces are simply extraordinary. The quality of the weaving and attention to detail are unmatched."
+      "message": "Yaritza's pieces are simply extraordinary. The quality of the weaving and attention to detail are unmatched.",
+      "name": "María García"
     },
     "ana": {
-      "message": "I love the vintage style of her creations. Every time I wear a YariCrochetFina piece, I receive many compliments."
+      "message": "I love the vintage style of her creations. Every time I wear a YariCrochetFina piece, I receive many compliments.",
+      "name": "Ana Rodríguez"
     },
     "carmen": {
-      "message": "The passion for ancestral techniques shows in every stitch. Unique products that tell a story."
+      "message": "The passion for ancestral techniques shows in every stitch. Unique products that tell a story.",
+      "name": "Carmen López"
     }
+  },
+  "meta": {
+    "title": "YariCrochetFina - Bold crochet fashion | Unique handmade knitwear",
+    "description": "Discover unique handmade crochet and knit pieces by Yaritza Salgado Fina. Boho chic, hippie, vintage and shabby chic styles. Ancestral techniques and quality handwork."
+  },
+  "common": {
+    "close": "Close",
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "error": "Error",
+    "unexpectedError": "An unexpected error occurred. Please try again.",
+    "backToStore": "Back to the store",
+    "imageUnavailable": "Image not available",
+    "loadingImage": "Loading image...",
+    "imageLoadError": "The image could not be loaded",
+    "tryAgainLater": "Please try again later",
+    "zoom": "Zoom",
+    "zoomIn": "Click to view the image at full resolution",
+    "zoomOut": "Drag to move around. Click to zoom out.",
+    "enlargeImage": "Enlarge image",
+    "previous": "Previous",
+    "next": "Next",
+    "tryAgain": "Try again"
+  },
+  "auth": {
+    "loginTitle": "Welcome back",
+    "signupTitle": "Create account",
+    "loginSubtitle": "Log in to continue with your purchase",
+    "signupSubtitle": "Sign up to start shopping",
+    "fullName": "Full name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "you@email.com",
+    "password": "Password",
+    "passwordHint": "At least 6 characters",
+    "submitLogin": "Log in",
+    "submitSignup": "Create account",
+    "switchToSignup": "Don't have an account? Sign up",
+    "switchToLogin": "Already have an account? Log in",
+    "loginError": "Login error",
+    "signupError": "Sign-up error",
+    "invalidCredentials": "Incorrect email or password",
+    "emailNotConfirmed": "You must confirm your email before logging in",
+    "alreadyRegistered": "This email is already registered",
+    "welcome": "Welcome!",
+    "welcomeDescription": "You have logged in successfully",
+    "accountCreated": "Account created!",
+    "accountCreatedDescription": "Your account was created successfully",
+    "confirmEmailTitle": "Check your email",
+    "confirmEmailDescription": "We sent you a link to confirm your account. After that you can log in.",
+    "validationTitle": "Please check your details",
+    "emailInvalid": "Invalid email address",
+    "passwordMin": "The password must be at least 6 characters long",
+    "nameRequired": "Name is required"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "message": "Sorry, the page you are looking for does not exist or has been moved.",
+    "back": "Back to home"
+  },
+  "shippingPolicy": {
+    "title": "Shipping policy",
+    "intro": "All our pieces are handmade and shipped from Montreal, Canada, with the utmost care.",
+    "ratesTitle": "Shipping rates",
+    "country": "Country",
+    "cost": "Shipping cost",
+    "ratesNote": "Shipping is charged once per order, regardless of the number of pieces.",
+    "timesTitle": "Delivery times",
+    "times": "Estimated delivery time is {{min}} to {{max}} business days after payment is confirmed.",
+    "insuranceTitle": "Insurance and tracking",
+    "insurance": "All shipments include insurance and a tracking number. Each piece is carefully packed to protect it in transit.",
+    "otherTitle": "Your country is not listed?",
+    "other": "Write to us from the contact section and we will find the best shipping option for you.",
+    "backToStore": "Back to the store"
+  },
+  "terms": {
+    "title": "Terms & Conditions and Returns Policy",
+    "subtitle": "Yari Crochet Fina",
+    "sections": {
+      "1": {
+        "title": "General Information",
+        "body": "Yari Crochet Fina is an online store dedicated to selling handmade, one-of-a-kind crochet pieces. By placing an order on our website, you agree to these terms and conditions."
+      },
+      "2": {
+        "title": "Handmade Nature and Availability",
+        "body": "Because our products are handmade, each piece is unique. Stock is updated in real time, but if two simultaneous purchases are made for a one-of-a-kind piece that has already been sold, we will contact the customer to offer a full refund or a similar alternative."
+      },
+      "3": {
+        "title": "Shipping and Delivery Times",
+        "body": "We ship domestically and internationally to the destinations enabled in our payment gateway. Delivery times vary depending on the recipient’s location and the selected carrier."
+      },
+      "4": {
+        "title": "Returns and Refunds Policy",
+        "body": "Due to the delicate, handmade nature of our garments, we do not accept exchanges or returns for a change of mind or incorrectly selected sizes, unless the product arrives with a verifiable manufacturing defect or has suffered serious damage during transport. In that case, the customer must notify us within 3 days of receipt, with photographic evidence."
+      },
+      "5": {
+        "title": "Privacy and Data Protection",
+        "body": "Your personal and payment data are processed securely through encrypted payment gateways (Stripe). We do not store sensitive credit or debit card information on our servers."
+      }
+    },
+    "contact": "Questions? Write to us at {{email}} or through the contact section.",
+    "shippingLink": "See also our shipping policy and rates.",
+    "back": "Back to the store"
   }
 }

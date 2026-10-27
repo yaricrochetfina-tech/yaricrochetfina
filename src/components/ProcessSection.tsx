@@ -1,5 +1,11 @@
 import { useTranslation } from 'react-i18next';
-import { artisanProcess } from '@/data/mockData';
+
+const PROCESS_STEPS = [
+  { step: 1, icon: '🧶' },
+  { step: 2, icon: '✏️' },
+  { step: 3, icon: '🪡' },
+  { step: 4, icon: '✨' },
+] as const;
 
 export const ProcessSection = () => {
   const { t } = useTranslation();
@@ -14,16 +20,16 @@ export const ProcessSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {artisanProcess.map((step, index) => (
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
+          {PROCESS_STEPS.map((step, index) => (
             <div
               key={step.step}
               className="relative animate-fade-in-up"
               style={{ animationDelay: `${index * 0.2}s` }}
             >
               {/* Connection line */}
-              {index < artisanProcess.length - 1 && (
-                <div className="hidden md:block absolute top-16 left-1/2 w-full h-px bg-gradient-to-r from-primary to-transparent z-0"></div>
+              {index < PROCESS_STEPS.length - 1 && (
+                <div className="hidden lg:block absolute top-16 left-1/2 w-full h-px bg-gradient-to-r from-primary to-transparent z-0"></div>
               )}
 
               <div className="card-warm text-center relative z-10 hover:shadow-earth transition-all duration-300">
@@ -35,18 +41,18 @@ export const ProcessSection = () => {
                 </div>
 
                 {/* Icon */}
-                <div className="text-6xl mb-4 animate-pulse-warm">
+                <div className="text-6xl mb-4 animate-pulse-warm" aria-hidden="true">
                   {step.icon}
                 </div>
 
                 {/* Title */}
                 <h3 className="font-playfair text-xl font-semibold mb-3 text-foreground">
-                  {step.title}
+                  {t(`process.step${step.step}.title`)}
                 </h3>
 
                 {/* Description */}
                 <p className="text-warm leading-relaxed">
-                  {step.description}
+                  {t(`process.step${step.step}.description`)}
                 </p>
               </div>
             </div>

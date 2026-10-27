@@ -108,7 +108,9 @@ export type Database = {
           customer_email: string
           customer_name: string
           customer_phone: string | null
+          language: string | null
           id: string
+          shipping_address: Json | null
           shipping_cost: number
           shipping_country: string
           status: string
@@ -124,6 +126,8 @@ export type Database = {
           customer_name: string
           customer_phone?: string | null
           id?: string
+          language?: string | null
+          shipping_address?: Json | null
           shipping_cost?: number
           shipping_country: string
           status?: string
@@ -139,6 +143,8 @@ export type Database = {
           customer_name?: string
           customer_phone?: string | null
           id?: string
+          language?: string | null
+          shipping_address?: Json | null
           shipping_cost?: number
           shipping_country?: string
           status?: string

@@ -1,7 +1,13 @@
 import { useState } from 'react';
-import { Eye, Maximize2, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import { Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from '@/components/ui/dialog';
 import { resolveProductImage } from '@/lib/imageResolver';
 
 interface OptimizedImageProps {
@@ -19,6 +25,7 @@ export const OptimizedImage = ({
   thumbnailClassName = 'w-full h-64 object-cover',
   enableFullView = true,
 }: OptimizedImageProps) => {
+  const { t } = useTranslation();
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -28,7 +35,14 @@ export const OptimizedImage = ({
 
   const resolvedSrc = resolveProductImage(src);
 
-  // Reset dialog image state when dialog opens
+  // Si cambia la imagen (p. ej. al elegir otra miniatura) se reinicia el estado de carga.
+  const [lastSrc, setLastSrc] = useState(resolvedSrc);
+  if (lastSrc !== resolvedSrc) {
+    setLastSrc(resolvedSrc);
+    setIsLoaded(false);
+    setHasError(false);
+  }
+
   const handleDialogOpen = (open: boolean) => {
     setIsDialogOpen(open);
     if (open) {
@@ -41,8 +55,12 @@ export const OptimizedImage = ({
 
   if (hasError) {
     return (
-      <div className={`${thumbnailClassName} bg-muted rounded-lg flex items-center justify-center`}>
-        <div className="text-muted-foreground text-sm">Imagen no disponible</div>
+      <div
+        className={`${thumbnailClassName} bg-muted rounded-lg flex items-center justify-center`}
+        role="img"
+        aria-label={alt}
+      >
+        <div className="text-muted-foreground text-sm">{t('common.imageUnavailable')}</div>
       </div>
     );
   }
@@ -62,70 +80,69 @@ export const OptimizedImage = ({
 
   return (
     <>
-      {/* Imagen con botón "Ver" */}
+      {/* Toda la imagen es pulsable para ampliarla (funciona también en pantallas táctiles) */}
       <div className="relative group">
-        {!isLoaded && !hasError && (
-          <div className={`${thumbnailClassName} bg-muted animate-pulse rounded-lg flex items-center justify-center absolute inset-0`}>
-            <div className="text-muted-foreground">Cargando...</div>
+        {!isLoaded && (
+          <div
+            className={`${thumbnailClassName} bg-muted animate-pulse rounded-lg flex items-center justify-center absolute inset-0`}
+          >
+            <div className="text-muted-foreground">{t('common.loading')}</div>
           </div>
         )}
-        <img
-          src={resolvedSrc}
-          alt={alt}
-          className={`${thumbnailClassName} ${className} ${!isLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity`}
-          loading="lazy"
-          onLoad={() => setIsLoaded(true)}
-          onError={() => setHasError(true)}
-        />
+        <button
+          type="button"
+          onClick={() => handleDialogOpen(true)}
+          aria-label={`${t('common.enlargeImage')}: ${alt}`}
+          className="block w-full cursor-zoom-in focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-lg"
+        >
+          <img
+            src={resolvedSrc}
+            alt={alt}
+            className={`${thumbnailClassName} ${className} ${!isLoaded ? 'opacity-0' : 'opacity-100'} transition-opacity`}
+            loading="lazy"
+            onLoad={() => setIsLoaded(true)}
+            onError={() => setHasError(true)}
+          />
+        </button>
         {isLoaded && (
-          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => handleDialogOpen(true)}
-              className="gap-2"
-            >
-              <Eye className="h-4 w-4" />
-              Ver
-            </Button>
-          </div>
+          <span className="pointer-events-none absolute bottom-2 right-2 rounded-full bg-black/50 p-2 text-white">
+            <Maximize2 className="h-4 w-4" aria-hidden="true" />
+          </span>
         )}
       </div>
 
-      {/* Modal con Zoom */}
       <Dialog open={isDialogOpen} onOpenChange={handleDialogOpen}>
-        <DialogContent className="max-w-5xl max-h-[90vh] p-3" aria-describedby={undefined}>
+        <DialogContent className="max-w-5xl max-h-[90vh] p-3">
+          <DialogTitle className="sr-only">{alt}</DialogTitle>
+          <DialogDescription className="sr-only">{t('common.zoomIn')}</DialogDescription>
           <div className="flex flex-col gap-3">
             <div
               className={`relative rounded-lg border bg-background ${
                 showFullResolution ? 'h-[75vh] overflow-auto' : ''
               }`}
             >
-              {/* Loading state for dialog image */}
               {!dialogImageLoaded && !dialogImageError && (
                 <div className="w-full h-[50vh] bg-muted animate-pulse rounded-lg flex items-center justify-center">
-                  <div className="text-muted-foreground">Cargando imagen...</div>
+                  <div className="text-muted-foreground">{t('common.loadingImage')}</div>
                 </div>
               )}
-              
-              {/* Error state for dialog image */}
+
               {dialogImageError && (
                 <div className="w-full h-[50vh] bg-muted rounded-lg flex items-center justify-center">
                   <div className="text-muted-foreground text-center">
-                    <p className="mb-2">No se pudo cargar la imagen</p>
-                    <p className="text-xs">Intenta de nuevo más tarde</p>
+                    <p className="mb-2">{t('common.imageLoadError')}</p>
+                    <p className="text-xs">{t('common.tryAgainLater')}</p>
                   </div>
                 </div>
               )}
-              
-              {/* Actual image */}
+
               <img
                 src={resolvedSrc}
                 alt={alt}
                 className={`${
                   showFullResolution
                     ? 'max-w-none h-auto select-none cursor-zoom-out'
-                    : 'w-full h-auto max-h-[75vh] object-contain select-none'
+                    : 'w-full h-auto max-h-[75vh] object-contain select-none cursor-zoom-in'
                 } ${!dialogImageLoaded ? 'hidden' : ''}`}
                 onClick={() => setShowFullResolution((v) => !v)}
                 draggable={false}
@@ -134,13 +151,11 @@ export const OptimizedImage = ({
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 pr-8">
               <div className="text-xs text-muted-foreground">
-                {showFullResolution
-                  ? 'Arrastra para mover. Click para alejar.'
-                  : 'Click en Zoom para ver a máxima resolución.'}
+                {showFullResolution ? t('common.zoomOut') : t('common.zoomIn')}
               </div>
-              <div className="flex gap-2">
+              <div className="flex gap-2 flex-shrink-0">
                 <Button
                   variant="secondary"
                   size="sm"
@@ -148,15 +163,16 @@ export const OptimizedImage = ({
                   disabled={showFullResolution || !dialogImageLoaded}
                   className="gap-2"
                 >
-                  <Maximize2 className="h-4 w-4" />
-                  Zoom
+                  <Maximize2 className="h-4 w-4" aria-hidden="true" />
+                  {t('common.zoom')}
                 </Button>
                 <Button
                   variant="secondary"
                   size="sm"
                   onClick={() => handleDialogOpen(false)}
+                  aria-label={t('common.close')}
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4" aria-hidden="true" />
                 </Button>
               </div>
             </div>

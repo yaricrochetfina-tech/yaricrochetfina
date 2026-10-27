@@ -6,7 +6,17 @@
     "about": "Acerca de",
     "testimonials": "Testimonios",
     "contact": "Contacto",
-    "cart": "Carrito"
+    "cart": "Carrito",
+    "home": "Ir al inicio",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "openCart": "Abrir carrito",
+    "openMenu": "Abrir menú",
+    "closeMenu": "Cerrar menú",
+    "language": "Cambiar idioma",
+    "logoAlt": "Logotipo de YariCrochetFina",
+    "loggedOut": "Has cerrado sesión",
+    "mainNav": "Navegación principal"
   },
   "hero": {
     "title": "La Moda Audaz en Crochet",
@@ -18,26 +28,27 @@
     "ancestralTechniques": "Técnicas Ancestrales",
     "tradition": "Tradición en cada puntada",
     "everyPiece": "Cada Pieza Cuenta",
-    "uniqueStory": "Una historia única"
+    "uniqueStory": "Una historia única",
+    "imageAlt": "Yaritza Salgado Fina - YariCrochetFina"
   },
   "products": {
-    "title": "Nuestras Colecciones",
-    "subtitle": "Piezas Únicas Hechas a Mano",
-    "description": "Cada creación es una obra de arte única, confeccionada con amor y atención al detalle",
+    "title": "Nuestras colecciones",
+    "subtitle": "Piezas únicas hechas a mano",
+    "description": "Cada creación es una obra de arte única, confeccionada con amor y atención al detalle.",
     "allStyles": "Todos los Estilos",
     "allCategories": "Todas las Colecciones",
-    "noProducts": "No hay productos que coincidan con los filtros seleccionados",
-    "viewDetails": "Ver Detalles",
-    "addToCart": "Añadir al Carrito",
+    "noProducts": "No hay productos que coincidan con la categoría seleccionada.",
+    "viewDetails": "Ver detalles",
+    "addToCart": "Añadir al carrito",
     "inStock": "En Stock",
     "outOfStock": "Agotado",
     "materials": "Materiales",
     "price": "Precio",
     "soldOut": "Agotado",
     "view": "Ver",
-    "buy": "Comprar",
-    "adding": "Agregando...",
-    "uniquePiece": "Pieza Única",
+    "buy": "Comprar ahora",
+    "adding": "Añadiendo...",
+    "uniquePiece": "Pieza única",
     "more": "más",
     "descriptionLabel": "Descripción",
     "uniquePieceTitle": "Pieza Única e Irrepetible",
@@ -46,7 +57,7 @@
     "productLabel": "Producto",
     "shippingLabel": "Envío",
     "buyUniquePiece": "Comprar Pieza Única",
-    "temporarilyOutOfStock": "Este producto está temporalmente agotado. ¡Vuelve pronto para ver nuevos diseños!",
+    "temporarilyOutOfStock": "Este producto está agotado por el momento. ¡Vuelve pronto para descubrir nuevos diseños!",
     "frontView": "Frente",
     "backView": "Espalda",
     "total": "Total",
@@ -55,7 +66,17 @@
     "copyLink": "Copiar enlace",
     "linkCopied": "¡Enlace copiado!",
     "share": "Compartir",
-    "copyError": "Error al copiar el enlace"
+    "copyError": "No se pudo copiar el enlace",
+    "loading": "Cargando productos...",
+    "errorLoading": "No se pudieron cargar los productos. Por favor, recarga la página.",
+    "addedToCart": "«{{name}}» se añadió al carrito",
+    "limitReached": "Esta pieza es única: solo hay {{count}} disponible(s).",
+    "unavailable": "Este producto ya no está disponible.",
+    "imageView": "Vista {{index}}",
+    "imageAlt": "{{name}} - vista {{index}}",
+    "viewCart": "Ver carrito",
+    "inCart": "En el carrito",
+    "shippingHint": "Elige tu país para calcular el envío; podrás ajustarlo también en el carrito."
   },
   "gallery": {
     "title": "Galería de Creaciones",
@@ -65,27 +86,70 @@
     "editorialFilter": "Editoriales",
     "runwayFilter": "Pasarelas",
     "inMediaTitle": "YariCrochetFina en los Medios",
-    "inMediaDescription": "Nuestras creaciones han sido destacadas en importantes revistas de moda y desfiles internacionales en Montreal, demostrando que el crochet artesanal puede competir en las más altas esferas de la moda contemporánea."
+    "inMediaDescription": "Nuestras creaciones han sido destacadas en importantes revistas de moda y desfiles internacionales en Montreal, demostrando que el crochet artesanal puede competir en las más altas esferas de la moda contemporánea.",
+    "imageDetail": "Ver imagen",
+    "items": {
+      "1": {
+        "title": "Editorial de revista - Montreal",
+        "alt": "Modelo con top de crochet naranja en una sesión editorial"
+      },
+      "2": {
+        "title": "Editorial de moda",
+        "alt": "Modelo con poncho blanco de crochet en una sesión de moda"
+      },
+      "3": {
+        "title": "Vestido editorial",
+        "alt": "Vestido blanco de crochet en una sesión editorial"
+      },
+      "4": {
+        "title": "Sesión boho chic",
+        "alt": "Top blanco de crochet con kimono amarillo"
+      },
+      "5": {
+        "title": "Editorial de estilo urbano",
+        "alt": "Chaleco amarillo de crochet en una sesión urbana"
+      },
+      "6": {
+        "title": "Desfile en Montreal Fashion Week",
+        "alt": "Modelo en la pasarela con un chaleco de crochet"
+      },
+      "7": {
+        "title": "Colección de kimonos",
+        "alt": "Kimono rosa de crochet en una sesión de moda"
+      },
+      "8": {
+        "title": "Sesión a la hora dorada",
+        "alt": "Cárdigan de crochet en una sesión al atardecer"
+      },
+      "9": {
+        "title": "Desfile en Montreal",
+        "alt": "Top halter de crochet en la pasarela"
+      },
+      "10": {
+        "title": "Editorial de moda urbana",
+        "alt": "Shorts de crochet con blazer turquesa"
+      }
+    }
   },
   "process": {
     "title": "Nuestro Proceso Artesanal",
     "subtitle": "De la Inspiración a la Creación",
     "description": "Cada pieza que creo es el resultado de un proceso cuidadoso que honra las tradiciones ancestrales del tejido, combinando técnicas milenarias con mi creatividad contemporánea.",
     "step1": {
-      "title": "Selección de Materiales",
-      "description": "Elegimos cuidadosamente hilos de alta calidad para garantizar durabilidad y comodidad"
+      "title": "Selección de materiales",
+      "description": "Elegimos con cuidado hilos de alta calidad para garantizar durabilidad y comodidad."
     },
     "step2": {
-      "title": "Diseño y Planificación",
-      "description": "Cada pieza se diseña con atención al detalle y estilo único"
+      "title": "Diseño y planificación",
+      "description": "Cada pieza se diseña con atención al detalle y con un estilo único."
     },
     "step3": {
-      "title": "Creación Manual",
-      "description": "Confección a mano utilizando técnicas tradicionales de crochet y tricot"
+      "title": "Creación manual",
+      "description": "Se teje a mano con técnicas tradicionales de crochet y tricot."
     },
     "step4": {
-      "title": "Control de Calidad",
-      "description": "Cada creación se inspecciona para garantizar la perfección antes de la entrega"
+      "title": "Control de calidad",
+      "description": "Cada creación se revisa a fondo para garantizar la perfección antes de la entrega."
     },
     "qualityTitle": "Garantía de Calidad Artesanal",
     "qualityDescription": "Cada pieza pasa por mi riguroso control de calidad. Reviso cada puntada, cada detalle, asegurándome de que cada creación refleje la excelencia y el amor que pongo en mi trabajo.",
@@ -98,7 +162,10 @@
     "title": "Acerca de YariCrochetFina",
     "subtitle": "El Arte del Crochet Hecho a Mano",
     "description": "Bienvenidos a mi mundo de creaciones únicas en crochet y tricot. Soy Yaritza Salgado Fina, artesana apasionada que transforma cada hilo en una obra de arte portable. Cada pieza que creo cuenta una historia, combinando técnicas ancestrales con diseño contemporáneo.",
-    "passion": "Mi pasión por el crochet comenzó hace años y se ha transformado en una verdadera vocación. Cada creación es el resultado de muchas horas de trabajo minucioso, amor por la artesanía y un compromiso con la calidad.",
+    "passion": {
+      "title": "Pasión",
+      "description": "Técnicas ancestrales con amor moderno"
+    },
     "quality": "Me comprometo a usar solo materiales de primera calidad y mantener los más altos estándares de confección. Cada pieza es única y hecha con amor, especialmente para ti.",
     "cta": "Descubre Nuestra Historia",
     "meetYaritza": "Conoce a Yaritza Salgado Fina",
@@ -114,10 +181,6 @@
       "title": "Visión",
       "description": "Donde lo vintage se encuentra con lo contemporáneo"
     },
-    "passion": {
-      "title": "Pasión",
-      "description": "Técnicas ancestrales con amor moderno"
-    },
     "promise": {
       "title": "Promesa",
       "description": "Cada pieza cuenta una historia única"
@@ -129,7 +192,7 @@
     "title": "Lo Que Dicen Nuestras Clientas",
     "subtitle": "Opiniones Auténticas",
     "description": "Cada testimonio es una historia de satisfacción, una sonrisa tejida en palabras. Estas son las voces de quienes han encontrado en nuestras creaciones algo especial.",
-    "verifiedCustomer": "Cliente verificada",
+    "verifiedCustomer": "Clienta verificada",
     "collection": "Colección",
     "satisfactionTitle": "Nuestra Promesa de Satisfacción",
     "averageRating": "Calificación Promedio",
@@ -138,81 +201,178 @@
     "recommend": "Recomiendan la Marca"
   },
   "newsletter": {
-    "title": "Mantente Informada",
-    "subtitle": "Recibe Nuestras Novedades y Ofertas Exclusivas",
-    "description": "Suscríbete a nuestro boletín para descubrir en primicia nuestras nuevas creaciones y beneficiarte de ofertas especiales.",
-    "placeholder": "Tu email",
-    "button": "Suscribirse",
-    "success": "¡Gracias por suscribirte!",
-    "error": "Por favor ingresa un email válido"
+    "title": "Únete a nuestra comunidad",
+    "subtitle": "Recibe novedades y ofertas exclusivas",
+    "description": "Suscríbete a nuestro boletín para conocer primero nuestras nuevas creaciones y disfrutar de ofertas especiales.",
+    "placeholder": "Tu correo electrónico",
+    "button": "Suscribirme",
+    "success": "¡Suscripción exitosa!",
+    "error": "Por favor, ingresa un correo electrónico válido",
+    "subscribing": "Suscribiendo...",
+    "successDescription": "Pronto recibirás nuestras novedades y ofertas especiales.",
+    "errorTitle": "Error al suscribirte",
+    "errorDescription": "No pudimos completar tu suscripción. Por favor, inténtalo de nuevo.",
+    "alreadyTitle": "Este correo ya está suscrito",
+    "alreadyDescription": "Este correo electrónico ya está en nuestra lista de suscriptores.",
+    "invalidTitle": "Correo electrónico inválido",
+    "emailMax": "El correo electrónico no puede superar los 255 caracteres",
+    "offersTitle": "Ofertas exclusivas",
+    "offersDescription": "Descuentos especiales solo para suscriptores",
+    "newTitle": "Nuevas creaciones",
+    "newDescription": "Sé de las primeras personas en ver mis diseños únicos",
+    "secretsTitle": "Secretos del oficio",
+    "secretsDescription": "Aprende mis técnicas ancestrales y trucos personales",
+    "noSpam": "Prometemos no enviarte spam: solo contenido valioso sobre crochet artesanal."
   },
   "contact": {
     "title": "Contáctanos",
     "subtitle": "Estamos Aquí Para Ti",
     "description": "¿Tienes una pregunta sobre nuestras creaciones? ¿Quieres una pieza personalizada? Contáctanos, estaremos encantadas de ayudarte.",
-    "name": "Nombre",
-    "email": "Email",
+    "name": "Nombre completo",
+    "email": "Correo electrónico",
     "message": "Mensaje",
-    "send": "Enviar",
-    "success": "¡Mensaje enviado con éxito!",
-    "error": "Error al enviar el mensaje"
+    "send": "Enviar mensaje",
+    "success": "Mensaje enviado",
+    "error": "Error al enviar",
+    "heading": "Hablemos de tu próxima pieza",
+    "intro": "¿Tienes una idea especial? ¿Quieres un diseño personalizado? ¿Necesitas más información? Escríbenos.",
+    "formTitle": "Envíanos un mensaje",
+    "namePlaceholder": "Tu nombre",
+    "emailPlaceholder": "tu@correo.com",
+    "messagePlaceholder": "Cuéntanos sobre tu proyecto, tus dudas o cualquier consulta...",
+    "sending": "Enviando...",
+    "successDescription": "Gracias por contactarnos. Te responderemos pronto.",
+    "errorDescription": "No pudimos enviar tu mensaje. Por favor, inténtalo de nuevo.",
+    "validationTitle": "Revisa el formulario",
+    "nameRequired": "El nombre es obligatorio",
+    "nameMax": "El nombre no puede superar los 100 caracteres",
+    "emailInvalid": "Correo electrónico inválido",
+    "emailMax": "El correo electrónico no puede superar los 255 caracteres",
+    "messageRequired": "El mensaje es obligatorio",
+    "messageMax": "El mensaje no puede superar los 1000 caracteres",
+    "infoTitle": "Datos de contacto",
+    "location": "Montreal, Canadá",
+    "responseTime": "Respondemos lo antes posible."
   },
   "footer": {
     "description": "Dedicada a revivir las técnicas ancestrales del crochet, creamos piezas únicas que cuentan historias y abrazan tradiciones. Cada puntada es un latido, cada creación es un alma.",
     "quickLinks": "Enlaces Rápidos",
     "followUs": "Síguenos",
     "rights": "Todos los derechos reservados.",
-    "support": "Soporte"
+    "support": "Ayuda",
+    "tagline": "La moda audaz en crochet",
+    "shippingPolicy": "Política de envíos",
+    "contactUs": "Contáctanos",
+    "backToTop": "Volver arriba",
+    "handmade": "100 % artesanal",
+    "handmadeDescription": "Cada pieza se teje a mano con técnicas ancestrales.",
+    "natural": "Materiales naturales",
+    "naturalDescription": "Fibras orgánicas y sostenibles de alta calidad.",
+    "satisfaction": "Satisfacción garantizada",
+    "satisfactionDescription": "Compromiso con la excelencia en cada creación.",
+    "madeWith": "Hecho con",
+    "by": "por Yaritza Salgado Fina",
+    "social": {
+      "facebook": "Facebook",
+      "instagram": "Instagram",
+      "pinterest": "Pinterest",
+      "etsy": "Etsy"
+    },
+    "followOn": "Síguenos en {{network}}",
+    "terms": "Términos y condiciones"
   },
   "cart": {
-    "title": "Tu Carrito",
+    "title": "Tu carrito",
     "empty": "Tu carrito está vacío",
     "subtotal": "Subtotal",
     "shipping": "Envío",
     "total": "Total",
-    "checkout": "Proceder al Pago",
-    "continueShopping": "Continuar Comprando",
-    "clearCart": "Vaciar Carrito",
+    "checkout": "Proceder al pago",
+    "continueShopping": "Seguir comprando",
+    "clearCart": "Vaciar carrito",
     "itemAdded": "Artículo añadido al carrito",
     "itemRemoved": "Artículo eliminado del carrito",
     "calculateShipping": "Calcular Envío",
-    "checkoutError": "No se pudo procesar el pago. Por favor intenta de nuevo.",
+    "checkoutError": "No se pudo procesar el pago. Por favor, inténtalo de nuevo.",
     "shippingCalculator": {
-      "title": "Calculadora de Envío",
-      "country": "País",
+      "title": "Calculadora de envío desde Montreal",
+      "country": "País de destino",
       "province": "Provincia/Estado",
       "postalCode": "Código Postal",
       "calculate": "Calcular",
-      "estimatedShipping": "Envío estimado"
+      "estimatedShipping": "Envío estimado",
+      "productPrice": "Precio del producto",
+      "shippingTo": "Envío a {{country}}",
+      "total": "Total estimado",
+      "delivery": "Tiempo estimado de entrega: {{min}} a {{max}} días hábiles. Envío con seguimiento incluido.",
+      "insured": "Todos los envíos incluyen seguro y número de seguimiento.",
+      "worldwide": "Enviamos a varios países desde Montreal, Canadá.",
+      "packaging": "Empaque especial para proteger cada pieza artesanal.",
+      "otherCountry": "¿Tu país no aparece en la lista? Escríbenos y lo resolvemos.",
+      "addToCartHint": "Añade la pieza al carrito para continuar con el pago seguro."
     },
     "guestCheckout": {
-      "title": "Continuar como Invitado",
-      "description": "Ingresa tu email para recibir la confirmación de tu pedido",
-      "emailPlaceholder": "tu@email.com",
-      "continue": "Continuar al Pago",
+      "title": "Continuar sin cuenta",
+      "description": "Ingresa tu correo electrónico para recibir la confirmación de tu pedido.",
+      "emailPlaceholder": "tu@correo.com",
+      "continue": "Continuar al pago",
       "orLogin": "¿Ya tienes una cuenta?",
       "loginLink": "Inicia sesión",
-      "invalidEmail": "Por favor ingresa un email válido"
-    }
+      "invalidEmail": "Por favor, ingresa un correo electrónico válido"
+    },
+    "description": "Revisa tus piezas, elige el país de envío y continúa al pago seguro.",
+    "emptyDescription": "Descubre nuestras piezas únicas hechas a mano.",
+    "shippingTo": "País de envío",
+    "selectCountry": "Selecciona tu país",
+    "shippingNote": "El envío se cobra una sola vez por pedido.",
+    "delivery": "Entrega estimada: {{min}} a {{max}} días hábiles, con seguimiento.",
+    "securePayment": "Pago seguro con tarjeta a través de Stripe.",
+    "remove": "Eliminar {{name}} del carrito",
+    "decrease": "Disminuir cantidad",
+    "increase": "Aumentar cantidad",
+    "quantity": "Cantidad",
+    "uniqueLimit": "Pieza única",
+    "removedUnavailable": "Retiramos del carrito piezas que ya no están disponibles: {{names}}.",
+    "errors": {
+      "generic": "No se pudo iniciar el pago. Por favor, inténtalo de nuevo.",
+      "emptyCart": "Tu carrito está vacío.",
+      "invalidCart": "Hay un problema con los productos de tu carrito. Revísalo e inténtalo de nuevo.",
+      "outOfStock": "Alguna de las piezas ya no está disponible. Actualizamos tu carrito.",
+      "invalidCountry": "No realizamos envíos a ese país desde la tienda. Escríbenos y buscamos una solución.",
+      "rateLimited": "Demasiados intentos. Espera un minuto e inténtalo de nuevo.",
+      "invalidOrigin": "Esta dirección web no está autorizada para realizar compras.",
+      "config": "El sistema de pagos no está disponible en este momento. Inténtalo más tarde.",
+      "network": "No pudimos conectar con el servidor. Revisa tu conexión e inténtalo de nuevo."
+    },
+    "termsNotice": "Al continuar con el pago aceptas nuestros <termsLink>Términos y Condiciones y Política de Devoluciones</termsLink>."
   },
   "payment": {
     "success": {
-      "title": "¡Pago Exitoso!",
+      "title": "¡Pago exitoso!",
       "subtitle": "Tu pedido ha sido confirmado",
-      "orderNumber": "Número de Pedido",
-      "emailSent": "Te hemos enviado un correo de confirmación",
-      "processing": "Estamos procesando tu pedido",
-      "continueShopping": "Continuar Comprando",
-      "thankYou": "¡Gracias por tu compra! Recibirás tu pedido pronto."
+      "orderNumber": "Número de pedido",
+      "emailSent": "Te enviamos un correo de confirmación",
+      "processing": "Estamos preparando tu pedido",
+      "continueShopping": "Seguir comprando",
+      "thankYou": "¡Gracias por tu compra! Recibirás tu pedido pronto.",
+      "confirming": "Estamos confirmando tu pedido...",
+      "confirmingHint": "Esto puede tardar unos segundos. Puedes cerrar esta página: te enviaremos un correo de confirmación.",
+      "details": "Resumen del pedido",
+      "quantityShort": "Cant.",
+      "subtotal": "Subtotal",
+      "shipping": "Envío",
+      "total": "Total",
+      "shippingCountry": "País de envío",
+      "invalidLink": "No encontramos los datos de este pedido. Si realizaste una compra, revisa el correo de confirmación."
     },
     "cancel": {
-      "title": "Pago Cancelado",
+      "title": "Pago cancelado",
       "subtitle": "No se completó tu pedido",
-      "message": "No te preocupes, tu carrito sigue guardado y puedes intentar nuevamente cuando estés listo.",
-      "cartPreserved": "Tu carrito está guardado y listo para cuando decidas continuar",
-      "backToCart": "Volver al Carrito",
-      "continueShopping": "Continuar Comprando",
-      "needHelp": "¿Necesitas ayuda? Contáctanos y te asistiremos con gusto."
+      "message": "No te preocupes: tu carrito sigue guardado y puedes intentarlo de nuevo cuando quieras.",
+      "cartPreserved": "Tu carrito está guardado y listo para cuando decidas continuar.",
+      "backToCart": "Volver al carrito",
+      "continueShopping": "Seguir comprando",
+      "needHelp": "¿Necesitas ayuda? Escríbenos y te ayudaremos con gusto."
     }
   },
   "categories": {
@@ -221,7 +381,7 @@
     "Chalecos": "Chalecos",
     "Túnicas": "Túnicas",
     "Vestidos": "Vestidos",
-    "Abrigo": "Abrigo",
+    "Abrigo": "Abrigos",
     "Ponchos": "Ponchos",
     "Tops": "Tops"
   },
@@ -275,10 +435,8 @@
       "multicolorMandalas": "Mandalas multicolores",
       "premiumMulticolorYarns": "Hilos multicolores premium",
       "geometricTechnique": "Técnica geométrica",
-      "creamCottonYarn": "Hilo de algodón crema",
       "openworkStitch": "Punto calado",
       "crochetFlowers": "Flores de crochet",
-      "pinkCottonYarn": "Hilo de algodón rosa",
       "gradedOpenworkStitch": "Punto calado degradado",
       "centralMedallion": "Medallón central",
       "skyBlueCottonYarn": "Hilo de algodón azul cielo",
@@ -305,13 +463,119 @@
   },
   "testimonialsData": {
     "maria": {
-      "message": "Las piezas de Yaritza son simplemente extraordinarias. La calidad del tejido y la atención al detalle son incomparables."
+      "message": "Las piezas de Yaritza son simplemente extraordinarias. La calidad del tejido y la atención al detalle son incomparables.",
+      "name": "María García"
     },
     "ana": {
-      "message": "Me encanta el estilo vintage de sus creaciones. Cada vez que uso una pieza de YariCrochetFina, recibo muchos cumplidos."
+      "message": "Me encanta el estilo vintage de sus creaciones. Cada vez que uso una pieza de YariCrochetFina, recibo muchos cumplidos.",
+      "name": "Ana Rodríguez"
     },
     "carmen": {
-      "message": "La pasión por las técnicas ancestrales se nota en cada puntada. Productos únicos que cuentan una historia."
+      "message": "La pasión por las técnicas ancestrales se nota en cada puntada. Productos únicos que cuentan una historia.",
+      "name": "Carmen López"
     }
+  },
+  "meta": {
+    "title": "YariCrochetFina - La moda audaz en crochet | Tejidos artesanales únicos",
+    "description": "Descubre piezas únicas de crochet y tricot hechas a mano por Yaritza Salgado Fina. Estilos boho chic, hippie, vintage y shabby chic. Técnicas ancestrales y trabajo manual de calidad."
+  },
+  "common": {
+    "close": "Cerrar",
+    "loading": "Cargando...",
+    "processing": "Procesando...",
+    "error": "Error",
+    "unexpectedError": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
+    "backToStore": "Volver a la tienda",
+    "imageUnavailable": "Imagen no disponible",
+    "loadingImage": "Cargando imagen...",
+    "imageLoadError": "No se pudo cargar la imagen",
+    "tryAgainLater": "Inténtalo de nuevo más tarde",
+    "zoom": "Ampliar",
+    "zoomIn": "Haz clic para ver la imagen a máxima resolución",
+    "zoomOut": "Arrastra para moverte. Haz clic para alejar.",
+    "enlargeImage": "Ampliar imagen",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "tryAgain": "Reintentar"
+  },
+  "auth": {
+    "loginTitle": "Te damos la bienvenida",
+    "signupTitle": "Crear cuenta",
+    "loginSubtitle": "Inicia sesión para continuar con tu compra",
+    "signupSubtitle": "Regístrate para empezar a comprar",
+    "fullName": "Nombre completo",
+    "namePlaceholder": "Tu nombre",
+    "email": "Correo electrónico",
+    "emailPlaceholder": "tu@correo.com",
+    "password": "Contraseña",
+    "passwordHint": "Mínimo 6 caracteres",
+    "submitLogin": "Iniciar sesión",
+    "submitSignup": "Crear cuenta",
+    "switchToSignup": "¿No tienes cuenta? Regístrate",
+    "switchToLogin": "¿Ya tienes cuenta? Inicia sesión",
+    "loginError": "Error al iniciar sesión",
+    "signupError": "Error al registrarte",
+    "invalidCredentials": "Correo electrónico o contraseña incorrectos",
+    "emailNotConfirmed": "Debes confirmar tu correo electrónico antes de iniciar sesión",
+    "alreadyRegistered": "Este correo electrónico ya está registrado",
+    "welcome": "¡Hola de nuevo!",
+    "welcomeDescription": "Has iniciado sesión correctamente",
+    "accountCreated": "¡Cuenta creada!",
+    "accountCreatedDescription": "Tu cuenta se creó correctamente",
+    "confirmEmailTitle": "Revisa tu correo",
+    "confirmEmailDescription": "Te enviamos un enlace para confirmar tu cuenta. Después podrás iniciar sesión.",
+    "validationTitle": "Revisa los datos",
+    "emailInvalid": "Correo electrónico inválido",
+    "passwordMin": "La contraseña debe tener al menos 6 caracteres",
+    "nameRequired": "El nombre es obligatorio"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "message": "Lo sentimos, la página que buscas no existe o fue movida.",
+    "back": "Volver al inicio"
+  },
+  "shippingPolicy": {
+    "title": "Política de envíos",
+    "intro": "Todas nuestras piezas se tejen a mano y se envían desde Montreal, Canadá, con el máximo cuidado.",
+    "ratesTitle": "Tarifas de envío",
+    "country": "País",
+    "cost": "Costo de envío",
+    "ratesNote": "El envío se cobra una sola vez por pedido, sin importar la cantidad de piezas.",
+    "timesTitle": "Plazos de entrega",
+    "times": "El plazo estimado de entrega es de {{min}} a {{max}} días hábiles desde la confirmación del pago.",
+    "insuranceTitle": "Seguro y seguimiento",
+    "insurance": "Todos los envíos incluyen seguro y número de seguimiento. Cada pieza se empaca con cuidado para protegerla durante el trayecto.",
+    "otherTitle": "¿Tu país no aparece?",
+    "other": "Escríbenos desde la sección de contacto y buscaremos la mejor opción de envío para ti.",
+    "backToStore": "Volver a la tienda"
+  },
+  "terms": {
+    "title": "Términos y Condiciones y Política de Devoluciones",
+    "subtitle": "Yari Crochet Fina",
+    "sections": {
+      "1": {
+        "title": "Información General",
+        "body": "Yari Crochet Fina es una tienda en línea dedicada a la comercialización de piezas de crochet artesanales y únicas. Al realizar una compra en nuestro sitio web, aceptas los presentes términos y condiciones."
+      },
+      "2": {
+        "title": "Naturaleza Artesanal y Disponibilidad",
+        "body": "Al tratarse de productos hechos a mano, cada pieza es única. El stock se actualiza en tiempo real, pero en caso de coincidir una venta simultánea sobre una pieza única ya vendida, nos pondremos en contacto con el cliente para ofrecer un reembolso total o una alternativa similar."
+      },
+      "3": {
+        "title": "Envíos y Plazos",
+        "body": "Realizamos envíos nacionales e internacionales a los destinos habilitados en nuestra pasarela de pagos. Los tiempos de entrega varían según la ubicación del destinatario y la empresa de transporte seleccionada."
+      },
+      "4": {
+        "title": "Política de Devoluciones y Reembolsos",
+        "body": "Debido a la naturaleza delicada y artesanal de nuestras prendas, no aceptamos cambios ni devoluciones por cambio de opinión o tallas mal seleccionadas, salvo que el producto llegue con un defecto de fábrica comprobable o haya sufrido daños graves durante el transporte. En dicho caso, el cliente deberá notificarlo dentro de los 3 días posteriores a la recepción con evidencia fotográfica."
+      },
+      "5": {
+        "title": "Privacidad y Protección de Datos",
+        "body": "Tus datos personales y de pago son procesados de forma segura a través de pasarelas cifradas (Stripe). No almacenamos información sensible de tarjetas de crédito o débito en nuestros servidores."
+      }
+    },
+    "contact": "¿Tienes dudas? Escríbenos a {{email}} o desde la sección de contacto.",
+    "shippingLink": "Consulta también nuestra política de envíos y tarifas.",
+    "back": "Volver a la tienda"
   }
 }

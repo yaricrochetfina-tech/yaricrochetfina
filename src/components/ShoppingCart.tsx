@@ -1,229 +1,346 @@
-import { useState } from 'react';
-import { useCart } from '@/hooks/useCart';
-import { useTranslation } from 'react-i18next';
+import { useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
+import { Trash2, Plus, Minus, ShoppingBag, Loader2, Truck, Lock } from 'lucide-react';
+import { toast } from 'sonner';
+import { useCart, getMaxQuantity } from '@/hooks/useCart';
 import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from '@/components/ui/sheet';
 import { Badge } from '@/components/ui/badge';
-import { Trash2, Plus, Minus, ShoppingBag, Loader2 } from 'lucide-react';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { supabase } from '@/integrations/supabase/client';
-import { useToast } from '@/hooks/use-toast';
 import { GuestCheckoutDialog } from './GuestCheckoutDialog';
 import { resolveProductImage } from '@/lib/imageResolver';
+import { CheckoutError, createCheckoutSession } from '@/lib/checkout';
+import { mapDbProduct } from '@/lib/products';
+import {
+  DELIVERY_MAX_DAYS,
+  DELIVERY_MIN_DAYS,
+  SHIPPING_COUNTRIES,
+  formatPrice,
+  getCountryName,
+  getShippingRate,
+} from '@/lib/store';
+import { normalizeLanguage } from '@/i18n/config';
+import { useProductTranslation } from '@/hooks/useProductTranslation';
+import type { CartItem } from '@/types';
 
-// Helper to convert image paths to absolute URLs for Stripe
-const getAbsoluteImageUrl = (imagePath: string): string => {
-  const resolved = resolveProductImage(imagePath);
-  // If already absolute URL, return as-is
-  if (resolved.startsWith('http://') || resolved.startsWith('https://')) {
-    return resolved;
-  }
-  // Convert relative path to absolute URL
-  return `${window.location.origin}${resolved}`;
-};
-export const ShoppingCart = () => {
+const CartItemRow = ({ item }: { item: CartItem }) => {
   const { t } = useTranslation();
-  const { toast } = useToast();
-  const { items, isOpen, closeCart, removeItem, updateQuantity, getTotal, clearCart } = useCart();
+  const { removeItem, updateQuantity } = useCart();
+  const translated = useProductTranslation(item.product);
+  const max = getMaxQuantity(item.product);
+
+  return (
+    <div className="card-warm !p-4 hover:!translate-y-0">
+      <div className="flex gap-4">
+        <img
+          src={resolveProductImage(item.product.image)}
+          alt={translated.name}
+          className="w-16 h-16 rounded-lg object-cover flex-shrink-0 bg-muted"
+        />
+
+        <div className="flex-1 min-w-0 space-y-2">
+          <div className="flex items-start justify-between gap-2">
+            <div className="min-w-0">
+              <h3 className="font-medium text-foreground leading-snug">{translated.name}</h3>
+              <Badge variant="outline" className="text-xs mt-1">
+                {t(`styles.${item.product.style}`, item.product.style)}
+              </Badge>
+            </div>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => removeItem(item.product.id)}
+              aria-label={t('cart.remove', { name: translated.name })}
+              className="h-8 w-8 p-0 flex-shrink-0 text-destructive hover:text-destructive hover:bg-destructive/10"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                aria-label={t('cart.decrease')}
+                className="h-8 w-8 p-0"
+              >
+                <Minus className="h-3 w-3" />
+              </Button>
+              <span
+                className="font-medium w-8 text-center"
+                aria-label={t('cart.quantity')}
+                aria-live="polite"
+              >
+                {item.quantity}
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                disabled={item.quantity >= max}
+                aria-label={t('cart.increase')}
+                className="h-8 w-8 p-0"
+              >
+                <Plus className="h-3 w-3" />
+              </Button>
+            </div>
+            <div className="font-semibold text-primary">
+              {formatPrice(item.product.price * item.quantity)}
+            </div>
+          </div>
+          {max === 1 && (
+            <p className="text-xs text-muted-foreground">{t('cart.uniqueLimit')}</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const ShoppingCart = () => {
+  const { t, i18n } = useTranslation();
+  const {
+    items,
+    isOpen,
+    closeCart,
+    clearCart,
+    getSubtotal,
+    shippingCountry,
+    setShippingCountry,
+    syncWithCatalog,
+  } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
   const [showGuestDialog, setShowGuestDialog] = useState(false);
+
+  const language = normalizeLanguage(i18n.resolvedLanguage || i18n.language);
+  const subtotal = getSubtotal();
+  const shippingCost = getShippingRate(shippingCountry) ?? 0;
+  const total = subtotal + shippingCost;
+
+  const countries = useMemo(
+    () =>
+      SHIPPING_COUNTRIES.map((c) => ({ ...c, name: getCountryName(c.code, language) })).sort(
+        (a, b) => a.name.localeCompare(b.name, language)
+      ),
+    [language]
+  );
+
+  // Al abrir el carrito, se actualizan precios y disponibilidad con los datos reales del catálogo.
+  const refreshCart = async () => {
+    const ids = useCart.getState().items.map((item) => item.product.id);
+    if (ids.length === 0) return;
+
+    const { data, error } = await supabase.from('products').select('*').in('id', ids);
+    if (error || !data) {
+      console.error('Error refreshing cart products:', error);
+      return;
+    }
+
+    const removed = syncWithCatalog(data.map(mapDbProduct));
+    if (removed.length > 0) {
+      toast.warning(t('cart.removedUnavailable', { names: removed.map((p) => p.name).join(', ') }));
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      void refreshCart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+
+  // Si el usuario vuelve desde Stripe con el botón "atrás", se restablece el estado del botón.
+  useEffect(() => {
+    const onPageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) setIsProcessing(false);
+    };
+    window.addEventListener('pageshow', onPageShow);
+    return () => window.removeEventListener('pageshow', onPageShow);
+  }, []);
 
   const processCheckout = async (email: string, name?: string) => {
     setIsProcessing(true);
 
     try {
-      const { data, error } = await supabase.functions.invoke('stripe-checkout', {
-        body: {
-          items: items.map(item => ({
-            product: {
-              id: item.product.id,
-              name: item.product.name,
-              price: item.product.price,
-              image: getAbsoluteImageUrl(item.product.image),
-            },
-            quantity: item.quantity,
-          })),
-          shippingCountry: 'MX',
-          customerEmail: email,
-          customerName: name || '',
-        },
+      const url = await createCheckoutSession({
+        items,
+        shippingCountry,
+        email,
+        name,
+        language,
       });
-
-      if (error) {
-        console.error('Checkout error:', error);
-        toast({
-          title: 'Error',
-          description: t('cart.checkoutError') || 'No se pudo procesar el pago. Por favor intenta de nuevo.',
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (data?.url) {
-        window.location.href = data.url;
-      }
+      // Redirección a Stripe: se mantiene el estado "procesando" para evitar dobles clics.
+      window.location.href = url;
     } catch (error) {
-      console.error('Unexpected error:', error);
-      toast({
-        title: 'Error',
-        description: 'Ocurrió un error inesperado. Por favor intenta de nuevo.',
-        variant: "destructive",
-      });
-    } finally {
+      const code = error instanceof CheckoutError ? error.code : 'generic';
+      toast.error(t(`cart.errors.${code}`));
+      if (code === 'outOfStock' || code === 'invalidCart') {
+        void refreshCart();
+      }
       setIsProcessing(false);
-      setShowGuestDialog(false);
     }
   };
 
   const handleCheckout = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
 
     if (session?.user?.email) {
-      // Authenticated user - proceed directly
-      await processCheckout(session.user.email, session.user.user_metadata?.full_name);
+      const meta = session.user.user_metadata ?? {};
+      await processCheckout(session.user.email, meta.full_name || meta.name);
     } else {
-      // Guest user - show dialog to collect email
       setShowGuestDialog(true);
     }
   };
 
-  const handleGuestCheckout = (email: string) => {
-    processCheckout(email);
-  };
-
   return (
     <>
-      <Sheet open={isOpen} onOpenChange={closeCart}>
-        <SheetContent className="w-full sm:max-w-lg">
-          <SheetHeader>
-            <SheetTitle className="font-playfair text-2xl">
-              {t('cart.title')}
-            </SheetTitle>
+      <Sheet open={isOpen} onOpenChange={(open) => !open && closeCart()}>
+        <SheetContent className="w-full sm:max-w-lg flex flex-col gap-0 p-0">
+          <SheetHeader className="p-6 pb-4 pr-12 border-b border-border">
+            <SheetTitle className="font-playfair text-2xl">{t('cart.title')}</SheetTitle>
+            <SheetDescription className="sr-only">{t('cart.description')}</SheetDescription>
           </SheetHeader>
 
-          <div className="flex flex-col h-full">
-            {items.length === 0 ? (
-              <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4">
-                <ShoppingBag className="h-16 w-16 text-muted-foreground" />
-                <h3 className="font-playfair text-xl">{t('cart.empty')}</h3>
-                <p className="text-warm">
-                  {t('products.description')}
-                </p>
-                <Button onClick={closeCart} className="btn-hero">
-                  {t('hero.cta')}
-                </Button>
+          {items.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 p-6">
+              <ShoppingBag className="h-16 w-16 text-muted-foreground" aria-hidden="true" />
+              <h3 className="font-playfair text-xl">{t('cart.empty')}</h3>
+              <p className="text-warm">{t('cart.emptyDescription')}</p>
+              <Button
+                onClick={() => {
+                  closeCart();
+                  document
+                    .getElementById('colecciones')
+                    ?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="btn-hero"
+              >
+                {t('hero.cta')}
+              </Button>
+            </div>
+          ) : (
+            <>
+              <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4 space-y-4">
+                {items.map((item) => (
+                  <CartItemRow key={item.product.id} item={item} />
+                ))}
               </div>
-            ) : (
-              <>
-                {/* Cart Items */}
-                <div className="flex-1 space-y-4 py-6 overflow-y-auto">
-                  {items.map((item) => (
-                    <div key={item.product.id} className="card-warm">
-                      <div className="flex space-x-4">
-                        <img
-                          src={item.product.image}
-                          alt={item.product.name}
-                          className="w-16 h-16 rounded-lg object-cover"
-                        />
-                        
-                        <div className="flex-1 space-y-2">
-                          <div className="flex items-start justify-between">
-                            <div>
-                              <h3 className="font-medium text-foreground">
-                                {item.product.name}
-                              </h3>
-                              <Badge variant="outline" className="text-xs">
-                                {item.product.style}
-                              </Badge>
-                            </div>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => removeItem(item.product.id)}
-                              className="text-destructive hover:text-destructive hover:bg-destructive/10"
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
 
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-2">
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                                className="h-8 w-8 p-0"
-                              >
-                                <Minus className="h-3 w-3" />
-                              </Button>
-                              <span className="font-medium w-8 text-center">
-                                {item.quantity}
-                              </span>
-                              <Button
-                                variant="outline"
-                                size="sm"
-                                onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                                className="h-8 w-8 p-0"
-                              >
-                                <Plus className="h-3 w-3" />
-                              </Button>
-                            </div>
-                            <div className="font-semibold text-primary">
-                              ${(item.product.price * item.quantity).toFixed(2)}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
+              <div className="border-t border-border p-6 space-y-4 bg-background">
+                {/* País de envío */}
+                <div className="space-y-2">
+                  <label
+                    htmlFor="cart-shipping-country"
+                    className="text-sm font-medium flex items-center gap-2"
+                  >
+                    <Truck className="h-4 w-4" aria-hidden="true" />
+                    {t('cart.shippingTo')}
+                  </label>
+                  <Select value={shippingCountry} onValueChange={setShippingCountry}>
+                    <SelectTrigger id="cart-shipping-country">
+                      <SelectValue placeholder={t('cart.selectCountry')} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {countries.map((country) => (
+                        <SelectItem key={country.code} value={country.code}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    {t('cart.delivery', { min: DELIVERY_MIN_DAYS, max: DELIVERY_MAX_DAYS })}
+                  </p>
                 </div>
 
-                {/* Cart Footer */}
-                <div className="border-t border-border pt-6 space-y-4">
-                  <div className="flex items-center justify-between text-lg">
-                    <span className="font-semibold">{t('cart.total')}:</span>
-                    <span className="font-bold text-2xl text-primary">
-                      ${getTotal().toFixed(2)}
-                    </span>
+                {/* Resumen */}
+                <dl className="space-y-1 text-sm">
+                  <div className="flex items-center justify-between">
+                    <dt className="text-muted-foreground">{t('cart.subtotal')}</dt>
+                    <dd>{formatPrice(subtotal)}</dd>
                   </div>
+                  <div className="flex items-center justify-between">
+                    <dt className="text-muted-foreground">{t('cart.shipping')}</dt>
+                    <dd>{formatPrice(shippingCost)}</dd>
+                  </div>
+                  <div className="flex items-center justify-between text-lg pt-2 border-t border-border">
+                    <dt className="font-semibold">{t('cart.total')}</dt>
+                    <dd className="font-bold text-2xl text-primary">{formatPrice(total)}</dd>
+                  </div>
+                </dl>
 
-                  <div className="space-y-3">
-                    <Button 
-                      onClick={handleCheckout} 
-                      className="w-full btn-hero text-lg py-3"
-                      disabled={isProcessing}
-                    >
-                      {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                      {isProcessing ? 'Procesando...' : t('cart.checkout')}
+                <div className="space-y-3">
+                  <Button
+                    onClick={handleCheckout}
+                    className="w-full btn-hero text-lg py-3"
+                    disabled={isProcessing}
+                  >
+                    {isProcessing && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                    {isProcessing ? t('common.processing') : t('cart.checkout')}
+                  </Button>
+
+                  <p className="text-xs text-muted-foreground text-center flex items-center justify-center gap-1">
+                    <Lock className="h-3 w-3" aria-hidden="true" />
+                    {t('cart.securePayment')}
+                  </p>
+
+                  <p className="text-xs text-muted-foreground text-center">
+                    <Trans
+                      i18nKey="cart.termsNotice"
+                      components={{
+                        termsLink: (
+                          <Link
+                            to="/terminos"
+                            onClick={closeCart}
+                            className="underline underline-offset-2 hover:text-primary"
+                          />
+                        ),
+                      }}
+                    />
+                  </p>
+
+                  <div className="flex gap-3">
+                    <Button variant="outline" onClick={closeCart} className="flex-1">
+                      {t('cart.continueShopping')}
                     </Button>
-                    
-                    <div className="flex space-x-3">
-                      <Button
-                        variant="outline"
-                        onClick={closeCart}
-                        className="flex-1"
-                      >
-                        {t('cart.continueShopping')}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        onClick={clearCart}
-                        className="flex-1 text-destructive border-destructive hover:bg-destructive hover:text-white"
-                      >
-                        {t('cart.clearCart')}
-                      </Button>
-                    </div>
+                    <Button
+                      variant="outline"
+                      onClick={clearCart}
+                      disabled={isProcessing}
+                      className="flex-1 text-destructive border-destructive hover:bg-destructive hover:text-white"
+                    >
+                      {t('cart.clearCart')}
+                    </Button>
                   </div>
                 </div>
-              </>
-            )}
-          </div>
+              </div>
+            </>
+          )}
         </SheetContent>
       </Sheet>
 
       <GuestCheckoutDialog
         open={showGuestDialog}
         onOpenChange={setShowGuestDialog}
-        onSubmit={handleGuestCheckout}
+        onSubmit={(email) => processCheckout(email)}
         isProcessing={isProcessing}
       />
     </>

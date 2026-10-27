@@ -1,165 +1,112 @@
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { useId, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Truck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Truck, MapPin, DollarSign } from 'lucide-react';
-import { z } from 'zod';
-
-// Validation schema for postal code (flexible format for international codes)
-const postalCodeSchema = z.string()
-  .trim()
-  .max(20, 'Código postal demasiado largo')
-  .regex(/^[A-Za-z0-9\s-]+$/, 'Código postal inválido')
-  .optional();
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { useCart } from '@/hooks/useCart';
+import { normalizeLanguage } from '@/i18n/config';
+import {
+  DELIVERY_MAX_DAYS,
+  DELIVERY_MIN_DAYS,
+  SHIPPING_COUNTRIES,
+  formatPrice,
+  getCountryName,
+  getShippingRate,
+} from '@/lib/store';
 
 interface ShippingCalculatorProps {
   productPrice: number;
-  stripePaymentLink: string;
-  onShippingCalculated: (shippingCost: number, country: string) => void;
 }
 
-export const ShippingCalculator = ({ productPrice, stripePaymentLink, onShippingCalculated }: ShippingCalculatorProps) => {
-  const [country, setCountry] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [shippingCost, setShippingCost] = useState<number | null>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
+/**
+ * Estimación de envío. Usa las mismas tarifas que el carrito y el servidor
+ * (supabase/functions/_shared/shipping.ts), por lo que el importe mostrado es el que se cobra.
+ */
+export const ShippingCalculator = ({ productPrice }: ShippingCalculatorProps) => {
+  const { t, i18n } = useTranslation();
+  const selectId = useId();
+  const shippingCountry = useCart((state) => state.shippingCountry);
+  const setShippingCountry = useCart((state) => state.setShippingCountry);
+  const language = normalizeLanguage(i18n.resolvedLanguage || i18n.language);
 
-  // Shipping rates from Montreal, Canada (approximate)
-  const shippingRates = {
-    'Canada': 15,
-    'United States': 25,
-    'United Kingdom': 35,
-    'France': 35,
-    'Germany': 35,
-    'Spain': 35,
-    'Italy': 35,
-    'Australia': 45,
-    'Japan': 45,
-    'Brazil': 40,
-    'Mexico': 30,
-    'Argentina': 40,
-    'Other': 50
-  };
+  const countries = useMemo(
+    () =>
+      SHIPPING_COUNTRIES.map((c) => ({ ...c, name: getCountryName(c.code, language) })).sort(
+        (a, b) => a.name.localeCompare(b.name, language)
+      ),
+    [language]
+  );
 
-  const handleCalculateShipping = async () => {
-    if (!country) return;
-    
-    setIsCalculating(true);
-    
-    // Simulate API call delay
-    setTimeout(() => {
-      const cost = shippingRates[country as keyof typeof shippingRates] || shippingRates.Other;
-      setShippingCost(cost);
-      onShippingCalculated(cost, country);
-      setIsCalculating(false);
-    }, 1000);
-  };
-
-  const getTotalPrice = () => {
-    return shippingCost ? productPrice + shippingCost : productPrice;
-  };
+  const shippingCost = getShippingRate(shippingCountry);
 
   return (
     <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Truck className="h-5 w-5" />
-          Calculadora de Envío desde Montreal
+      <CardHeader className="pb-3">
+        <CardTitle className="flex items-center gap-2 text-lg">
+          <Truck className="h-5 w-5" aria-hidden="true" />
+          {t('cart.shippingCalculator.title')}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="text-sm font-medium mb-2 block">País de destino</label>
-            <Select value={country} onValueChange={setCountry}>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecciona tu país" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Canada">Canadá</SelectItem>
-                <SelectItem value="United States">Estados Unidos</SelectItem>
-                <SelectItem value="United Kingdom">Reino Unido</SelectItem>
-                <SelectItem value="France">Francia</SelectItem>
-                <SelectItem value="Germany">Alemania</SelectItem>
-                <SelectItem value="Spain">España</SelectItem>
-                <SelectItem value="Italy">Italia</SelectItem>
-                <SelectItem value="Australia">Australia</SelectItem>
-                <SelectItem value="Japan">Japón</SelectItem>
-                <SelectItem value="Brazil">Brasil</SelectItem>
-                <SelectItem value="Mexico">México</SelectItem>
-                <SelectItem value="Argentina">Argentina</SelectItem>
-                <SelectItem value="Other">Otro país</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-          
-          <div>
-            <label className="text-sm font-medium mb-2 block">Código postal (opcional)</label>
-            <Input
-              type="text"
-              placeholder="Ej: H1A 1A1"
-              value={postalCode}
-              onChange={(e) => setPostalCode(e.target.value)}
-              maxLength={20}
-              pattern="[A-Za-z0-9\s-]+"
-            />
-          </div>
+        <div>
+          <label htmlFor={selectId} className="text-sm font-medium mb-2 block">
+            {t('cart.shippingCalculator.country')}
+          </label>
+          <Select value={shippingCountry} onValueChange={setShippingCountry}>
+            <SelectTrigger id={selectId}>
+              <SelectValue placeholder={t('cart.selectCountry')} />
+            </SelectTrigger>
+            <SelectContent>
+              {countries.map((country) => (
+                <SelectItem key={country.code} value={country.code}>
+                  {country.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
-        <Button
-          onClick={handleCalculateShipping}
-          disabled={!country || isCalculating}
-          className="w-full"
-        >
-          <MapPin className="h-4 w-4 mr-2" />
-          {isCalculating ? 'Calculando...' : 'Calcular Envío'}
-        </Button>
-
-        {shippingCost && (
+        {shippingCost !== null && (
           <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 space-y-2">
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Precio del producto:</span>
-              <span className="font-medium">${productPrice.toFixed(2)} CAD</span>
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground">{t('cart.shippingCalculator.productPrice')}</span>
+              <span className="font-medium">{formatPrice(productPrice)}</span>
             </div>
-            <div className="flex justify-between items-center">
-              <span className="text-sm text-muted-foreground">Envío a {country}:</span>
-              <span className="font-medium">${shippingCost.toFixed(2)} CAD</span>
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground">
+                {t('cart.shippingCalculator.shippingTo', {
+                  country: getCountryName(shippingCountry, language),
+                })}
+              </span>
+              <span className="font-medium">{formatPrice(shippingCost)}</span>
             </div>
-            <div className="border-t border-primary/20 pt-2">
-              <div className="flex justify-between items-center">
-                <span className="font-semibold text-primary">Total:</span>
-                <span className="font-bold text-lg text-primary">
-                  <DollarSign className="h-4 w-4 inline mr-1" />
-                  {getTotalPrice().toFixed(2)} CAD
-                </span>
-              </div>
+            <div className="border-t border-primary/20 pt-2 flex justify-between items-center">
+              <span className="font-semibold text-primary">{t('cart.shippingCalculator.total')}</span>
+              <span className="font-bold text-lg text-primary">
+                {formatPrice(productPrice + shippingCost)}
+              </span>
             </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              *Tiempo estimado de entrega: 7-14 días hábiles. Envío con seguimiento incluido.
+            <p className="text-xs text-muted-foreground pt-1">
+              {t('cart.shippingCalculator.delivery', {
+                min: DELIVERY_MIN_DAYS,
+                max: DELIVERY_MAX_DAYS,
+              })}
             </p>
           </div>
         )}
 
-        {shippingCost && (
-          <Button
-            onClick={() => window.open(stripePaymentLink, '_blank')}
-            className="w-full btn-hero"
-            size="lg"
-          >
-            <DollarSign className="h-5 w-5 mr-2" />
-            Comprar Ahora - ${getTotalPrice().toFixed(2)} CAD
-          </Button>
-        )}
-
-        <div className="text-xs text-muted-foreground space-y-1">
-          <p>📦 Todos los envíos incluyen seguro y número de seguimiento</p>
-          <p>🌍 Envío mundial disponible desde Montreal, Canadá</p>
-          <p>💝 Empaque especial para proteger cada pieza artesanal</p>
-          {shippingCost && (
-            <p className="text-primary font-medium mt-2">✨ Haz clic en "Comprar Ahora" para proceder al pago seguro con Stripe</p>
-          )}
-        </div>
+        <ul className="text-xs text-muted-foreground space-y-1">
+          <li>📦 {t('cart.shippingCalculator.insured')}</li>
+          <li>🌍 {t('cart.shippingCalculator.worldwide')}</li>
+          <li>💝 {t('cart.shippingCalculator.packaging')}</li>
+          <li>✉️ {t('cart.shippingCalculator.otherCountry')}</li>
+        </ul>
       </CardContent>
     </Card>
   );

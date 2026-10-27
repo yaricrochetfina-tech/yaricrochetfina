@@ -1,12 +1,15 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Stripe from 'https://esm.sh/stripe@14.21.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
+import { getSiteUrl } from '../_shared/cors.ts';
+import { sendOrderEmails } from './emails.ts';
 
-// No CORS needed for server-to-server webhook from Stripe
+// Webhook servidor a servidor: no necesita CORS. La autenticidad se garantiza con la firma de Stripe.
+
+const json = (body: unknown, status = 200) =>
+  new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } });
 
 serve(async (req) => {
-  // Webhooks don't need CORS - they come directly from Stripe servers
-  // Return 405 for unsupported methods
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
   }
@@ -23,201 +26,188 @@ serve(async (req) => {
 
     const stripe = new Stripe(stripeKey, {
       apiVersion: '2023-10-16',
+      httpClient: Stripe.createFetchHttpClient(),
     });
-
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Get the signature from headers
     const signature = req.headers.get('stripe-signature');
     if (!signature) {
-      console.error('No stripe-signature header found');
       return new Response('No signature', { status: 400 });
     }
 
-    // Get raw body for signature verification
+    // Cuerpo en bruto: imprescindible para verificar la firma.
     const body = await req.text();
-    
+
     let event: Stripe.Event;
-
     try {
-      // Verify the webhook signature
-      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-      console.log('Webhook signature verified:', event.type);
+      // En Deno la verificación debe ser asíncrona (SubtleCrypto).
+      event = await stripe.webhooks.constructEventAsync(
+        body,
+        signature,
+        webhookSecret,
+        undefined,
+        Stripe.createSubtleCryptoProvider()
+      );
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Signature verification failed';
-      console.error('Webhook signature verification failed:', errorMessage);
-      return new Response(`Webhook Error: ${errorMessage}`, { status: 400 });
+      const message = err instanceof Error ? err.message : 'Signature verification failed';
+      console.error('Webhook signature verification failed:', message);
+      return new Response(`Webhook Error: ${message}`, { status: 400 });
     }
 
-    // Handle the checkout.session.completed event
-    if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as Stripe.Checkout.Session;
-      
-      console.log('Processing completed checkout session:', session.id);
+    if (event.type !== 'checkout.session.completed') {
+      return json({ received: true });
+    }
 
-    try {
-        // Parse items from metadata with proper error handling
-        let items: Array<{ product_id: string; quantity: number; price: number; product_name?: string }>;
-        try {
-          const rawItems = JSON.parse(session.metadata?.items || '[]');
-          
-          // Validate items structure
-          if (!Array.isArray(rawItems) || rawItems.length === 0) {
-            throw new Error('Invalid items format: expected non-empty array');
-          }
-          
-          // Validate each item has required fields
-          items = rawItems.map((item: any, index: number) => {
-            if (!item.product_id || typeof item.product_id !== 'string') {
-              throw new Error(`Invalid item at index ${index}: missing or invalid product_id`);
-            }
-            if (!item.quantity || typeof item.quantity !== 'number' || item.quantity <= 0) {
-              throw new Error(`Invalid item at index ${index}: missing or invalid quantity`);
-            }
-            if (item.price === undefined || typeof item.price !== 'number' || item.price < 0) {
-              throw new Error(`Invalid item at index ${index}: missing or invalid price`);
-            }
-            return {
-              product_id: item.product_id,
-              quantity: item.quantity,
-              price: item.price,
-              product_name: item.product_name || undefined,
-            };
-          });
-        } catch (parseError) {
-          const parseErrorMessage = parseError instanceof Error ? parseError.message : 'Unknown parse error';
-          console.error('Failed to parse or validate items metadata:', parseErrorMessage);
-          console.error('Session metadata:', JSON.stringify(session.metadata));
-          
-          // Return 200 to prevent Stripe retries, but log for manual review
-          return new Response(
-            JSON.stringify({ 
-              received: true, 
-              warning: 'Order processing failed - manual review required',
-              session_id: session.id,
-              error: parseErrorMessage
-            }),
-            { 
-              headers: { 'Content-Type': 'application/json' },
-              status: 200 
-            }
-          );
-        }
+    const session = event.data.object as Stripe.Checkout.Session;
+    console.log('Processing completed checkout session:', session.id);
 
-        const shippingCountry = session.metadata?.shipping_country || '';
-        const customerName = session.metadata?.customer_name || session.customer_details?.name || '';
-        const customerEmail = session.customer_details?.email || '';
-        const customerPhone = session.customer_details?.phone || null;
+    if (session.payment_status !== 'paid') {
+      // Solo se aceptan pedidos pagados (con tarjeta el pago es inmediato).
+      console.warn('Session completed but not paid:', session.id, session.payment_status);
+      return json({ received: true, ignored: 'not_paid' });
+    }
 
-        // Calculate totals
-        const subtotal = items.reduce((sum: number, item) => sum + (item.price * item.quantity), 0);
-        
-        // Shipping rates (must match checkout function)
-        const shippingRates: Record<string, number> = {
-          'MX': 15.00,
-          'US': 25.00,
-          'CA': 25.00,
-          'FR': 35.00,
-          'ES': 35.00,
-          'IT': 35.00,
-          'DE': 35.00,
-          'GB': 35.00,
-          'default': 40.00,
+    // Idempotencia: Stripe puede reenviar el mismo evento; si el pedido ya existe, no se duplica.
+    const { data: existing } = await supabase
+      .from('orders')
+      .select('id')
+      .eq('stripe_session_id', session.id)
+      .maybeSingle();
+    if (existing) {
+      console.log('Order already processed for session:', session.id);
+      return json({ received: true, duplicate: true });
+    }
+
+    // Líneas de compra reales (producto, cantidad y precio cobrado), tal como las registró Stripe.
+    const lineItems = await stripe.checkout.sessions.listLineItems(session.id, {
+      limit: 100,
+      expand: ['data.price.product'],
+    });
+
+    const items = lineItems.data
+      .map((line) => {
+        const product = line.price?.product as Stripe.Product | undefined;
+        return {
+          product_id: product?.metadata?.product_id ?? '',
+          name: line.description || product?.name || '',
+          quantity: line.quantity ?? 0,
+          unit_price: (line.price?.unit_amount ?? 0) / 100,
         };
-        
-        const shippingCost = shippingRates[shippingCountry] || shippingRates.default;
-        const totalAmount = subtotal + shippingCost;
+      })
+      .filter((item) => item.product_id && item.quantity > 0);
 
-        // Create order record
-        const { data: order, error: orderError } = await supabase
-          .from('orders')
-          .insert({
-            customer_email: customerEmail,
-            customer_name: customerName,
-            customer_phone: customerPhone,
-            total_amount: totalAmount,
-            shipping_cost: shippingCost,
-            shipping_country: shippingCountry,
-            status: 'paid',
-            stripe_session_id: session.id,
-            stripe_payment_intent_id: session.payment_intent as string,
-          })
-          .select()
-          .single();
-
-        if (orderError) {
-          console.error('Error creating order:', orderError);
-          throw orderError;
-        }
-
-        console.log('Order created:', order.id);
-        console.log('Order access token for confirmation email:', order.access_token);
-
-        // Create order items
-        const orderItems = items.map((item: any) => ({
-          order_id: order.id,
-          product_id: item.product_id,
-          quantity: item.quantity,
-          price_at_purchase: item.price,
-        }));
-
-        const { error: itemsError } = await supabase
-          .from('order_items')
-          .insert(orderItems);
-
-        if (itemsError) {
-          console.error('Error creating order items:', itemsError);
-          throw itemsError;
-        }
-
-        console.log('Order items created:', orderItems.length);
-
-        // Update product stock (decrement)
-        for (const item of items) {
-          const { error: stockError } = await supabase.rpc('decrement_stock', {
-            product_id: item.product_id,
-            quantity: item.quantity,
-          });
-
-          if (stockError) {
-            console.error('Error updating stock for product:', item.product_id, stockError);
-            // Continue even if stock update fails to not block order creation
-          }
-        }
-
-        console.log('Order processing completed successfully');
-
-      } catch (error) {
-        console.error('Error processing order:', error);
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        // Return 500 to indicate processing failure
-        return new Response(
-          JSON.stringify({ error: 'Order processing failed', details: errorMessage }),
-          { 
-            headers: { 'Content-Type': 'application/json' },
-            status: 500 
-          }
-        );
-      }
+    if (items.length === 0) {
+      // Respuesta 200 para que Stripe no reintente indefinidamente; queda registrado para revisión manual.
+      console.error('No valid line items for session (manual review required):', session.id);
+      return json({ received: true, warning: 'manual_review_required', session_id: session.id });
     }
 
-    return new Response(
-      JSON.stringify({ received: true }),
-      { 
-        headers: { 'Content-Type': 'application/json' },
-        status: 200 
+    const details = session.customer_details;
+    // El evento llega con la versión de API configurada en el webhook de Stripe: en las versiones
+    // recientes los datos de envío están en `collected_information.shipping_details`; en las
+    // antiguas, en `shipping_details`. Se aceptan ambas.
+    type ShippingDetails = { name?: string | null; address?: Stripe.Address | null };
+    const rawSession = session as unknown as {
+      shipping_details?: ShippingDetails | null;
+      collected_information?: { shipping_details?: ShippingDetails | null } | null;
+    };
+    const shipping = rawSession.collected_information?.shipping_details ?? rawSession.shipping_details ?? null;
+    const shippingCountry =
+      session.metadata?.shipping_country || shipping?.address?.country || details?.address?.country || '';
+    const customerName = shipping?.name || details?.name || session.metadata?.customer_name || '';
+    const customerEmail = details?.email || session.customer_email || '';
+    const language = session.metadata?.language || 'es';
+    const totalAmount = (session.amount_total ?? 0) / 100;
+    const shippingCost = (session.total_details?.amount_shipping ?? 0) / 100;
+
+    const { data: order, error: orderError } = await supabase
+      .from('orders')
+      .insert({
+        customer_email: customerEmail,
+        customer_name: customerName,
+        customer_phone: details?.phone || null,
+        total_amount: totalAmount,
+        shipping_cost: shippingCost,
+        shipping_country: shippingCountry,
+        shipping_address: shipping
+          ? { name: shipping.name ?? null, ...(shipping.address ?? {}) }
+          : null,
+        language,
+        status: 'paid',
+        stripe_session_id: session.id,
+        stripe_payment_intent_id: typeof session.payment_intent === 'string' ? session.payment_intent : null,
+      })
+      .select()
+      .single();
+
+    if (orderError) {
+      if (orderError.code === '23505') {
+        // Carrera entre dos entregas del mismo evento: el otro proceso ya creó el pedido.
+        return json({ received: true, duplicate: true });
       }
+      console.error('Error creating order:', orderError);
+      throw orderError;
+    }
+
+    const { error: itemsError } = await supabase.from('order_items').insert(
+      items.map((item) => ({
+        order_id: order.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        price_at_purchase: item.unit_price,
+      }))
     );
 
+    if (itemsError) {
+      console.error('Error creating order items:', itemsError);
+      // Se revierte el pedido para que el reintento de Stripe pueda crearlo completo.
+      await supabase.from('orders').delete().eq('id', order.id);
+      throw itemsError;
+    }
+
+    // Descuento de stock (las piezas únicas pasan a "agotado").
+    for (const item of items) {
+      const { error: stockError } = await supabase.rpc('decrement_stock', {
+        p_product_id: item.product_id,
+        p_quantity: item.quantity,
+      });
+      if (stockError) {
+        // No se bloquea el pedido (ya está pagado), pero queda registrado para corregirlo a mano.
+        console.error('Error updating stock for product:', item.product_id, stockError);
+      }
+    }
+
+    console.log('Order created:', order.id);
+
+    // Correos de confirmación (cliente y dueña). Un fallo aquí nunca debe invalidar el pedido.
+    let emails: Awaited<ReturnType<typeof sendOrderEmails>> | { error: string } = { error: 'not_sent' };
+    try {
+      emails = await sendOrderEmails({
+        orderId: order.id,
+        accessToken: order.access_token,
+        siteUrl: session.metadata?.site_url || getSiteUrl(),
+        language,
+        customerName,
+        customerEmail,
+        customerPhone: details?.phone || null,
+        shippingAddress: shipping?.address ?? null,
+        shippingName: shipping?.name ?? null,
+        shippingCountry,
+        items,
+        shippingCost,
+        totalAmount,
+        currency: (session.currency || 'cad').toUpperCase(),
+      });
+    } catch (emailError) {
+      console.error('Order emails failed (order was saved):', emailError);
+      emails = { error: 'exception' };
+    }
+
+    // `emails` permite ver en Stripe (Webhooks > intentos de entrega) si se enviaron los correos.
+    return json({ received: true, order_id: order.id, emails });
   } catch (error) {
     console.error('Webhook handler error:', error);
-    const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-    return new Response(
-      JSON.stringify({ error: errorMessage }),
-      {
-        headers: { 'Content-Type': 'application/json' },
-        status: 500,
-      }
-    );
+    // 500 → Stripe reintentará la entrega del evento.
+    return json({ error: 'Webhook processing failed' }, 500);
   }
 });

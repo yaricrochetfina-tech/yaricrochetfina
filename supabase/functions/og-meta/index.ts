@@ -1,16 +1,18 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { getAllowedOrigins, getSiteUrl } from "../_shared/cors.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Whitelist of allowed domains to prevent open redirect attacks
+// Lista blanca de dominios permitidos para evitar redirecciones abiertas (open redirect).
 const ALLOWED_DOMAINS = [
-  "https://yarifina.lovable.app",
-  "https://dlmdegdpdnxoixfophlx.lovable.app",
-  "https://id-preview--4acc05ee-4ccd-4c88-b688-0103e7626044.lovable.app",
-];
+  getSiteUrl(),
+  ...getAllowedOrigins(),
+].filter((value, index, all) => all.indexOf(value) === index);
+
+const CURRENCY = (Deno.env.get("STORE_CURRENCY") || "cad").toUpperCase();
 
 Deno.serve(async (req) => {
   // Handle CORS preflight requests
@@ -24,8 +26,8 @@ Deno.serve(async (req) => {
     const requestedSite = url.searchParams.get("site");
     
     // Validate site URL against whitelist to prevent open redirect attacks
-    const siteUrl = requestedSite && ALLOWED_DOMAINS.includes(requestedSite) 
-      ? requestedSite 
+    const siteUrl = requestedSite && ALLOWED_DOMAINS.includes(requestedSite)
+      ? requestedSite
       : ALLOWED_DOMAINS[0];
 
     if (!productId) {
@@ -79,7 +81,7 @@ Deno.serve(async (req) => {
 
     // Prepare meta content
     const title = `${product.name} - YariCrochetFina`;
-    const description = product.description?.substring(0, 160) || `Pieza única de crochet: ${product.name}. €${product.price}`;
+    const description = product.description?.substring(0, 160) || `Pieza única de crochet: ${product.name}. $${product.price} ${CURRENCY}`;
     const productUrl = `${siteUrl}/?product=${product.id}`;
 
     // Return meta tags as JSON for the frontend to use
@@ -107,7 +109,7 @@ Deno.serve(async (req) => {
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="YariCrochetFina">
   <meta property="product:price:amount" content="${product.price}">
-  <meta property="product:price:currency" content="EUR">
+  <meta property="product:price:currency" content="${CURRENCY}">
   
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
@@ -121,7 +123,7 @@ Deno.serve(async (req) => {
   <link rel="canonical" href="${escapeHtml(productUrl)}">
 </head>
 <body>
-  <p>Redirecting to <a href="${escapeHtml(productUrl)}">${escapeHtml(product.name)}</a>...</p>
+  <p>Redirigiendo a <a href="${escapeHtml(productUrl)}">${escapeHtml(product.name)}</a>...</p>
 </body>
 </html>`;
 
@@ -142,7 +144,7 @@ Deno.serve(async (req) => {
         image: absoluteImageUrl,
         url: productUrl,
         price: product.price,
-        currency: "EUR",
+        currency: CURRENCY,
       }),
       {
         headers: {

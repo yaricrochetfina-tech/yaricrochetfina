@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* YariCrochetFina Design System - Warm, Artisanal, Premium */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+/* Las fuentes (Playfair Display e Inter) se cargan desde index.html. */
 
 @layer base {
   :root {
@@ -119,6 +119,12 @@
 @layer base {
   * {
     @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* La cabecera es fija: deja espacio al saltar a una sección */
+    scroll-padding-top: 6rem;
   }
 
   body {

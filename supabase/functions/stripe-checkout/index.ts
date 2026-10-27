@@ -2,328 +2,220 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import Stripe from 'https://esm.sh/stripe@14.21.0';
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { z } from 'https://esm.sh/zod@3.22.4';
+import { getCorsHeaders, jsonResponse } from '../_shared/cors.ts';
+import { checkRateLimit, getClientIp } from '../_shared/rateLimit.ts';
+import {
+  DELIVERY_MAX_DAYS,
+  DELIVERY_MIN_DAYS,
+  SHIPPING_COUNTRY_CODES,
+  getShippingRate,
+} from '../_shared/shipping.ts';
 
-// Allowed origins for CORS - restrict to specific domains
-const allowedOrigins = [
-  'https://dlmdegdpdnxoixfophlx.lovable.app',
-  'https://yari-crochet-fina.lovable.app',
-  'https://yarifina.lovable.app',
-  // Add any custom domains here
-];
+// Códigos de error que entiende el frontend (src/lib/checkout.ts) y traduce al idioma del usuario.
+type ErrorCode =
+  | 'generic'
+  | 'emptyCart'
+  | 'invalidCart'
+  | 'outOfStock'
+  | 'invalidCountry'
+  | 'rateLimited'
+  | 'invalidOrigin'
+  | 'config';
 
-const getCorsHeaders = (origin: string | null): Record<string, string> | null => {
-  // Reject requests with missing or invalid Origin header
-  if (!origin || !allowedOrigins.includes(origin)) {
-    return null;
+class CheckoutError extends Error {
+  constructor(public code: ErrorCode, public status = 400) {
+    super(code);
   }
-  return {
-    'Access-Control-Allow-Origin': origin,
-    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  };
-};
-
-// Rate limiting configuration
-const RATE_LIMIT_ACTION = 'stripe_checkout';
-const RATE_LIMIT_MAX_REQUESTS = 10; // 10 checkout sessions per minute per IP
-const RATE_LIMIT_WINDOW_SECONDS = 60; // 1 minute window
-
-// Rate limit response type
-interface RateLimitResult {
-  allowed: boolean;
-  remaining: number;
-  reset_at: number;
 }
 
-// Check rate limit using database (distributed)
-const checkRateLimit = async (
-  supabaseUrl: string,
-  supabaseKey: string,
-  clientIp: string
-): Promise<{ allowed: boolean; remaining: number; resetAt: number }> => {
-  try {
-    const supabase = createClient(supabaseUrl, supabaseKey);
-    const { data, error } = await supabase.rpc('check_rate_limit', {
-      p_identifier: clientIp,
-      p_action_type: RATE_LIMIT_ACTION,
-      p_max_requests: RATE_LIMIT_MAX_REQUESTS,
-      p_window_seconds: RATE_LIMIT_WINDOW_SECONDS,
-    });
+const RATE_LIMIT_ACTION = 'stripe_checkout';
+const RATE_LIMIT_MAX_REQUESTS = 10; // sesiones de pago por minuto y por IP
+const RATE_LIMIT_WINDOW_SECONDS = 60;
 
-    if (error) {
-      console.error('Rate limit check error:', error);
-      // Fail open on database errors to avoid blocking legitimate users
-      return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS, resetAt: 0 };
-    }
+const LANGUAGES = ['es', 'fr', 'en'] as const;
 
-    const result = data as RateLimitResult;
-    return {
-      allowed: result.allowed,
-      remaining: result.remaining,
-      resetAt: result.reset_at,
-    };
-  } catch (err) {
-    console.error('Rate limit check exception:', err);
-    return { allowed: true, remaining: RATE_LIMIT_MAX_REQUESTS, resetAt: 0 };
-  }
-};
-
-// Input validation schema
-const cartItemSchema = z.object({
-  product: z.object({
-    id: z.string().uuid('Invalid product ID'),
-    name: z.string().max(200, 'Product name too long'),
-    price: z.number().positive('Price must be positive'),
-    image: z.string().max(2000).optional().default(''),
-  }),
-  quantity: z.number().int('Quantity must be an integer').positive('Quantity must be positive').max(100, 'Maximum quantity is 100'),
+const requestSchema = z.object({
+  items: z
+    .array(
+      z.object({
+        id: z.string().uuid(),
+        quantity: z.number().int().positive().max(100),
+        image: z.string().max(2000).optional().default(''),
+      })
+    )
+    .min(1)
+    .max(50),
+  shippingCountry: z.enum(SHIPPING_COUNTRY_CODES),
+  customerEmail: z.string().trim().email().max(255).optional(),
+  customerName: z.string().trim().max(200).optional(),
+  language: z.enum(LANGUAGES).optional().default('es'),
 });
 
-const ALLOWED_COUNTRIES = ['MX', 'US', 'CA', 'FR', 'ES', 'IT', 'DE', 'GB'] as const;
-
-const checkoutRequestSchema = z.object({
-  items: z.array(cartItemSchema).min(1, 'Cart cannot be empty').max(50, 'Too many items in cart'),
-  shippingCountry: z.enum(ALLOWED_COUNTRIES, { 
-    errorMap: () => ({ message: 'Invalid shipping country' })
-  }),
-  customerEmail: z.string().email('Invalid email format').max(255, 'Email too long').optional(),
-  customerName: z.string().max(200, 'Name too long').optional(),
-});
-
-// Escape HTML to prevent XSS in error messages
-const escapeHtml = (str: string): string => {
-  return str
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+const SHIPPING_LABELS: Record<(typeof LANGUAGES)[number], string> = {
+  es: 'Envío con seguimiento desde Montreal',
+  fr: 'Livraison avec suivi depuis Montréal',
+  en: 'Tracked shipping from Montreal',
 };
 
-// Map internal errors to safe user-facing messages
-const getSafeErrorMessage = (error: unknown): string => {
-  console.error('Checkout error:', error);
-  
+const mapError = (error: unknown): { code: ErrorCode; status: number } => {
+  if (error instanceof CheckoutError) return { code: error.code, status: error.status };
   if (error instanceof z.ZodError) {
-    // Return first validation error (already safe since it's from our schema)
-    return error.errors[0]?.message || 'Invalid request data';
+    const path = error.errors[0]?.path?.[0];
+    if (path === 'shippingCountry') return { code: 'invalidCountry', status: 400 };
+    if (path === 'items') return { code: error.errors[0]?.code === 'too_small' ? 'emptyCart' : 'invalidCart', status: 400 };
+    return { code: 'invalidCart', status: 400 };
   }
-  
-  if (error instanceof Error) {
-    // Map specific errors to generic messages
-    if (error.message.includes('not found')) {
-      return 'One or more products are unavailable';
-    }
-    if (error.message.includes('out of stock')) {
-      return 'Some items are no longer in stock';
-    }
-    if (error.message.includes('STRIPE_SECRET_KEY')) {
-      return 'Payment system configuration error';
-    }
-  }
-  
-  return 'Unable to process your request. Please try again.';
+  return { code: 'generic', status: 500 };
 };
 
 serve(async (req) => {
   const origin = req.headers.get('origin');
   const corsHeaders = getCorsHeaders(origin);
 
-  // Reject requests with invalid or missing origin
   if (!corsHeaders) {
-    return new Response(
-      JSON.stringify({ error: 'Invalid origin' }),
-      { status: 403, headers: { 'Content-Type': 'application/json' } }
-    );
+    return jsonResponse({ error: 'Invalid origin', code: 'invalidOrigin' satisfies ErrorCode }, 403, null);
   }
 
-  // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
 
-  // Get Supabase credentials for rate limiting and product validation
+  if (req.method !== 'POST') {
+    return jsonResponse({ error: 'Method not allowed', code: 'generic' satisfies ErrorCode }, 405, corsHeaders);
+  }
+
   const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
   const supabaseKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
-  // Rate limiting - get client IP
-  const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 
-                   req.headers.get('x-real-ip') || 
-                   'unknown';
-  
-  const rateLimit = await checkRateLimit(supabaseUrl, supabaseKey, clientIp);
+  const clientIp = getClientIp(req);
+  const rateLimit = await checkRateLimit(
+    supabaseUrl,
+    supabaseKey,
+    clientIp,
+    RATE_LIMIT_ACTION,
+    RATE_LIMIT_MAX_REQUESTS,
+    RATE_LIMIT_WINDOW_SECONDS
+  );
   if (!rateLimit.allowed) {
     console.warn('Rate limit exceeded for IP:', clientIp);
-    const retryAfter = rateLimit.resetAt 
+    const retryAfter = rateLimit.resetAt
       ? Math.max(1, Math.ceil(rateLimit.resetAt - Date.now() / 1000))
       : 60;
-    return new Response(
-      JSON.stringify({ error: 'Too many requests. Please try again in a minute.' }),
-      {
-        headers: { 
-          ...corsHeaders, 
-          'Content-Type': 'application/json',
-          'Retry-After': String(retryAfter),
-        },
-        status: 429,
-      }
+    return jsonResponse(
+      { error: 'Too many requests', code: 'rateLimited' satisfies ErrorCode },
+      429,
+      corsHeaders,
+      { 'Retry-After': String(retryAfter) }
     );
   }
 
   try {
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeKey) {
-      throw new Error('STRIPE_SECRET_KEY not configured');
+      console.error('STRIPE_SECRET_KEY is not configured');
+      throw new CheckoutError('config', 500);
     }
 
     const stripe = new Stripe(stripeKey, {
       apiVersion: '2023-10-16',
+      httpClient: Stripe.createFetchHttpClient(),
     });
 
-    // Parse and validate input
-    const rawBody = await req.json();
-    const validatedInput = checkoutRequestSchema.parse(rawBody);
-    const { items, shippingCountry, customerEmail, customerName } = validatedInput;
+    const { items, shippingCountry, customerEmail, customerName, language } = requestSchema.parse(
+      await req.json()
+    );
 
-    console.log('Creating checkout session for:', { itemsCount: items.length, shippingCountry });
+    // Se agrupan las líneas repetidas del mismo producto.
+    const quantities = new Map<string, { quantity: number; image: string }>();
+    for (const item of items) {
+      const current = quantities.get(item.id);
+      quantities.set(item.id, {
+        quantity: (current?.quantity ?? 0) + item.quantity,
+        image: current?.image || item.image,
+      });
+    }
 
-    // Create Supabase client for product validation
+    // Precio, nombre y stock se leen SIEMPRE de la base de datos: nunca se confía en el cliente.
     const supabase = createClient(supabaseUrl, supabaseKey);
-
-    // Fetch real product data from database to validate prices and stock
-    const productIds = items.map(item => item.product.id);
     const { data: dbProducts, error: dbError } = await supabase
       .from('products')
-      .select('id, name, price, in_stock')
-      .in('id', productIds);
+      .select('id, name, price, in_stock, stock_quantity')
+      .in('id', Array.from(quantities.keys()));
 
     if (dbError || !dbProducts) {
       console.error('Failed to validate products:', dbError);
-      return new Response(
-        JSON.stringify({ error: 'Unable to validate products. Please try again.' }),
-        {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 400,
-        }
-      );
+      throw new CheckoutError('generic', 500);
     }
 
-    // Validate each item against database
-    const validatedItems = items.map(item => {
-      const dbProduct = dbProducts.find(p => p.id === item.product.id);
-      
-      if (!dbProduct) {
-        throw new Error(`Product ${item.product.id} not found`);
+    const validatedItems = Array.from(quantities.entries()).map(([id, { quantity, image }]) => {
+      const product = dbProducts.find((p) => p.id === id);
+      if (!product) throw new CheckoutError('invalidCart');
+      const stock = product.stock_quantity ?? 1;
+      if (!product.in_stock || stock <= 0 || quantity > stock) {
+        throw new CheckoutError('outOfStock', 409);
       }
-      
-      if (!dbProduct.in_stock) {
-        throw new Error(`Product "${escapeHtml(dbProduct.name)}" is out of stock`);
-      }
-      
-      // Use database price and name, not client-provided values
-      return {
-        product: {
-          id: dbProduct.id,
-          name: dbProduct.name,
-          price: Number(dbProduct.price),
-          image: item.product.image || '',
-        },
-        quantity: item.quantity,
-      };
+      return { id: product.id, name: product.name, price: Number(product.price), quantity, image };
     });
 
-    console.log('Products validated successfully');
+    const currency = (Deno.env.get('STORE_CURRENCY') || 'cad').toLowerCase();
+    const shippingRate = getShippingRate(shippingCountry);
+    if (shippingRate === null) throw new CheckoutError('invalidCountry');
 
-    // Shipping rates by country (in USD)
-    const shippingRates: Record<string, number> = {
-      'MX': 15.00,
-      'US': 25.00,
-      'CA': 25.00,
-      'FR': 35.00,
-      'ES': 35.00,
-      'IT': 35.00,
-      'DE': 35.00,
-      'GB': 35.00,
-    };
-
-    const shippingCost = shippingRates[shippingCountry];
-
-    // Helper to validate image URLs for Stripe (must be absolute https URLs)
-    const isValidImageUrl = (url: string): boolean => {
-      return url.startsWith('https://') && url.length < 2000;
-    };
-
-    // Create line items for Stripe using validated data
-    const lineItems = validatedItems.map(item => {
-      const images = isValidImageUrl(item.product.image) ? [item.product.image] : [];
-      return {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: item.product.name,
-            images,
-          },
-          unit_amount: Math.round(item.product.price * 100), // Convert to cents
-        },
-        quantity: item.quantity,
-      };
-    });
-
-    // Add shipping as a line item
-    lineItems.push({
+    const lineItems = validatedItems.map((item) => ({
       price_data: {
-        currency: 'usd',
+        currency,
         product_data: {
-          name: `Envío a ${shippingCountry}`,
-          images: [],
+          name: item.name,
+          // Stripe solo admite imágenes con URL https absoluta.
+          images: item.image.startsWith('https://') ? [item.image] : [],
+          metadata: { product_id: item.id },
         },
-        unit_amount: Math.round(shippingCost * 100),
+        unit_amount: Math.round(item.price * 100),
       },
-      quantity: 1,
-    });
+      quantity: item.quantity,
+    }));
 
-    // Use validated origin for redirect URLs
-    const validatedOrigin = origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+    // Las URL de retorno solo usan orígenes autorizados (ya validado por CORS).
+    const successOrigin = origin!;
 
-    // Create Stripe Checkout session
     const session = await stripe.checkout.sessions.create({
+      mode: 'payment',
       payment_method_types: ['card'],
       line_items: lineItems,
-      mode: 'payment',
-      success_url: `${validatedOrigin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${validatedOrigin}/payment/cancel`,
+      locale: language,
       customer_email: customerEmail,
+      phone_number_collection: { enabled: true },
+      // Solo se permite el país elegido en el carrito: es el país por el que se calculó el envío.
+      shipping_address_collection: { allowed_countries: [shippingCountry] },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: Math.round(shippingRate * 100), currency },
+            display_name: SHIPPING_LABELS[language],
+            delivery_estimate: {
+              minimum: { unit: 'business_day', value: DELIVERY_MIN_DAYS },
+              maximum: { unit: 'business_day', value: DELIVERY_MAX_DAYS },
+            },
+          },
+        },
+      ],
+      success_url: `${successOrigin}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${successOrigin}/payment/cancel`,
       metadata: {
         customer_name: customerName || '',
         shipping_country: shippingCountry,
-        items: JSON.stringify(validatedItems.map(item => ({
-          product_id: item.product.id,
-          product_name: item.product.name,
-          quantity: item.quantity,
-          price: item.product.price,
-        }))),
-      },
-      shipping_address_collection: {
-        allowed_countries: [...ALLOWED_COUNTRIES],
+        language,
+        site_url: successOrigin,
       },
     });
 
-    console.log('Checkout session created:', session.id);
+    console.log('Checkout session created:', session.id, { items: validatedItems.length, shippingCountry });
 
-    return new Response(
-      JSON.stringify({ url: session.url }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200,
-      }
-    );
+    return jsonResponse({ url: session.url }, 200, corsHeaders);
   } catch (error) {
-    const safeMessage = getSafeErrorMessage(error);
-    return new Response(
-      JSON.stringify({ error: safeMessage }),
-      {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: error instanceof z.ZodError ? 400 : 500,
-      }
-    );
+    console.error('Checkout error:', error);
+    const { code, status } = mapError(error);
+    return jsonResponse({ error: code, code }, status, corsHeaders);
   }
 });
