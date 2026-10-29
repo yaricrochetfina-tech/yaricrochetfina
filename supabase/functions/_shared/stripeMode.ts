@@ -6,6 +6,19 @@
 export const isStripeTestSecret = (secretKey: string | undefined | null): boolean =>
   Boolean(secretKey?.startsWith('sk_test_'));
 
+/** Clasifica el secreto sin revelarlo (para diagnósticos seguros). */
+export const classifyStripeSecret = (
+  secretKey: string | undefined | null
+): 'missing' | 'live' | 'test' | 'key_id' | 'publishable' | 'other' => {
+  if (!secretKey) return 'missing';
+  if (secretKey.startsWith('sk_live_')) return 'live';
+  if (secretKey.startsWith('sk_test_')) return 'test';
+  // Panel nuevo de Stripe: a veces se copia el ID (mk_...) en lugar del valor secreto.
+  if (secretKey.startsWith('mk_')) return 'key_id';
+  if (secretKey.startsWith('pk_')) return 'publishable';
+  return 'other';
+};
+
 export const isProductionSiteOrigin = (origin: string | null | undefined): boolean => {
   if (!origin) return false;
   try {

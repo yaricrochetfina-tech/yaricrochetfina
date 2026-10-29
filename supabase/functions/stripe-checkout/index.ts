@@ -4,7 +4,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { z } from 'https://esm.sh/zod@3.22.4';
 import { getCorsHeaders, jsonResponse } from '../_shared/cors.ts';
 import { checkRateLimit, getClientIp } from '../_shared/rateLimit.ts';
-import { assertLiveStripeForProduction } from '../_shared/stripeMode.ts';
+import { assertLiveStripeForProduction, classifyStripeSecret } from '../_shared/stripeMode.ts';
 import {
   DELIVERY_MAX_DAYS,
   DELIVERY_MIN_DAYS,
@@ -138,8 +138,13 @@ serve(async (req) => {
 
   try {
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
+    const keyKind = classifyStripeSecret(stripeKey);
     if (!stripeKey) {
       console.error('STRIPE_SECRET_KEY is not configured');
+      throw new CheckoutError('config', 500);
+    }
+    if (keyKind === 'key_id' || keyKind === 'publishable' || keyKind === 'other') {
+      console.error(`STRIPE_SECRET_KEY has unexpected kind: ${keyKind} (need sk_live_...)`);
       throw new CheckoutError('config', 500);
     }
 
@@ -252,7 +257,12 @@ serve(async (req) => {
     const { code, status } = mapError(error);
     const detail = errorDetail(error);
     if (detail) console.error('Checkout error detail:', detail);
-    // No se expone `detail` al cliente: puede incluir restos de claves o mensajes internos de Stripe.
-    return jsonResponse({ error: code, code }, status, corsHeaders);
+    const keyKind = classifyStripeSecret(Deno.env.get('STRIPE_SECRET_KEY'));
+    // `keyKind` no revela el secreto; solo indica si el valor guardado tiene el formato correcto.
+    return jsonResponse(
+      { error: code, code, ...(code === 'config' ? { keyKind } : {}) },
+      status,
+      corsHeaders
+    );
   }
 });
