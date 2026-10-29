@@ -113,10 +113,14 @@ export type Database = {
           shipping_address: Json | null
           shipping_cost: number
           shipping_country: string
+          shipped_at: string | null
           status: string
           stripe_payment_intent_id: string | null
           stripe_session_id: string | null
           total_amount: number
+          tracking_carrier: string | null
+          tracking_number: string | null
+          tracking_url: string | null
           updated_at: string
         }
         Insert: {
@@ -130,10 +134,14 @@ export type Database = {
           shipping_address?: Json | null
           shipping_cost?: number
           shipping_country: string
+          shipped_at?: string | null
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           total_amount: number
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Update: {
@@ -147,10 +155,14 @@ export type Database = {
           shipping_address?: Json | null
           shipping_cost?: number
           shipping_country?: string
+          shipped_at?: string | null
           status?: string
           stripe_payment_intent_id?: string | null
           stripe_session_id?: string | null
           total_amount?: number
+          tracking_carrier?: string | null
+          tracking_number?: string | null
+          tracking_url?: string | null
           updated_at?: string
         }
         Relationships: []

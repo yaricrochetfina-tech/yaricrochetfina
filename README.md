@@ -46,8 +46,9 @@ supabase secrets set \
   STRIPE_SECRET_KEY=sk_live_... \
   STRIPE_WEBHOOK_SECRET=whsec_... \
   RESEND_API_KEY=re_... \
-  RESEND_FROM_EMAIL="YariCrochetFina <pedidos@tu-dominio.com>" \
+  RESEND_FROM_EMAIL="Yari Crochet <pedidos@tu-dominio.com>" \
   OWNER_EMAIL=yaricrochetfina@gmail.com \
+  ORDER_ADMIN_SECRET=un-secreto-largo \
   SITE_URL=https://www.yaricrochet.com \
   ALLOWED_ORIGINS=https://www.yaricrochet.com \
   STORE_CURRENCY=cad
@@ -74,13 +75,26 @@ crea un webhook **nuevo** en el Dashboard de Stripe (modo Live) apuntando a
 1. **Migraciones:** `supabase db push` (incluye `20260124000000_fix_orders_for_stripe_checkout.sql`, que corrige el estado de los pedidos, añade `shipping_address`/`language` y recrea `decrement_stock`).
 2. **Funciones:**
    ```sh
-   supabase functions deploy stripe-checkout stripe-webhook get-order send-contact-email og-meta
-   ```
+  supabase functions deploy stripe-checkout stripe-webhook get-order send-contact-email og-meta mark-order-shipped
+  ```
 3. **Webhook de Stripe:** crea un endpoint apuntando a
    `https://<proyecto>.supabase.co/functions/v1/stripe-webhook` con el evento `checkout.session.completed`
    y copia su *signing secret* en `STRIPE_WEBHOOK_SECRET`.
 4. **Hosting del frontend:** cualquier hosting estático con *fallback* a `index.html` (SPA).
 5. Prueba una compra con las tarjetas de test de Stripe antes de usar claves reales.
+
+## Marcar un pedido como enviado
+
+Cuando despaches un paquete, marca el pedido y el cliente recibe el correo **Pedido enviado**
+(con transportista y tracking):
+
+```sh
+node scripts/mark-order-shipped.mjs <orderId> "Canada Post" "TRACKING123" "https://enlace-de-rastreo"
+```
+
+Requiere el secreto `ORDER_ADMIN_SECRET` (o `SUPABASE_SERVICE_ROLE_KEY`) en `.env.local`.
+También puedes llamar a la Edge Function `mark-order-shipped` con la cabecera
+`x-order-admin-secret`.
 
 ## Flujo de compra
 
