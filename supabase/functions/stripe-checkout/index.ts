@@ -66,7 +66,33 @@ const mapError = (error: unknown): { code: ErrorCode; status: number } => {
     if (path === 'items') return { code: error.errors[0]?.code === 'too_small' ? 'emptyCart' : 'invalidCart', status: 400 };
     return { code: 'invalidCart', status: 400 };
   }
+  // Errores de autenticación/clave de Stripe → mensaje de configuración en el cliente.
+  const stripeType = error && typeof error === 'object' && 'type' in error
+    ? String((error as { type?: string }).type)
+    : '';
+  const message = error instanceof Error ? error.message.toLowerCase() : '';
+  if (
+    stripeType === 'StripeAuthenticationError' ||
+    stripeType === 'authentication_error' ||
+    message.includes('invalid api key') ||
+    message.includes('sk_test_') ||
+    message.includes('test mode')
+  ) {
+    return { code: 'config', status: 500 };
+  }
   return { code: 'generic', status: 500 };
+};
+
+const errorDetail = (error: unknown): string | undefined => {
+  if (error instanceof CheckoutError) return undefined;
+  if (error instanceof z.ZodError) return error.errors[0]?.message?.slice(0, 160);
+  if (error && typeof error === 'object') {
+    const e = error as { type?: string; code?: string; message?: string; raw?: { message?: string } };
+    const parts = [e.type, e.code, e.message || e.raw?.message].filter(Boolean);
+    if (parts.length) return parts.join(': ').slice(0, 240);
+  }
+  if (error instanceof Error) return error.message.slice(0, 240);
+  return undefined;
 };
 
 serve(async (req) => {
@@ -224,6 +250,9 @@ serve(async (req) => {
   } catch (error) {
     console.error('Checkout error:', error);
     const { code, status } = mapError(error);
+    const detail = errorDetail(error);
+    if (detail) console.error('Checkout error detail:', detail);
+    // No se expone `detail` al cliente: puede incluir restos de claves o mensajes internos de Stripe.
     return jsonResponse({ error: code, code }, status, corsHeaders);
   }
 });
