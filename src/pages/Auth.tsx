@@ -91,6 +91,25 @@ export default function Auth() {
           },
         });
 
+        const switchToLogin = () => {
+          setIsLogin(true);
+          setPassword('');
+          setName('');
+        };
+
+        // Correo ya registrado: error explícito, o respuesta "fantasma" sin identities (anti-enumeración de Supabase).
+        const alreadyRegistered =
+          (!!error && error.message.toLowerCase().includes('already registered')) ||
+          (!error && !!data.user && (data.user.identities?.length ?? 0) === 0);
+
+        if (alreadyRegistered) {
+          toast.error(t('auth.alreadyRegisteredTitle'), {
+            description: t('auth.alreadyRegistered'),
+          });
+          switchToLogin();
+          return;
+        }
+
         if (error) {
           toast.error(t('auth.signupError'), { description: mapAuthError(error.message) });
           return;
@@ -102,8 +121,7 @@ export default function Auth() {
         } else {
           // Con la confirmación por correo activada no hay sesión hasta que se confirma la cuenta.
           toast.success(t('auth.confirmEmailTitle'), { description: t('auth.confirmEmailDescription') });
-          setIsLogin(true);
-          setPassword('');
+          switchToLogin();
         }
       }
     } catch (error) {

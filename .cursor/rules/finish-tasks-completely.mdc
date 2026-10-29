@@ -1,0 +1,25 @@
+---
+description: Cerrar cada tarea completa (código, commit, push a producción) sin dejar pasos pendientes
+alwaysApply: true
+---
+
+# Cerrar tareas por completo
+
+El usuario olvida pedir commit/push con frecuencia. **No dejes trabajo a medias** ni preguntes “¿hago commit?” si el cambio es el resultado natural de la tarea.
+
+## Al terminar un cambio de código
+
+1. Implementa y verifica (tests/typecheck cuando aplique).
+2. Haz **commit** del cambio relevante (sin archivos ajenos ni secretos).
+3. Haz **push** a las ramas de producción del repo: `main` y `auditoria-produccion` (yaricrochet.com).
+4. Confirma en la respuesta final el commit y que ya está empujado.
+
+## Excepciones
+
+- No hagas commit/push si el usuario pide explícitamente **no** publicar, o si el cambio es solo exploración/borrador local.
+- No metas en el mismo commit archivos no relacionados (assets, migraciones a medias, etc.).
+- Si el push a producción está bloqueado por aprobación, solicita la aprobación y no dejes el commit solo en local sin intentarlo.
+
+## Respuesta final
+
+Di qué quedó hecho y desplegado; no ofrezcas como siguiente paso algo que debías haber cerrado ya.
