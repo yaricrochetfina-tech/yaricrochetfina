@@ -38,6 +38,9 @@ Scripts útiles:
 
 ### Secretos de las Edge Functions
 
+El frontend **no** necesita `VITE_STRIPE_PUBLISHABLE_KEY`: Stripe Checkout se crea
+en el servidor (`stripe-checkout`) con `STRIPE_SECRET_KEY`.
+
 ```sh
 supabase secrets set \
   STRIPE_SECRET_KEY=sk_live_... \
@@ -50,8 +53,21 @@ supabase secrets set \
   STORE_CURRENCY=cad
 ```
 
+| Variable | Dónde | Producción |
+| -------- | ----- | ---------- |
+| `STRIPE_SECRET_KEY` | Secretos de Supabase (Edge Functions) | Obligatorio `sk_live_...` |
+| `STRIPE_WEBHOOK_SECRET` | Secretos de Supabase | `whsec_...` del webhook **Live** |
+| `STORE_CURRENCY` | Secretos de Supabase | `cad` |
+| `SITE_URL` / `ALLOWED_ORIGINS` | Secretos de Supabase | `https://www.yaricrochet.com` |
+
 `STORE_CURRENCY` (funciones) y `VITE_STORE_CURRENCY` (frontend) deben coincidir.
 El dominio de `RESEND_FROM_EMAIL` debe estar verificado en Resend.
+
+Si `STRIPE_SECRET_KEY` sigue siendo `sk_test_...`, Checkout abre el modo de prueba
+(`cs_test_...`) y las tarjetas reales fallan en yaricrochet.com. Tras cambiar a live,
+crea un webhook **nuevo** en el Dashboard de Stripe (modo Live) apuntando a
+`https://<proyecto>.supabase.co/functions/v1/stripe-webhook` (evento
+`checkout.session.completed`) y actualiza `STRIPE_WEBHOOK_SECRET` con su signing secret.
 
 ## Puesta en producción
 

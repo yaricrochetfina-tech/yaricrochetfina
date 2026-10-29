@@ -4,6 +4,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.38.4';
 import { z } from 'https://esm.sh/zod@3.22.4';
 import { getCorsHeaders, jsonResponse } from '../_shared/cors.ts';
 import { checkRateLimit, getClientIp } from '../_shared/rateLimit.ts';
+import { assertLiveStripeForProduction } from '../_shared/stripeMode.ts';
 import {
   DELIVERY_MAX_DAYS,
   DELIVERY_MIN_DAYS,
@@ -113,6 +114,13 @@ serve(async (req) => {
     const stripeKey = Deno.env.get('STRIPE_SECRET_KEY');
     if (!stripeKey) {
       console.error('STRIPE_SECRET_KEY is not configured');
+      throw new CheckoutError('config', 500);
+    }
+
+    try {
+      assertLiveStripeForProduction(stripeKey, origin);
+    } catch (modeError) {
+      console.error(modeError instanceof Error ? modeError.message : modeError);
       throw new CheckoutError('config', 500);
     }
 
