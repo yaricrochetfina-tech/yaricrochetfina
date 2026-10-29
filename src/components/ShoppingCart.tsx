@@ -46,11 +46,13 @@ const CartItemRow = ({ item }: { item: CartItem }) => {
   return (
     <div className="card-warm !p-4 hover:!translate-y-0">
       <div className="flex gap-4">
-        <img
-          src={resolveProductImage(item.product.image)}
-          alt={translated.name}
-          className="w-16 h-16 rounded-lg object-cover flex-shrink-0 bg-muted"
-        />
+        <div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted">
+          <img
+            src={resolveProductImage(item.product.image)}
+            alt={translated.name}
+            className="h-full w-full object-contain object-center"
+          />
+        </div>
 
         <div className="flex-1 min-w-0 space-y-2">
           <div className="flex items-start justify-between gap-2">
