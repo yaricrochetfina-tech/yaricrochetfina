@@ -12,7 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Loader2, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '@/hooks/useCart';
 
 const emailSchema = z.string().trim().email().max(255);
 
@@ -30,6 +31,8 @@ export const GuestCheckoutDialog = ({
   isProcessing,
 }: GuestCheckoutDialogProps) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const closeCart = useCart((state) => state.closeCart);
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
 
@@ -44,6 +47,13 @@ export const GuestCheckoutDialog = ({
     }
 
     onSubmit(result.data);
+  };
+
+  /** Cierra overlays y navega a login; navigate evita que Radix Dialog/Sheet cancelen el Link. */
+  const handleLoginClick = () => {
+    onOpenChange(false);
+    closeCart();
+    navigate('/auth?redirect=cart');
   };
 
   return (
@@ -94,13 +104,14 @@ export const GuestCheckoutDialog = ({
 
           <div className="text-center text-sm text-muted-foreground">
             <span>{t('cart.guestCheckout.orLogin')} </span>
-            <Link
-              to="/auth"
+            <button
+              type="button"
               className="text-primary hover:underline font-medium"
-              onClick={() => onOpenChange(false)}
+              onClick={handleLoginClick}
+              disabled={isProcessing}
             >
               {t('cart.guestCheckout.loginLink')}
-            </Link>
+            </button>
           </div>
         </form>
       </DialogContent>

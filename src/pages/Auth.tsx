@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { toast } from 'sonner';
@@ -8,21 +8,38 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/hooks/useCart';
 
 export default function Auth() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { user, loading: authLoading } = useAuth();
+  const openCart = useCart((state) => state.openCart);
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
   const [loading, setLoading] = useState(false);
 
+  const redirectToCart = searchParams.get('redirect') === 'cart';
+
+  /** Tras autenticarse, vuelve a la tienda y reabre el carrito si venía del checkout. */
+  const finishAuth = () => {
+    navigate('/');
+    if (redirectToCart) {
+      // ShoppingCart está montado a nivel de App; openCart restaura el drawer con los ítems persistidos.
+      openCart();
+    }
+  };
+
   // Si ya hay sesión iniciada no tiene sentido mostrar el formulario.
   useEffect(() => {
-    if (!authLoading && user) navigate('/', { replace: true });
-  }, [authLoading, user, navigate]);
+    if (!authLoading && user) {
+      if (redirectToCart) openCart();
+      navigate('/', { replace: true });
+    }
+  }, [authLoading, user, navigate, openCart, redirectToCart]);
 
   const mapAuthError = (message: string): string => {
     const lower = message.toLowerCase();
@@ -63,7 +80,7 @@ export default function Auth() {
         }
 
         toast.success(t('auth.welcome'), { description: t('auth.welcomeDescription') });
-        navigate('/');
+        finishAuth();
       } else {
         const { data, error } = await supabase.auth.signUp({
           email: validated.email,
@@ -81,7 +98,7 @@ export default function Auth() {
 
         if (data.session) {
           toast.success(t('auth.accountCreated'), { description: t('auth.accountCreatedDescription') });
-          navigate('/');
+          finishAuth();
         } else {
           // Con la confirmación por correo activada no hay sesión hasta que se confirma la cuenta.
           toast.success(t('auth.confirmEmailTitle'), { description: t('auth.confirmEmailDescription') });
