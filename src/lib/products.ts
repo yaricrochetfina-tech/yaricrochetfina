@@ -1,6 +1,7 @@
 import { supabase } from '@/integrations/supabase/client';
 import type { Database } from '@/integrations/supabase/types';
 import type { Product, ProductCategory, ProductStyle } from '@/types';
+import { getProductShortUrl } from '@/lib/youtube';
 
 type ProductRow = Database['public']['Tables']['products']['Row'];
 
@@ -37,3 +38,15 @@ export const fetchProducts = async (): Promise<Product[]> => {
   if (error) throw error;
   return (data ?? []).map(mapDbProduct);
 };
+
+type ShortSortable = Pick<Product, 'name' | 'youtubeShortUrl' | 'videoUrl'>;
+
+/** El producto tiene un Short de YouTube usable. */
+export const productHasShort = (product: ShortSortable): boolean => Boolean(getProductShortUrl(product));
+
+/**
+ * Dentro de una categoría, las piezas con video promocional van primero.
+ * El orden relativo del resto se conserva.
+ */
+export const sortProductsWithShortsFirst = <T extends ShortSortable>(products: T[]): T[] =>
+  [...products].sort((a, b) => Number(productHasShort(b)) - Number(productHasShort(a)));

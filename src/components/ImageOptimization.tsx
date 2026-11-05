@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Maximize2, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -32,6 +32,16 @@ export const OptimizedImage = ({
   const [showFullResolution, setShowFullResolution] = useState(false);
   const [dialogImageLoaded, setDialogImageLoaded] = useState(false);
   const [dialogImageError, setDialogImageError] = useState(false);
+  const viewportRef = useRef<HTMLDivElement>(null);
+  const suppressClickRef = useRef(false);
+  const dragRef = useRef<{
+    pointerId: number;
+    x: number;
+    y: number;
+    left: number;
+    top: number;
+    moved: boolean;
+  } | null>(null);
 
   const resolvedSrc = resolveProductImage(src);
 
@@ -51,6 +61,59 @@ export const OptimizedImage = ({
     } else {
       setShowFullResolution(false);
     }
+  };
+
+  // Al ampliar, el recorte queda centrado para poder recorrer la prenda en las dos direcciones.
+  useEffect(() => {
+    if (!showFullResolution || !dialogImageLoaded) return;
+    const viewport = viewportRef.current;
+    if (!viewport) return;
+    const frame = requestAnimationFrame(() => {
+      viewport.scrollLeft = Math.max(0, (viewport.scrollWidth - viewport.clientWidth) / 2);
+      viewport.scrollTop = Math.max(0, (viewport.scrollHeight - viewport.clientHeight) / 2);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [showFullResolution, dialogImageLoaded]);
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!showFullResolution || event.pointerType !== 'mouse' || event.button !== 0) return;
+    dragRef.current = {
+      pointerId: event.pointerId,
+      x: event.clientX,
+      y: event.clientY,
+      left: event.currentTarget.scrollLeft,
+      top: event.currentTarget.scrollTop,
+      moved: false,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    const dx = event.clientX - drag.x;
+    const dy = event.clientY - drag.y;
+    if (Math.hypot(dx, dy) > 6) drag.moved = true;
+    event.currentTarget.scrollLeft = drag.left - dx;
+    event.currentTarget.scrollTop = drag.top - dy;
+  };
+
+  const handlePointerUp = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    if (drag.moved) suppressClickRef.current = true;
+    dragRef.current = null;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  };
+
+  const handleViewportClick = () => {
+    if (suppressClickRef.current) {
+      suppressClickRef.current = false;
+      return;
+    }
+    setShowFullResolution((value) => !value);
   };
 
   if (hasError) {
@@ -112,23 +175,31 @@ export const OptimizedImage = ({
       </div>
 
       <Dialog open={isDialogOpen} onOpenChange={handleDialogOpen}>
-        <DialogContent className="max-w-5xl max-h-[90vh] p-3">
+        <DialogContent className="max-h-[92dvh] w-[min(calc(100vw-1rem),64rem)] max-w-5xl overflow-hidden p-3">
           <DialogTitle className="sr-only">{alt}</DialogTitle>
           <DialogDescription className="sr-only">{t('common.zoomIn')}</DialogDescription>
-          <div className="flex flex-col gap-3">
+          <div className="flex min-h-0 flex-col gap-3">
             <div
-              className={`relative rounded-lg border bg-background ${
-                showFullResolution ? 'h-[75vh] overflow-auto' : ''
+              ref={viewportRef}
+              onPointerDown={handlePointerDown}
+              onPointerMove={handlePointerMove}
+              onPointerUp={handlePointerUp}
+              onPointerCancel={handlePointerUp}
+              onClick={handleViewportClick}
+              className={`relative h-[min(68dvh,720px)] w-full rounded-lg border bg-card-warm ${
+                showFullResolution
+                  ? 'cursor-grab overflow-auto overscroll-contain [touch-action:pan-x_pan-y] active:cursor-grabbing'
+                  : 'flex items-center justify-center overflow-hidden'
               }`}
             >
               {!dialogImageLoaded && !dialogImageError && (
-                <div className="w-full h-[50vh] bg-muted animate-pulse rounded-lg flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center bg-muted animate-pulse rounded-lg">
                   <div className="text-muted-foreground">{t('common.loadingImage')}</div>
                 </div>
               )}
 
               {dialogImageError && (
-                <div className="w-full h-[50vh] bg-muted rounded-lg flex items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center bg-muted rounded-lg">
                   <div className="text-muted-foreground text-center">
                     <p className="mb-2">{t('common.imageLoadError')}</p>
                     <p className="text-xs">{t('common.tryAgainLater')}</p>
@@ -141,10 +212,9 @@ export const OptimizedImage = ({
                 alt={alt}
                 className={`${
                   showFullResolution
-                    ? 'max-w-none h-auto select-none cursor-zoom-out'
-                    : 'w-full h-auto max-h-[75vh] object-contain select-none cursor-zoom-in'
+                    ? 'block h-auto w-[200%] max-w-none select-none'
+                    : 'h-auto max-h-full w-auto max-w-full object-contain select-none'
                 } ${!dialogImageLoaded ? 'hidden' : ''}`}
-                onClick={() => setShowFullResolution((v) => !v)}
                 draggable={false}
                 onLoad={() => setDialogImageLoaded(true)}
                 onError={() => setDialogImageError(true)}

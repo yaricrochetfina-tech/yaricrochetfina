@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Loader2 } from 'lucide-react';
 import { ProductCard } from './ProductCard';
 import { ProductModal } from './ProductModal';
-import { fetchProducts, PRODUCT_CATEGORIES } from '@/lib/products';
+import { fetchProducts, PRODUCT_CATEGORIES, sortProductsWithShortsFirst } from '@/lib/products';
 import { Button } from '@/components/ui/button';
 import { Product, ProductCategory } from '@/types';
 
@@ -53,13 +53,12 @@ export const ProductsSection = () => {
     }
   };
 
-  const filteredProducts = useMemo(
-    () =>
-      products.filter(
-        (product) => selectedCategory === 'all' || product.category === selectedCategory
-      ),
-    [products, selectedCategory]
-  );
+  const filteredProducts = useMemo(() => {
+    const inCategory = products.filter(
+      (product) => selectedCategory === 'all' || product.category === selectedCategory
+    );
+    return sortProductsWithShortsFirst(inCategory);
+  }, [products, selectedCategory]);
 
   // Solo se muestran las categorías que tienen productos.
   const availableCategories = useMemo(
