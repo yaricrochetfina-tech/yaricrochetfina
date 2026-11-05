@@ -22,7 +22,7 @@ export const OptimizedImage = ({
   src,
   alt,
   className = '',
-  thumbnailClassName = 'w-full h-64 object-cover',
+  thumbnailClassName = 'w-full h-64 object-contain object-center',
   enableFullView = true,
 }: OptimizedImageProps) => {
   const { t } = useTranslation();

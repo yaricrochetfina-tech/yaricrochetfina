@@ -78,7 +78,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                   name: translatedProduct.name,
                   index: selectedImageIndex + 1,
                 })}
-                thumbnailClassName="w-full h-96 object-cover rounded-lg"
+                thumbnailClassName="aspect-[3/4] w-full rounded-lg bg-card-warm object-contain object-center p-3"
                 enableFullView={true}
               />
               <Badge
@@ -114,7 +114,7 @@ export const ProductModal = ({ product, isOpen, onClose }: ProductModalProps) =>
                     <img
                       src={resolveProductImage(img)}
                       alt=""
-                      className="w-20 h-20 object-cover"
+                      className="h-20 w-20 bg-card-warm object-contain object-center p-1"
                       loading="lazy"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white text-xs py-1 text-center">

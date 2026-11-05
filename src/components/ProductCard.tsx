@@ -42,18 +42,18 @@ export const ProductCard = ({ product, onViewDetails }: ProductCardProps) => {
 
   return (
     <article className="card-product group flex flex-col" aria-label={translatedProduct.name}>
-      {/* Imagen: al pulsarla se abre el detalle del producto (también en móvil) */}
-      <div className="relative overflow-hidden h-64 bg-muted">
+      {/* Imagen: la prenda entra completa (sin recortar cabeza ni bajo). */}
+      <div className={`product-thumb ${shortUrl ? 'product-thumb--with-video' : ''}`}>
         <button
           type="button"
           onClick={() => onViewDetails(product)}
-          className="block w-full h-full focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+          className="flex h-full w-full items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
           aria-label={`${t('products.viewDetails')}: ${translatedProduct.name}`}
         >
           <OptimizedImage
             src={product.image}
             alt={translatedProduct.name}
-            thumbnailClassName="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+            thumbnailClassName="h-full w-full object-contain object-center"
             enableFullView={false}
           />
         </button>

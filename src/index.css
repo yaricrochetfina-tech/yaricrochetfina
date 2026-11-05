@@ -164,6 +164,15 @@
     @apply bg-card border border-border rounded-xl overflow-hidden shadow-soft transition-all duration-300 hover:shadow-warm hover:-translate-y-2 cursor-pointer;
   }
 
+  /* Miniatura de catálogo: marco crema y la prenda completa, sin recorte. */
+  .product-thumb {
+    @apply relative flex aspect-[3/4] w-full items-center justify-center overflow-hidden bg-card-warm px-3 pb-3 pt-3;
+  }
+
+  .product-thumb--with-video {
+    @apply pb-14;
+  }
+
   /* Interactive Elements */
   .yarn-divider {
     @apply relative before:content-[''] before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-primary before:to-transparent before:h-px before:opacity-30;
